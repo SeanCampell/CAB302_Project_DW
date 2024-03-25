@@ -33,11 +33,11 @@ public class SignUpController {
     private PasswordField confirmPasswordField;
     @FXML
     private Label errorLabel;
-    // Placeholder for your database connection
+
     private DatabaseInitializer dbConnection;
 
     public SignUpController() {
-        // Initialize database connection
+
         dbConnection = new DatabaseInitializer();
     }
 
