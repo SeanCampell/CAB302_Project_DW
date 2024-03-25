@@ -15,9 +15,9 @@ public class HelloController {
 
 
     public HelloController() {
-        // Initialize database connection
-
+        // Add functionality to the Welcome page
     }
+    
 
     @FXML
     protected void onNextButtonClick() throws IOException {
