@@ -8,7 +8,6 @@ public class DatabaseInitializer {
     private static final String DB_URL = "jdbc:sqlite:database.db";
 
     public DatabaseInitializer() {
-        // Call createTable() during initialization
         createTable();
     }
 
@@ -27,13 +26,13 @@ public class DatabaseInitializer {
             statement.executeUpdate(sql);
         } catch (SQLException e) {
             e.printStackTrace();
-            // Handle error (e.g., logging)
+
         }
     }
 
     public boolean saveUser(User user) {
         try (Connection connection = DriverManager.getConnection(DB_URL)) {
-            // Prepare an SQL query to insert user data
+ 
             String sql = "INSERT INTO user (firstname, lastname, email, password) VALUES (?, ?, ?, ?)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, user.getFirstname());
@@ -41,7 +40,7 @@ public class DatabaseInitializer {
                 preparedStatement.setString(3, user.getEmail());
                 preparedStatement.setString(4, user.getPassword());
 
-                // Execute the query
+         
                 int rowsAffected = preparedStatement.executeUpdate();
 
                 // Return true if the user was successfully saved
@@ -53,5 +52,5 @@ public class DatabaseInitializer {
         }
     }
 
-    // Other methods (e.g., retrieveUser, updateUser, etc.) can be added here
+    // Other methods
 }
