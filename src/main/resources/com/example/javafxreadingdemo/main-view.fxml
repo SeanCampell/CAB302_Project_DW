@@ -10,13 +10,17 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
+<?import java.net.URL?>
+
 <VBox alignment="TOP_LEFT" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.javafxreadingdemo.MainController"
-      style="-fx-background-color: #f3f3f3;">
+      fx:controller="com.example.javafxreadingdemo.MainController">
+    <stylesheets>
+        <URL value="@stylesheet.css" />
+    </stylesheets>
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
-    <Button fx:id="backButton" style="16px; -fx-text-fill: rgba(0, 0, 0, 0.8);" text="🡠" onAction="#onBackButtonClick"/>
+    <Button fx:id="backButton" text="🡠" onAction="#onBackButtonClick"/>
     <Label text="Select a contact to view or edit." />
     <HBox VBox.vgrow="ALWAYS" spacing="20.0">
         <VBox spacing="10.0">
