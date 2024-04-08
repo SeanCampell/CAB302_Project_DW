@@ -1,0 +1,80 @@
+/*
+ *
+ *  BASE COLOURS FOR THEME
+ *  #F2F2F2     :   Off-White
+ *  #494949     :   Charcoal
+ *  #CAD8B3     :   Pale Green
+ *  #3A592B     :   Forest Green
+ *  #192613     :   Deep Green
+ *  #F0BCA5     :   Peach
+ */
+
+ /* Setting up basic styles for the entire application. */
+.root {
+    -fx-font-size: 16px;
+    -fx-font-family: 'Arial';
+    -fx-background-color: #F2F2F2;
+}
+
+/*
+ *  LABEL Styles and related classes or ids
+ */
+
+Label { }
+
+.signup-instruction {
+    -fx-font-size: 0.75em;
+    -fx-text-fill: #494949;
+    }
+
+.label-link {
+    -fx-text-fill: #3A592B;
+}
+
+#welcome {
+    -fx-font-size: 3em;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3A592B;
+    -fx-padding: 0.25em;
+}
+
+/*
+ *  TEXTFIELD Styles and related classes or ids
+ */
+
+TextField {
+    -fx-font-weight: bold;
+}
+
+/*
+ *  BUTTON Styles and related classes or ids
+ */
+
+Button {
+    -fx-background-color: #f4f4f4;
+    -fx-border-color: #000000;
+    -fx-font-weight: bold;
+    -fx-padding: 0.75em 1.5em;
+    -fx-border-width: 0px;
+    }
+
+Button:hover {
+    -fx-background-color: #CAD8B3;
+}
+
+#start-button {
+    -fx-border-width: 2px;
+    -fx-border-color: #192613;
+}
+
+#signupButton {
+    -fx-background-color: #3A592B;
+    -fx-text-fill: #F2F2F2;
+    -fx-font-weight: bold;
+    -fx-min-width: 250px;
+    -fx-min-height: 35px;
+}
+
+#signupButton:hover {
+    -fx-background-color: #192613;
+}
