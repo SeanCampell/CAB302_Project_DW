@@ -20,7 +20,9 @@ public class SignUpController {
     @FXML
     private Button termsButton;
     @FXML
-    private Button signupButton;
+    private Button signUpButton;
+    @FXML
+    private Button loginButton;
     @FXML
     private TextField firstnameField;
     @FXML
@@ -94,7 +96,7 @@ public class SignUpController {
             confirmPasswordField.clear();
 
             try {
-                Stage stage = (Stage) signupButton.getScene().getWindow();
+                Stage stage = (Stage) signUpButton.getScene().getWindow();
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main-view.fxml"));
                 Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
                 stage.setScene(scene);
@@ -106,6 +108,13 @@ public class SignUpController {
             errorLabel.setText("Error saving user data. Please try again.");
         }
 
+    }
 
+    @FXML
+    protected void onLoginButtonClick() throws IOException {
+        Stage stage = (Stage) backButton.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
+        stage.setScene(scene);
     }
 }

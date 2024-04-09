@@ -43,11 +43,11 @@
             </HBox>
             <Label fx:id="errorLabel" style="-fx-text-fill: red;" />
             <HBox alignment="BOTTOM_LEFT">
-                <Button fx:id="signupButton" id="signupButton" text="Sign Up" onAction="#onSignUpButtonClick"/>
+                <Button fx:id="signUpButton" id="signupButton" text="Sign Up" onAction="#onSignUpButtonClick"/>
             </HBox>
             <HBox>
                 <Label text="Already have an account?" />
-                <Label styleClass="label-link" text="Log In" />
+                <Label styleClass="label-link" text="Log In" onMouseClicked="#onLoginButtonClick" />
             </HBox>
         </VBox>
         <Region prefWidth="20"/>

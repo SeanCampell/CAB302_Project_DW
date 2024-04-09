@@ -15,12 +15,16 @@
 <?import javafx.scene.layout.Region?>
 
 
+<?import java.net.URL?>
 <VBox alignment="TOP_LEFT" spacing="10.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.javafxreadingdemo.LoginController"
       style="-fx-background-color: #f3f3f3;">
     <padding>
         <Insets bottom="20.0" left="50.0" right="50.0" top="20.0"/>
     </padding>
+    <stylesheets>
+        <URL value="@stylesheet.css" />
+    </stylesheets>
     <HBox alignment="CENTER_LEFT" spacing="10.0">
         <VBox spacing="5.0">
             <Button fx:id="backButton" style="16px; -fx-text-fill: rgba(0, 0, 0, 0.8);" text="🡠" onAction="#onBackButtonClick"/>
@@ -34,12 +38,11 @@
 
             <Label fx:id="errorLabel" style="-fx-text-fill: red;" />
             <HBox alignment="BOTTOM_LEFT">
-                <Button fx:id="loginButton" text="Log In" onAction="#onLoginButtonClick"
-                        style="-fx-background-color: BLUE; -fx-text-fill: white; -fx-font-weight: bold; -fx-min-width: 250px; -fx-min-height: 35px; -fx-font-size: 11px;"/>
+                <Button fx:id="loginButton" id="signupButton" text="Log In" onAction="#onLoginButtonClick"/>
             </HBox>
             <HBox>
-                <Label style="-fx-text-fill: black;" text="No account?" />
-                <Label style="-fx-text-fill: BLUE;" text="Sign Up" onMouseClicked="#onSignUpButtonClick" />
+                <Label text="No account?" />
+                <Label styleClass="label-link" text="Sign Up" onMouseClicked="#onSignUpButtonClick" />
             </HBox>
         </VBox>
         <Region prefWidth="20"/>
