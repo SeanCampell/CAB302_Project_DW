@@ -1,4 +1,4 @@
-package com.example.javafxreadingdemo;
+package com.example.model;
 
 public class Contact {
     private int id;

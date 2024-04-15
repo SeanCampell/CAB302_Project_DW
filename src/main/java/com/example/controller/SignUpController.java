@@ -1,16 +1,13 @@
-package com.example.javafxreadingdemo;
+package com.example.controller;
 
 import com.example.db.DatabaseInitializer;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import com.example.javafxreadingdemo.HelloApplication;
+import com.example.model.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 import java.io.IOException;
 

@@ -1,6 +1,4 @@
-package com.example.javafxreadingdemo;
-
-import com.example.javafxreadingdemo.Contact;
+package com.example.model;
 
 import java.util.ArrayList;
 import java.util.List;

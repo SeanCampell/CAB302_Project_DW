@@ -1,4 +1,4 @@
-package com.example.javafxreadingdemo;
+package com.example.model;
 
 public interface UserDAO {
     void save(User user);

@@ -1,7 +1,10 @@
-package com.example.javafxreadingdemo;
+package com.example.controller;
 
+import com.example.model.Contact;
+import com.example.javafxreadingdemo.HelloApplication;
+import com.example.model.IContactDAO;
+import com.example.model.MockContactDAO;
 import javafx.fxml.FXML;
-import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;

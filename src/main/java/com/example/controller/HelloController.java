@@ -1,6 +1,7 @@
-package com.example.javafxreadingdemo;
+package com.example.controller;
 
 import com.example.db.DatabaseInitializer;
+import com.example.javafxreadingdemo.HelloApplication;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

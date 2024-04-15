@@ -1,6 +1,6 @@
 package com.example.db;
 
-import com.example.javafxreadingdemo.User;
+import com.example.model.User;
 
 import java.sql.*;
 
