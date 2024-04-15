@@ -41,7 +41,7 @@
                 <Label text="I agree to the"/>
                 <Label styleClass="label-link" text="Terms &amp; Conditions." onMouseClicked="#onTermsButtonClick"/>
             </HBox>
-            <Label fx:id="errorLabel" style="-fx-text-fill: red;" />
+            <Label fx:id="errorLabel" styleClass="error-label" />
             <HBox alignment="BOTTOM_LEFT">
                 <Button fx:id="signupButton" id="signupButton" text="Sign Up" onAction="#onSignUpButtonClick"/>
             </HBox>

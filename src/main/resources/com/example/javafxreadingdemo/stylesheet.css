@@ -22,14 +22,20 @@
 
 Label { }
 
+.error-label {
+    -fx-text-fill: red;
+}
+
+.label-link {
+    -fx-text-fill: #3A592B;
+}
+
 .signup-instruction {
     -fx-font-size: 0.75em;
     -fx-text-fill: #494949;
     }
 
-.label-link {
-    -fx-text-fill: #3A592B;
-}
+
 
 #welcome {
     -fx-font-size: 3em;
