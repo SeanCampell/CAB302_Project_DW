@@ -7,12 +7,15 @@ public class App {
     private int timeUse;
     private int timeLimit;
 
+    private int timeNotif;
+
     // Constructor
     public App(String name, AppType type, int timeLimit) {
         this.name = name;
         this.type = type;
         timeUse = 0;
         this.timeLimit = timeLimit;
+        timeNotif = 15;
     }
 
     // Get and Set functions
@@ -40,6 +43,10 @@ public class App {
         this.timeLimit = timeLimit;
     }
 
+    public  int getTimeNotif() { return timeNotif; }
+
+    public void setTimeNotif(int timeNotif) { this.timeNotif = timeNotif; }
+
     // Add time that has been used on the application
     public void addTime(int time) {
         timeUse += time;
@@ -51,5 +58,10 @@ public class App {
             return timeUse > timeLimit;
         }
         return false;
+    }
+
+    // Check if time use has exceeded time warning
+    public boolean isOverWarning() {
+        return timeLimit - timeUse < timeNotif;
     }
 }
