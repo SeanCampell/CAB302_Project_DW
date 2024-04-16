@@ -11,7 +11,7 @@
 
  /* Setting up basic styles for the entire application. */
 .root {
-    -fx-font-size: 16px;
+    -fx-font-size: 12px;
     -fx-font-family: 'Arial';
     -fx-background-color: #F2F2F2;
 }
@@ -42,9 +42,6 @@ Label { }
  *  TEXTFIELD Styles and related classes or ids
  */
 
-TextField {
-    -fx-font-weight: bold;
-}
 
 /*
  *  BUTTON Styles and related classes or ids
@@ -77,4 +74,27 @@ Button:hover {
 
 #signupButton:hover {
     -fx-background-color: #192613;
+}
+
+
+.nav-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: black;
+
+}
+
+.nav-button:hover {
+    -fx-background-color: #F2F2F2;
+}
+
+.nav-button:selected {
+    -fx-background-color: #F2F2F2;
+    -fx-text-fill: black;
+}
+
+#headlines {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-font-family: 'Arial';
+    -fx-background-color: #F2F2F2;
 }
