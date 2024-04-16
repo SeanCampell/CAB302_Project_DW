@@ -36,7 +36,7 @@ public class LoginController {
 
     @FXML
     protected void onLoginButtonClick() throws IOException {
-        errorLabel.setText(""); // Clear any previous error message
+        errorLabel.setText(""); 
 
         if (emailField.getText().isEmpty() || passwordField.getText().isEmpty()) {
             errorLabel.setText("All fields are required");
@@ -45,13 +45,9 @@ public class LoginController {
 
         String email = emailField.getText();
         String password = passwordField.getText();
-
-        // Retrieve user from the database based on the email
         User user = dbConnection.getUserByEmail(email);
 
         if (user != null && user.getPassword().equals(password)) {
-
-            // Pass the authenticated user to MainController
             FXMLLoader loader = new FXMLLoader(getClass().getResource("main-view.fxml"));
             Parent root = loader.load();
             MainController mainController = loader.getController();
