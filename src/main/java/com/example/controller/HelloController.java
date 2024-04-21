@@ -26,10 +26,7 @@ public class HelloController {
 
     @FXML
     protected void onNextButtonClick() throws IOException {
-        Stage stage = (Stage) nextButton.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("main-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
-        stage.setScene(scene);
+        onSignupButtonClick();
     }
 
     @FXML

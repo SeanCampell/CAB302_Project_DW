@@ -1,6 +1,8 @@
-package com.example.javafxreadingdemo;
+package com.example.controller;
 
 import com.example.db.DatabaseInitializer;
+import com.example.javafxreadingdemo.HelloApplication;
+import com.example.model.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -11,7 +13,6 @@ import javafx.stage.Stage;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import java.io.IOException;
-import java.util.List;
 
 public class MainController {
 
@@ -35,7 +36,6 @@ public class MainController {
 
     @FXML
     private VBox timeLimitsContent;
-
 
     @FXML
     private Label welcomeLabel;

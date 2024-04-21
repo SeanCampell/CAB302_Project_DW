@@ -6,33 +6,34 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import java.net.URL?>
-
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.control.ToggleButton?>
+<?import java.net.URL?>
+
 <HBox alignment="TOP_LEFT" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.javafxreadingdemo.MainController">
+      fx:controller="com.example.controller.MainController">
     <stylesheets>
         <URL value="@stylesheet.css" />
     </stylesheets>
 
     <!-- Navbar -->
     <HBox alignment="TOP_LEFT">
-        <VBox spacing="30.0" style=" -fx-background-color: #CAD8B3;" prefWidth="100" prefHeight="530" alignment="TOP_CENTER">
+        <VBox spacing="30.0" style=" -fx-background-color: #CAD8B3;" prefWidth="100" prefHeight="530"
+              alignment="TOP_CENTER">
             <Region prefHeight="10" />
             <Label text="LOGO?"/>
             <Region prefHeight="40" />
             <VBox alignment="CENTER">
-                <ToggleButton fx:id="homeButton" text="Home" onAction="#onHomeButtonClick" styleClass="nav-button" minWidth="100" minHeight="40"/>
-                <ToggleButton fx:id="insightButton" text="Insights" onAction="#onInsightsButtonClick" styleClass="nav-button" minWidth="100" minHeight="40"/>
-                <ToggleButton fx:id="timelimitButton" text="Time Limits" onAction="#onTimeLimitsButtonClick" styleClass="nav-button" style="-fx-padding: 5px;" minWidth="100" minHeight="40"/>
-                <Button fx:id="logoutButton" text="Log Out" onAction="#onLogoutButtonClick" styleClass="nav-button" minWidth="100" minHeight="40"/>
+                <ToggleButton fx:id="homeButton" text="Home" onAction="#onHomeButtonClick" styleClass="nav-button"
+                              minWidth="100" minHeight="40"/>
+                <ToggleButton fx:id="insightButton" text="Insights" onAction="#onInsightsButtonClick"
+                              styleClass="nav-button" minWidth="100" minHeight="40"/>
+                <ToggleButton fx:id="timelimitButton" text="Time Limits" onAction="#onTimeLimitsButtonClick"
+                              styleClass="nav-button" style="-fx-padding: 5px;" minWidth="100" minHeight="40"/>
+                <Button fx:id="logoutButton" text="Log Out" onAction="#onLogoutButtonClick" styleClass="nav-button"
+                        minWidth="100" minHeight="40"/>
             </VBox>
         </VBox>
     </HBox>
@@ -48,14 +49,16 @@
                 <Label text="Overview" id="headlines"/>
                 <Region prefHeight="20" />
                 <HBox>
-                    <VBox style="-fx-background-color: white; -fx-background-radius: 20px; -fx-padding: 10px;" spacing="10" prefWidth="260" prefHeight="230">
+                    <VBox style="-fx-background-color: white; -fx-background-radius: 20px; -fx-padding: 10px;"
+                          spacing="10" prefWidth="260" prefHeight="230">
                         <Label text="Today" style="-fx-text-fill: grey;"/>
 
                         <!-- Add content here -->
 
                     </VBox>
                     <Region prefWidth="20" />
-                    <VBox style="-fx-background-color: white;-fx-background-radius: 20px;-fx-padding: 10px;" spacing="10" prefWidth="220" prefHeight="230">
+                    <VBox style="-fx-background-color: white;-fx-background-radius: 20px;-fx-padding: 10px;"
+                          spacing="10" prefWidth="220" prefHeight="230">
                         <Label text="This Week" style="-fx-text-fill: grey;"/>
 
                         <!-- Add content here -->
@@ -69,19 +72,22 @@
                     <Label text="Most Used Apps Today" id="headlines"/>
                     <Region prefHeight="20" />
                     <HBox>
-                        <VBox style="-fx-background-color: white;-fx-background-radius: 20px; -fx-padding: 10px;" spacing="10" prefWidth="153" prefHeight="120">
+                        <VBox style="-fx-background-color: white;-fx-background-radius: 20px; -fx-padding: 10px;"
+                              spacing="10" prefWidth="153" prefHeight="120">
 
                             <!-- Add content here -->
 
                         </VBox>
                         <Region prefWidth="20" />
-                        <VBox style="-fx-background-color: white;-fx-background-radius: 20px; -fx-padding: 10px;" spacing="10" prefWidth="153" prefHeight="120">
+                        <VBox style="-fx-background-color: white;-fx-background-radius: 20px; -fx-padding: 10px;"
+                              spacing="10" prefWidth="153" prefHeight="120">
 
                             <!-- Add content here -->
 
                         </VBox>
                         <Region prefWidth="20" />
-                        <VBox style="-fx-background-color: white;-fx-background-radius: 20px; -fx-padding: 10px;" spacing="10" prefWidth="153" prefHeight="120">
+                        <VBox style="-fx-background-color: white;-fx-background-radius: 20px; -fx-padding: 10px;"
+                              spacing="10" prefWidth="153" prefHeight="120">
 
                             <!-- Add content here -->
 
@@ -104,7 +110,8 @@
                     <Button text="Bar Chart"/>
                 </HBox>
                 <Region prefHeight="10" />
-                <HBox style="-fx-background-color: white;-fx-background-radius: 20px; -fx-padding: 10px;" spacing="10" prefHeight="280" maxWidth="500">
+                <HBox style="-fx-background-color: white;-fx-background-radius: 20px; -fx-padding: 10px;" spacing="10"
+                      prefHeight="280" maxWidth="500">
                     <Label text="{Type of Chart}"/>
 
                     <!-- Add content here -->
@@ -114,20 +121,23 @@
                 <VBox>
                     <Label text="Most Used Apps Today" id="headlines"/>
                     <Region prefHeight="20" />
-                    <HBox style="-fx-background-color: white;-fx-background-radius: 5px; -fx-padding: 10px;" spacing="10" prefHeight="35" maxWidth="500">
+                    <HBox style="-fx-background-color: white;-fx-background-radius: 5px; -fx-padding: 10px;"
+                          spacing="10" prefHeight="35" maxWidth="500">
                         <Label text="{Some Info}"/>
 
                         <!-- Add content here -->
 
                     </HBox>
                     <Region prefHeight="10" />
-                    <HBox style="-fx-background-color: white;-fx-background-radius: 5px; -fx-padding: 10px;" spacing="10" prefHeight="35" maxWidth="500">
+                    <HBox style="-fx-background-color: white;-fx-background-radius: 5px; -fx-padding: 10px;"
+                          spacing="10" prefHeight="35" maxWidth="500">
 
                         <!-- Add content here -->
 
                     </HBox>
                     <Region prefHeight="10" />
-                    <HBox style="-fx-background-color: white;-fx-background-radius: 5px; -fx-padding: 10px;" spacing="10" prefHeight="35" maxWidth="500">
+                    <HBox style="-fx-background-color: white;-fx-background-radius: 5px; -fx-padding: 10px;"
+                          spacing="10" prefHeight="35" maxWidth="500">
 
                         <!-- Add content here -->
 
@@ -144,7 +154,8 @@
                 <Label text="Screen Time Limit" id="headlines"/>
                 <Line startX="0" startY="0" endX="200" endY="0" stroke="grey" strokeWidth="1" />
                 <Region prefHeight="20" />
-                <HBox style="-fx-background-color: white;-fx-background-radius: 5px; -fx-padding: 10px;" spacing="10" prefHeight="35" maxWidth="500">
+                <HBox style="-fx-background-color: white;-fx-background-radius: 5px; -fx-padding: 10px;" spacing="10"
+                      prefHeight="35" maxWidth="500">
                     <Label text="{Some Info}"/>
 
                     <!-- Add content here -->
@@ -154,19 +165,22 @@
                 <Label text="App Time Limit" id="headlines"/>
                 <Line startX="0" startY="0" endX="170" endY="0" stroke="grey" strokeWidth="1" />
                 <Region prefHeight="20" />
-                <HBox style="-fx-background-color: white;-fx-background-radius: 5px; -fx-padding: 10px;" spacing="10" prefHeight="35" maxWidth="500">
+                <HBox style="-fx-background-color: white;-fx-background-radius: 5px; -fx-padding: 10px;" spacing="10"
+                      prefHeight="35" maxWidth="500">
 
                     <!-- Add content here -->
 
                 </HBox>
                 <Region prefHeight="10" />
-                <HBox style="-fx-background-color: white;-fx-background-radius: 5px; -fx-padding: 10px;" spacing="10" prefHeight="35" maxWidth="500">
+                <HBox style="-fx-background-color: white;-fx-background-radius: 5px; -fx-padding: 10px;" spacing="10"
+                      prefHeight="35" maxWidth="500">
 
                     <!-- Add content here -->
 
                 </HBox>
                 <Region prefHeight="10" />
-                <HBox style="-fx-background-color: white;-fx-background-radius: 5px; -fx-padding: 10px;" spacing="10" prefHeight="35" maxWidth="500">
+                <HBox style="-fx-background-color: white;-fx-background-radius: 5px; -fx-padding: 10px;" spacing="10"
+                      prefHeight="35" maxWidth="500">
 
                     <!-- Add content here -->
 
