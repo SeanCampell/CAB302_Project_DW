@@ -26,7 +26,7 @@
         <VBox spacing="5.0">
             <Button fx:id="backButton" text="🡠" onAction="#onBackButtonClick"/>
             <Label text="Sign Up" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
-
+            <Region prefHeight="10"/>
             <Label text="Enter your first name" styleClass="signup-instruction" />
             <TextField fx:id="firstnameField" maxWidth="250" prefHeight="30"/>
             <Label text="Enter your last name" styleClass="signup-instruction" />
@@ -43,11 +43,11 @@
             </HBox>
             <Label fx:id="errorLabel" styleClass="error-label" />
             <HBox alignment="BOTTOM_LEFT">
-                <Button fx:id="signupButton" id="signupButton" text="Sign Up" onAction="#onSignUpButtonClick"/>
+                <Button fx:id="signUpButton" id="signupButton" text="Sign Up" onAction="#onSignUpButtonClick"/>
             </HBox>
             <HBox>
                 <Label text="Already have an account?" />
-                <Label styleClass="label-link" text="Log In" />
+                <Label styleClass="label-link" text="Log In" onMouseClicked="#onLoginButtonClick" />
             </HBox>
         </VBox>
         <Region prefWidth="20"/>
