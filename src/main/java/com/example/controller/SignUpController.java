@@ -1,16 +1,13 @@
-package com.example.javafxreadingdemo;
+package com.example.controller;
 
 import com.example.db.DatabaseInitializer;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import com.example.javafxreadingdemo.HelloApplication;
+import com.example.model.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 import java.io.IOException;
 
@@ -75,25 +72,22 @@ public class SignUpController {
             return;
         }
 
-        // Save user to the database
         String firstname = firstnameField.getText();
         String lastname = lastnameField.getText();
         String email = emailField.getText();
         String password = passwordField.getText();
 
-        // Create a new User object
         User newUser = new User(firstname, lastname, email, password);
-
-        // Save user data to the database
         boolean success = dbConnection.saveUser(newUser);
 
         if (success) {
-            // Clear form fields on successful signup
             firstnameField.clear();
             lastnameField.clear();
             emailField.clear();
             passwordField.clear();
             confirmPasswordField.clear();
+
+            showFlashMessage("Sign Up Successful", "You have successfully signed up!");
 
             try {
                 Stage stage = (Stage) signUpButton.getScene().getWindow();
@@ -102,12 +96,19 @@ public class SignUpController {
                 stage.setScene(scene);
             } catch (IOException e) {
                 e.printStackTrace();
-                errorLabel.setText("Error loading terms-view.fxml");
+                errorLabel.setText("An error occurred.");
             }
         } else {
             errorLabel.setText("Error saving user data. Please try again.");
         }
+    }
 
+    private void showFlashMessage(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     @FXML

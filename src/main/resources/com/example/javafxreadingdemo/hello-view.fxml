@@ -11,9 +11,10 @@
 <?import java.net.URL?>
 
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.shape.Line?>
 <StackPane xmlns="http://javafx.com/javafx"
            xmlns:fx="http://javafx.com/fxml"
-           fx:controller="com.example.javafxreadingdemo.HelloController">
+           fx:controller="com.example.controller.HelloController">
     <stylesheets>
         <URL value="@stylesheet.css" />
     </stylesheets>
@@ -32,7 +33,7 @@
             <padding>
                 <Insets top="5" />
             </padding>
-            <Rectangle width="160" height="2" fill="GREY"/>
+            <Line startX="0" startY="0" endX="200" endY="0" stroke="grey" strokeWidth="1" />
         </StackPane>
         <Label textAlignment="CENTER"
                text="Track, Monitor, and Improve your Wellbeing." wrapText="true" />
