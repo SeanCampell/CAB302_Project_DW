@@ -27,20 +27,20 @@
             <Button fx:id="backButton" styleClass="back-button" text="🡠" onAction="#onBackButtonClick"/>
             <Label text="Sign Up" styleClass="header-label" />
             <Region prefHeight="10"/>
-            <Label text="Enter your first name" styleClass="signup-instruction" />
+            <Label text="Enter your first name" styleClass="instruction" />
             <TextField fx:id="firstnameField" maxWidth="250" prefHeight="30"/>
-            <Label text="Enter your last name" styleClass="signup-instruction" />
+            <Label text="Enter your last name" styleClass="instruction" />
             <TextField fx:id="lastnameField" maxWidth="250" prefHeight="30"/>
-            <Label text="Email address" styleClass="signup-instruction"/>
+            <Label text="Email address" styleClass="instruction"/>
             <TextField fx:id="emailField" maxWidth="250" prefHeight="30"/>
-            <Label text="Create password" styleClass="signup-instruction" />
+            <Label text="Create password" styleClass="instruction" />
             <PasswordField fx:id="passwordField" maxWidth="250" prefHeight="30"/>
-            <Label text="Confirm password" styleClass="signup-instruction" />
+            <Label text="Confirm password" styleClass="instruction" />
             <PasswordField fx:id="confirmPasswordField" maxWidth="250" prefHeight="30"/>
-            <HBox>
-                <Label text="I agree to the "/>
+            <VBox>
+                <Label text="By creating an account, you agree to the " wrapText="true"/>
                 <Label styleClass="label-link" text="Terms &amp; Conditions." onMouseClicked="#onTermsButtonClick"/>
-            </HBox>
+            </VBox>
             <Label fx:id="errorLabel" styleClass="error-label" />
             <HBox alignment="BOTTOM_LEFT">
                 <Button fx:id="signUpButton" id="signupButton" text="Sign Up" onAction="#onSignUpButtonClick"/>

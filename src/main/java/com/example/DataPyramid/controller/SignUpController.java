@@ -91,7 +91,7 @@ public class SignUpController {
 
             try {
                 Stage stage = (Stage) signUpButton.getScene().getWindow();
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main-view.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("main-view.fxml"));
                 Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
                 stage.setScene(scene);
             } catch (IOException e) {

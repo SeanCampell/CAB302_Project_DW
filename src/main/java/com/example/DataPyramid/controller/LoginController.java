@@ -47,7 +47,7 @@ public class LoginController {
         User user = dbConnection.getUserByEmail(email);
 
         if (user != null && user.getPassword().equals(password)) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("main-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("main-view.fxml"));
             Parent root = loader.load();
             MainController mainController = loader.getController();
             mainController.setCurrentUser(user);

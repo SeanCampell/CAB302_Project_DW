@@ -31,7 +31,7 @@ Label { }
     -fx-font-weight: bold;
 }
 
-.signup-instruction {
+.instruction {
     -fx-font-size: 0.75em;
     -fx-text-fill: #494949;
     }
@@ -52,6 +52,11 @@ Label { }
  *  TEXTFIELD Styles and related classes or ids
  */
 
+/*
+ *  TEXTAREA Styles and related classes or ids
+ */
+
+text-area{}
 
 /*
  *  BUTTON Styles and related classes or ids
@@ -71,25 +76,21 @@ Button:hover {
 
 .nav-button {
     -fx-text-fill: black;
+    -fx-background-color: #CAD8B3;
 }
 
 .nav-button:hover {
-    -fx-background-color: #F2F2F2;
+    -fx-background-color: #3A592B;
+    -fx-text-fill: white;
 }
 
 .nav-button:selected {
     -fx-background-color: #F2F2F2;
-    -fx-text-fill: black;
 }
 
 .back-button {
     -fx-font-size: 1.25em;
     -fx-text-fill: #192613;
-}
-
-#start-button {
-    -fx-border-width: 2px;
-    -fx-border-color: #192613;
 }
 
 #signupButton {

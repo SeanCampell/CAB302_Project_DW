@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.VBox?>
-
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
@@ -27,7 +25,7 @@
             <Region prefHeight="40" />
             <VBox alignment="CENTER">
                 <ToggleButton fx:id="homeButton" text="Home" onAction="#onHomeButtonClick" styleClass="nav-button"
-                              minWidth="100" minHeight="40"/>
+                              minWidth="100" minHeight="40" />
                 <ToggleButton fx:id="insightButton" text="Insights" onAction="#onInsightsButtonClick"
                               styleClass="nav-button" minWidth="100" minHeight="40"/>
                 <ToggleButton fx:id="timelimitButton" text="Time Limits" onAction="#onTimeLimitsButtonClick"

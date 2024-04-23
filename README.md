@@ -3,9 +3,6 @@
 <body>
 
 <h1>Data Pyramid App</h1>
-<p>Reminder that this project requires the drives shared by Kat to function.</p>
-<p>1) Download the jdbc drives from Discord chat</p>
-<p>2) Add both drives to "libraries" in "Project Structure"</p>
 
 <h2>Important Links</h2>
 <ul>
