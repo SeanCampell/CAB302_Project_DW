@@ -1,8 +1,8 @@
-package com.example.controller;
+package com.example.DataPyramid.controller;
 
-import com.example.db.DatabaseInitializer;
+import com.example.DataPyramid.db.DatabaseInitializer;
+import com.example.DataPyramid.model.User;
 import com.example.DataPyramid.HelloApplication;
-import com.example.model.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

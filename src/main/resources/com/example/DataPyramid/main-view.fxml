@@ -13,7 +13,7 @@
 <?import java.net.URL?>
 
 <HBox alignment="TOP_LEFT" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.controller.MainController">
+      fx:controller="com.example.DataPyramid.controller.MainController">
     <stylesheets>
         <URL value="@stylesheet.css" />
     </stylesheets>

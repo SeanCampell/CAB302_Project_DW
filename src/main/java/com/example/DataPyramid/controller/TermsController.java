@@ -1,4 +1,4 @@
-package com.example.controller;
+package com.example.DataPyramid.controller;
 
 import com.example.DataPyramid.HelloApplication;
 import javafx.fxml.FXML;

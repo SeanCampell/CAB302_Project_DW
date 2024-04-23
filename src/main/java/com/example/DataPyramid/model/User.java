@@ -1,4 +1,4 @@
-package com.example.model;
+package com.example.DataPyramid.model;
 
 public class User {
     private String firstname;

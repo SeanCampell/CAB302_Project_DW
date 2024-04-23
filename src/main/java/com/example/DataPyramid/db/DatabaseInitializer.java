@@ -1,9 +1,6 @@
-package com.example.db;
+package com.example.DataPyramid.db;
 
-import com.example.model.User;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+import com.example.DataPyramid.model.User;
 
 import java.sql.*;
 

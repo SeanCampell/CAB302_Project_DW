@@ -9,7 +9,7 @@
 
 <?import java.net.URL?>
 <VBox alignment="TOP_LEFT" spacing="15.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.controller.TermsController">
+      fx:controller="com.example.DataPyramid.controller.TermsController">
     <stylesheets>
         <URL value="@stylesheet.css" />
     </stylesheets>
