@@ -1,4 +1,4 @@
-package com.example.javafxreadingdemo;
+package com.example.DataPyramid;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

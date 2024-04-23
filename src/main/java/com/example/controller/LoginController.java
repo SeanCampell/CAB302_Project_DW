@@ -1,7 +1,7 @@
 package com.example.controller;
 
 import com.example.db.DatabaseInitializer;
-import com.example.javafxreadingdemo.HelloApplication;
+import com.example.DataPyramid.HelloApplication;
 import com.example.model.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

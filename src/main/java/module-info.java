@@ -5,8 +5,8 @@ module com.example.javafxreadingdemo {
 
 
 
-    opens com.example.javafxreadingdemo to javafx.fxml;
-    exports com.example.javafxreadingdemo;
+    opens com.example.DataPyramid to javafx.fxml;
+    exports com.example.DataPyramid;
     exports com.example.db;
     opens com.example.db to javafx.fxml;
     exports com.example.controller;
