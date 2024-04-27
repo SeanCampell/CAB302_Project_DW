@@ -6,30 +6,37 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.shape.Rectangle?>
 
 <?import java.net.URL?>
 
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.shape.Line?>
 <StackPane xmlns="http://javafx.com/javafx"
            xmlns:fx="http://javafx.com/fxml"
-           fx:controller="com.example.javafxreadingdemo.HelloController">
+           fx:controller="com.example.DataPyramid.controller.HelloController">
     <stylesheets>
         <URL value="@stylesheet.css" />
     </stylesheets>
-<Label textAlignment="CENTER"/>
-    <VBox alignment="CENTER">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
+    <VBox alignment="TOP_CENTER">
+        <Region prefHeight="90"/>
         <Label id="welcome">WELCOME</Label>
         <Label text="to Your Wellbeing Tracker"/>
         <StackPane>
             <padding>
                 <Insets top="5" />
             </padding>
-            <Rectangle width="160" height="2" fill="GREY"/>
+            <Line startX="0" startY="0" endX="200" endY="0" stroke="grey" strokeWidth="1" />
         </StackPane>
         <Label textAlignment="CENTER"
                text="Track, Monitor, and Improve your Wellbeing." wrapText="true" />
+        <Region prefHeight="20"/>
         <HBox alignment="CENTER" spacing="10.0">
-            <Button fx:id="nextButton" id="start-button" text="Start" onAction="#onNextButtonClick"/>
+            <Button fx:id="signUpButton" text="Sign Up" onAction="#onSignupButtonClick"/>
+            <Button fx:id="loginButton" text="Log In" onAction="#onLoginButtonClick"/>
+            <Button fx:id="nextButton" text="Debug" onAction="#onNextButtonClick"/>
         </HBox>
     </VBox>
 </StackPane>

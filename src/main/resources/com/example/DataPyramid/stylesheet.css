@@ -11,7 +11,7 @@
 
  /* Setting up basic styles for the entire application. */
 .root {
-    -fx-font-size: 16px;
+    -fx-font-size: 12px;
     -fx-font-family: 'Arial';
     -fx-background-color: #F2F2F2;
 }
@@ -22,13 +22,23 @@
 
 Label { }
 
-.signup-instruction {
+.error-label {
+    -fx-text-fill: red;
+}
+
+.label-link {
+    -fx-text-fill: #3A592B;
+    -fx-font-weight: bold;
+}
+
+.instruction {
     -fx-font-size: 0.75em;
     -fx-text-fill: #494949;
     }
 
-.label-link {
-    -fx-text-fill: #3A592B;
+.header-label {
+    -fx-font-size: 2em;
+    -fx-font-weight: bold;
 }
 
 #welcome {
@@ -42,16 +52,18 @@ Label { }
  *  TEXTFIELD Styles and related classes or ids
  */
 
-TextField {
-    -fx-font-weight: bold;
-}
+/*
+ *  TEXTAREA Styles and related classes or ids
+ */
+
+text-area{}
 
 /*
  *  BUTTON Styles and related classes or ids
  */
 
 Button {
-    -fx-background-color: #f4f4f4;
+    -fx-background-color: transparent;
     -fx-border-color: #000000;
     -fx-font-weight: bold;
     -fx-padding: 0.75em 1.5em;
@@ -62,9 +74,23 @@ Button:hover {
     -fx-background-color: #CAD8B3;
 }
 
-#start-button {
-    -fx-border-width: 2px;
-    -fx-border-color: #192613;
+.nav-button {
+    -fx-text-fill: black;
+    -fx-background-color: #CAD8B3;
+}
+
+.nav-button:hover {
+    -fx-background-color: #3A592B;
+    -fx-text-fill: white;
+}
+
+.nav-button:selected {
+    -fx-background-color: #F2F2F2;
+}
+
+.back-button {
+    -fx-font-size: 1.25em;
+    -fx-text-fill: #192613;
 }
 
 #signupButton {
@@ -77,4 +103,11 @@ Button:hover {
 
 #signupButton:hover {
     -fx-background-color: #192613;
+}
+
+#headlines {
+    -fx-font-size: 2em;
+    -fx-font-weight: bold;
+    -fx-font-family: 'Arial';
+    -fx-background-color: #F2F2F2;
 }

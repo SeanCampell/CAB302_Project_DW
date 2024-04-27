@@ -1,4 +1,4 @@
-package com.example.javafxreadingdemo;
+package com.example.DataPyramid.model;
 
 public class User {
     private String firstname;

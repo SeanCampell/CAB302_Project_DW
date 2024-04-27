@@ -1,6 +1,6 @@
-package com.example.db;
+package com.example.DataPyramid.db;
 
-import com.example.javafxreadingdemo.User;
+import com.example.DataPyramid.model.User;
 
 import java.sql.*;
 
@@ -13,7 +13,6 @@ public class DatabaseInitializer {
 
     public void createTable() {
         try (Connection connection = DriverManager.getConnection(DB_URL)) {
-            // SQL statement to create the "user" table
             String sql = "CREATE TABLE IF NOT EXISTS user ("
                     + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + "firstname TEXT NOT NULL,"
@@ -30,9 +29,10 @@ public class DatabaseInitializer {
         }
     }
 
+
     public boolean saveUser(User user) {
         try (Connection connection = DriverManager.getConnection(DB_URL)) {
- 
+
             String sql = "INSERT INTO user (firstname, lastname, email, password) VALUES (?, ?, ?, ?)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, user.getFirstname());
@@ -40,7 +40,6 @@ public class DatabaseInitializer {
                 preparedStatement.setString(3, user.getEmail());
                 preparedStatement.setString(4, user.getPassword());
 
-         
                 int rowsAffected = preparedStatement.executeUpdate();
 
                 // Return true if the user was successfully saved
@@ -52,5 +51,27 @@ public class DatabaseInitializer {
         }
     }
 
-    // Other methods
+
+    public User getUserByEmail(String email) {
+        try (Connection connection = DriverManager.getConnection(DB_URL)) {
+            String sql = "SELECT * FROM user WHERE email = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, email);
+                ResultSet resultSet = preparedStatement.executeQuery();
+
+                if (resultSet.next()) {
+                    // User found, create and return User object
+                    return new User(
+                            resultSet.getString("firstname"),
+                            resultSet.getString("lastname"),
+                            resultSet.getString("email"),
+                            resultSet.getString("password")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null; // User not found
+    }
 }
