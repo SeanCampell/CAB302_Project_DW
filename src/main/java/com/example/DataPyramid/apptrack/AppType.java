@@ -1,4 +1,4 @@
-package com.example.apptrack;
+package com.example.DataPyramid.apptrack;
 
 public enum AppType {
 

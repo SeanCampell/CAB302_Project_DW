@@ -94,6 +94,8 @@ public class SignUpController {
                 FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("main-view.fxml"));
                 Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
                 stage.setScene(scene);
+                MainController mainController = fxmlLoader.getController();
+                mainController.setCurrentUser(newUser);
             } catch (IOException e) {
                 e.printStackTrace();
                 errorLabel.setText("An error occurred.");
