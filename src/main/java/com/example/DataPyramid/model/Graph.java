@@ -4,13 +4,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 
 import java.util.Arrays;
 
 /** Simple class to manage the implementation of the various graphs in the application */
 public class Graph {
 
-    public Graph(String defaultGraph, HBox pane)
+    public Graph(String defaultGraph, Pane pane)
     {
         switch (defaultGraph)
         {
@@ -29,14 +30,18 @@ public class Graph {
     }
 
     /**
-     * Removes all visible graphs by removing everything in the HBox where the graphs are located.
-     * @param pane The HBox where the graphs are located.
+     * Removes all visible graphs by removing everything in the pane where the graphs are located.
+     * @param pane The pane where the graphs are located.
      */
-    private void removeGraph(HBox pane) {
+    private void removeGraph(Pane pane) {
         pane.getChildren().clear();
     }
 
-    public void showBarChart(HBox pane) {
+    /**
+     * Creates a new Bar chart and displays it in the provided pane
+     * @param pane The pane to display the bar graph in
+     */
+    public void showBarChart(Pane pane) {
         removeGraph(pane);
 
         //TODO: Add the ability to fetch data and remove the temporary graph
@@ -61,10 +66,10 @@ public class Graph {
     }
 
     /**
-     * Creates a new Stacked Bar Chart and displays it in the provided HBox
-     * @param pane The HBox to display the graph in.
+     * Creates a new Stacked Bar Chart and displays it in the provided pane
+     * @param pane The pane to display the graph in.
      */
-    public void showColumnChart(HBox pane)
+    public void showColumnChart(Pane pane)
     {
         //Remove the existing graphs
         removeGraph(pane);
@@ -130,7 +135,11 @@ public class Graph {
         pane.getChildren().add(stackedBarChart);
     }
 
-    public void showPieChart(HBox pane)
+    /**
+     * Creates a new pie chart and displays it in the provided pane.
+     * @param pane The pane to display the graph in.
+     */
+    public void showPieChart(Pane pane)
     {
         //Clear existing graphs from the HBox
         removeGraph(pane);
