@@ -6,16 +6,9 @@ import com.example.DataPyramid.db.DatabaseInitializer;
 import com.example.DataPyramid.model.Graph;
 import com.example.DataPyramid.model.User;
 import com.example.DataPyramid.HelloApplication;
-import com.example.DataPyramid.controller.SignUpController;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
-import javafx.scene.chart.StackedBarChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -23,7 +16,7 @@ import javafx.stage.Stage;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import java.io.IOException;
-import java.util.Arrays;
+import static java.lang.Integer.parseInt;
 
 public class MainController {
 
@@ -72,11 +65,26 @@ public class MainController {
     private Button pieChartButton;
 
     // ---- INTERNAL VARIABLES ------
+    @FXML
+    private Label firstAppLabel;
+    @FXML
+    private Label secondAppLabel;
+    @FXML
+    private Label thirdAppLabel;
+    @FXML
+    private Label firstTimeLabel;
+    @FXML
+    private Label secondTimeLabel;
+    @FXML
+    private Label thirdTimeLabel;
+
     private ToggleGroup toggleGroup;
     private User currentUser;
     private DatabaseInitializer dbConnection;
     private String defaultGraph = "c";
     private Graph graphsHandler;
+
+    private App[] topApps;
 
     public void initialize() {
         toggleGroup = new ToggleGroup();
@@ -103,6 +111,7 @@ public class MainController {
     private void updateWelcomeLabel() {
         if (currentUser != null) {
             welcomeLabel.setText("Hello, " + currentUser.getFirstname());
+            updateTopApps();
         }
     }
 
@@ -117,6 +126,7 @@ public class MainController {
         insightsContent.setVisible(false);
         timeLimitsContent.setVisible(false);
         addProgramContent.setVisible(false);
+        updateTopApps();
     }
 
     // ---- INSIGHTS MENU ----
@@ -178,7 +188,7 @@ public class MainController {
 
         String appName = appNameField.getText();
         AppType appType = AppType.valueOf(appTypeField.getText());
-        int appLimit = Integer.parseInt(appLimitField.getText());
+        int appLimit = parseInt(appLimitField.getText());
 
         App existApp = dbConnection.getAppByName(appName, currentUser);
         if (existApp != null) {
@@ -216,5 +226,23 @@ public class MainController {
         insightsContent.setVisible(false);
         timeLimitsContent.setVisible(false);
         addProgramContent.setVisible(true);
+    }
+
+    private void updateTopApps() {
+        topApps = dbConnection.mostUsedApps(currentUser.getEmail());
+        if (topApps[0] != null) {
+            firstAppLabel.setText(topApps[0].getName());
+            firstTimeLabel.setText(Integer.toString(topApps[0].getTimeUse()) + " Minutes");
+        }
+        if (topApps[1] != null)
+        {
+            secondAppLabel.setText(topApps[1].getName());
+            secondTimeLabel.setText(Integer.toString(topApps[1].getTimeUse()) + " Minutes");
+        }
+        if (topApps[2] != null)
+        {
+            thirdAppLabel.setText(topApps[2].getName());
+            thirdTimeLabel.setText(Integer.toString(topApps[2].getTimeUse()) + " Minutes");
+        }
     }
 }

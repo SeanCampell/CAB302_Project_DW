@@ -86,6 +86,7 @@ Button:hover {
 
 .nav-button:selected {
     -fx-background-color: #F2F2F2;
+    -fx-text-fill: black;
 }
 
 .back-button {
