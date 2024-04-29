@@ -6,16 +6,9 @@ import com.example.DataPyramid.db.DatabaseInitializer;
 import com.example.DataPyramid.model.Graph;
 import com.example.DataPyramid.model.User;
 import com.example.DataPyramid.HelloApplication;
-import com.example.DataPyramid.controller.SignUpController;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
-import javafx.scene.chart.StackedBarChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -23,8 +16,6 @@ import javafx.stage.Stage;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import java.io.IOException;
-import java.util.Arrays;
-
 import static java.lang.Integer.parseInt;
 
 public class MainController {
@@ -239,11 +230,19 @@ public class MainController {
 
     private void updateTopApps() {
         topApps = dbConnection.mostUsedApps(currentUser.getEmail());
-        firstAppLabel.setText(topApps[0].getName());
-        firstTimeLabel.setText(Integer.toString(topApps[0].getTimeUse()) + " Minutes");
-        secondAppLabel.setText(topApps[1].getName());
-        secondTimeLabel.setText(Integer.toString(topApps[1].getTimeUse()) + " Minutes");
-        thirdAppLabel.setText(topApps[2].getName());
-        thirdTimeLabel.setText(Integer.toString(topApps[2].getTimeUse()) + " Minutes");
+        if (topApps[0] != null) {
+            firstAppLabel.setText(topApps[0].getName());
+            firstTimeLabel.setText(Integer.toString(topApps[0].getTimeUse()) + " Minutes");
+        }
+        if (topApps[1] != null)
+        {
+            secondAppLabel.setText(topApps[1].getName());
+            secondTimeLabel.setText(Integer.toString(topApps[1].getTimeUse()) + " Minutes");
+        }
+        if (topApps[2] != null)
+        {
+            thirdAppLabel.setText(topApps[2].getName());
+            thirdTimeLabel.setText(Integer.toString(topApps[2].getTimeUse()) + " Minutes");
+        }
     }
 }
