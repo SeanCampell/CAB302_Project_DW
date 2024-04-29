@@ -17,6 +17,8 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import java.io.IOException;
 
+import static java.lang.Integer.parseInt;
+
 public class MainController {
 
     @FXML
@@ -58,7 +60,22 @@ public class MainController {
     @FXML
     private Label errorLabel;
 
+    @FXML
+    private Label firstAppLabel;
+    @FXML
+    private Label secondAppLabel;
+    @FXML
+    private Label thirdAppLabel;
+    @FXML
+    private Label firstTimeLabel;
+    @FXML
+    private Label secondTimeLabel;
+    @FXML
+    private Label thirdTimeLabel;
+
     private ToggleGroup toggleGroup;
+
+    private App[] topApps;
 
     public void initialize() {
         toggleGroup = new ToggleGroup();
@@ -87,6 +104,7 @@ public class MainController {
     private void updateWelcomeLabel() {
         if (currentUser != null) {
             welcomeLabel.setText("Hello, " + currentUser.getFirstname());
+            updateTopApps();
         }
     }
 
@@ -103,6 +121,7 @@ public class MainController {
         insightsContent.setVisible(false);
         timeLimitsContent.setVisible(false);
         addProgramContent.setVisible(false);
+        updateTopApps();
     }
 
     @FXML
@@ -154,7 +173,7 @@ public class MainController {
 
         String appName = appNameField.getText();
         AppType appType = AppType.valueOf(appTypeField.getText());
-        int appLimit = Integer.parseInt(appLimitField.getText());
+        int appLimit = parseInt(appLimitField.getText());
 
         App existApp = dbConnection.getAppByName(appName, currentUser);
         if (existApp != null) {
@@ -192,5 +211,15 @@ public class MainController {
         insightsContent.setVisible(false);
         timeLimitsContent.setVisible(false);
         addProgramContent.setVisible(true);
+    }
+
+    private void updateTopApps() {
+        topApps = dbConnection.mostUsedApps(currentUser.getEmail());
+        firstAppLabel.setText(topApps[0].getName());
+        firstTimeLabel.setText(Integer.toString(topApps[0].getTimeUse()) + " Minutes");
+        secondAppLabel.setText(topApps[1].getName());
+        secondTimeLabel.setText(Integer.toString(topApps[1].getTimeUse()) + " Minutes");
+        thirdAppLabel.setText(topApps[2].getName());
+        thirdTimeLabel.setText(Integer.toString(topApps[2].getTimeUse()) + " Minutes");
     }
 }

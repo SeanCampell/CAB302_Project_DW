@@ -77,6 +77,8 @@
                               spacing="10" prefWidth="153" prefHeight="120">
 
                             <!-- Add content here -->
+                            <Label fx:id="firstAppLabel"/>
+                            <Label fx:id="firstTimeLabel" style="-fx-text-fill: grey;"/>
 
                         </VBox>
                         <Region prefWidth="20" />
@@ -84,6 +86,8 @@
                               spacing="10" prefWidth="153" prefHeight="120">
 
                             <!-- Add content here -->
+                            <Label fx:id="secondAppLabel"/>
+                            <Label fx:id="secondTimeLabel" style="-fx-text-fill: grey;"/>
 
                         </VBox>
                         <Region prefWidth="20" />
@@ -91,6 +95,8 @@
                               spacing="10" prefWidth="153" prefHeight="120">
 
                             <!-- Add content here -->
+                            <Label fx:id="thirdAppLabel"/>
+                            <Label fx:id="thirdTimeLabel" style="-fx-text-fill: grey;"/>
 
                         </VBox>
                     </HBox>

@@ -167,4 +167,76 @@ public class DatabaseInitializer {
         }
         return null; // User not found
     }
+
+    public App[] mostUsedApps(String email) {
+        App[] mostUsedApps = new App[3];
+        try (Connection connection = DriverManager.getConnection(DB_URL)) {
+            String sql = "SELECT * FROM program WHERE userEmail = ? ORDER BY timeUse DESC";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, email);
+                ResultSet resultSet = preparedStatement.executeQuery();
+
+                if (resultSet.next()) {
+                    App firstApp = new App(
+                            resultSet.getString("name"),
+                            AppType.valueOf(resultSet.getString("type")),
+                            resultSet.getInt("timeLimit")
+                    );
+                    firstApp.setTimeNotif(resultSet.getInt("timeNotif"));
+                    firstApp.setTimeUse(resultSet.getInt("timeUse"));
+                    firstApp.setMondayUse(resultSet.getInt("mondayUse"));
+                    firstApp.setTuesdayUse(resultSet.getInt("tuesdayUse"));
+                    firstApp.setWednesdayUse(resultSet.getInt("wednesdayUse"));
+                    firstApp.setThursdayUse(resultSet.getInt("thursdayUse"));
+                    firstApp.setFridayUse(resultSet.getInt("fridayUse"));
+                    firstApp.setSaturdayUse(resultSet.getInt("saturdayUse"));
+                    firstApp.setSundayUse(resultSet.getInt("sundayUse"));
+
+                    mostUsedApps[0] = firstApp;
+
+                    if (resultSet.next()) {
+                        App secondApp = new App(
+                                resultSet.getString("name"),
+                                AppType.valueOf(resultSet.getString("type")),
+                                resultSet.getInt("timeLimit")
+                        );
+                        secondApp.setTimeNotif(resultSet.getInt("timeNotif"));
+                        secondApp.setTimeUse(resultSet.getInt("timeUse"));
+                        secondApp.setMondayUse(resultSet.getInt("mondayUse"));
+                        secondApp.setTuesdayUse(resultSet.getInt("tuesdayUse"));
+                        secondApp.setWednesdayUse(resultSet.getInt("wednesdayUse"));
+                        secondApp.setThursdayUse(resultSet.getInt("thursdayUse"));
+                        secondApp.setFridayUse(resultSet.getInt("fridayUse"));
+                        secondApp.setSaturdayUse(resultSet.getInt("saturdayUse"));
+                        secondApp.setSundayUse(resultSet.getInt("sundayUse"));
+
+                        mostUsedApps[1] = secondApp;
+
+                        if (resultSet.next()) {
+                            App thirdApp = new App(
+                                    resultSet.getString("name"),
+                                    AppType.valueOf(resultSet.getString("type")),
+                                    resultSet.getInt("timeLimit")
+                            );
+                            thirdApp.setTimeNotif(resultSet.getInt("timeNotif"));
+                            thirdApp.setTimeUse(resultSet.getInt("timeUse"));
+                            thirdApp.setMondayUse(resultSet.getInt("mondayUse"));
+                            thirdApp.setTuesdayUse(resultSet.getInt("tuesdayUse"));
+                            thirdApp.setWednesdayUse(resultSet.getInt("wednesdayUse"));
+                            thirdApp.setThursdayUse(resultSet.getInt("thursdayUse"));
+                            thirdApp.setFridayUse(resultSet.getInt("fridayUse"));
+                            thirdApp.setSaturdayUse(resultSet.getInt("saturdayUse"));
+                            thirdApp.setSundayUse(resultSet.getInt("sundayUse"));
+
+                            mostUsedApps[2] = thirdApp;
+                        }
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return mostUsedApps;
+    }
 }
