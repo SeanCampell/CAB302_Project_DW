@@ -112,12 +112,12 @@
             <VBox>
                 <Region prefHeight="10" />
                 <HBox>
-                    <Button text="Column Chart"/>
-                    <Button text="Pie Chart"/>
-                    <Button text="Bar Chart"/>
+                    <Button fx:id="columnChartButton" onAction="#onColumnChartButtonClick" text="Column Chart"/>
+                    <Button fx:id="pieChartButton" onAction="#onPieChartButtonClick" text="Pie Chart"/>
+                    <Button fx:id="barChartButton" onAction="#onBarChartButtonClick" text="Bar Chart"/>
                 </HBox>
                 <Region prefHeight="10" />
-                <HBox style="-fx-background-color: white;-fx-background-radius: 20px; -fx-padding: 10px;" spacing="10"
+                <HBox fx:id="graphLocation" style="-fx-background-color: white;-fx-background-radius: 20px; -fx-padding: 10px;" spacing="10"
                       prefHeight="280" maxWidth="500">
                     <Label text="{Type of Chart}"/>
 

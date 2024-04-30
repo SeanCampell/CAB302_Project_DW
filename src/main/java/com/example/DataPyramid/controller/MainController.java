@@ -3,9 +3,9 @@ package com.example.DataPyramid.controller;
 import com.example.DataPyramid.apptrack.App;
 import com.example.DataPyramid.apptrack.AppType;
 import com.example.DataPyramid.db.DatabaseInitializer;
+import com.example.DataPyramid.model.Graph;
 import com.example.DataPyramid.model.User;
 import com.example.DataPyramid.HelloApplication;
-import com.example.DataPyramid.controller.SignUpController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -16,41 +16,35 @@ import javafx.stage.Stage;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import java.io.IOException;
-
 import static java.lang.Integer.parseInt;
 
 public class MainController {
 
+    // ----- NAVIGATION BAR BUTTONS ------
     @FXML
     private ToggleButton homeButton;
-
     @FXML
     private Button logoutButton;
-
     @FXML
     private ToggleButton insightButton;
 
-    @FXML
-    private ToggleButton timelimitButton;
-
-    @FXML
-    private ToggleButton newAppButton;
-
+    // ----- PAGE CONTENT ------
     @FXML
     private HBox homeContent;
-
     @FXML
     private VBox insightsContent;
-
     @FXML
     private VBox timeLimitsContent;
-
     @FXML
     private VBox addProgramContent;
 
+    // ---- OTHER JAVAFX NODES ------
+    @FXML
+    private ToggleButton timelimitButton;
+    @FXML
+    private ToggleButton newAppButton;
     @FXML
     private Label welcomeLabel;
-
     @FXML
     private TextField appNameField;
     @FXML
@@ -60,6 +54,17 @@ public class MainController {
     @FXML
     private Label errorLabel;
 
+    // ----- GRAPH TESTING ------
+    @FXML
+    private HBox graphLocation;
+    @FXML
+    private Button barChartButton;
+    @FXML
+    private Button columnChartButton;
+    @FXML
+    private Button pieChartButton;
+
+    // ---- INTERNAL VARIABLES ------
     @FXML
     private Label firstAppLabel;
     @FXML
@@ -74,6 +79,10 @@ public class MainController {
     private Label thirdTimeLabel;
 
     private ToggleGroup toggleGroup;
+    private User currentUser;
+    private DatabaseInitializer dbConnection;
+    private String defaultGraph = "c";
+    private Graph graphsHandler;
 
     private App[] topApps;
 
@@ -94,8 +103,6 @@ public class MainController {
         });
     }
 
-    private User currentUser;
-
     public void setCurrentUser(User user) {
         this.currentUser = user;
         updateWelcomeLabel();
@@ -107,8 +114,6 @@ public class MainController {
             updateTopApps();
         }
     }
-
-    private DatabaseInitializer dbConnection;
 
     public MainController() { dbConnection = new DatabaseInitializer(); }
 
@@ -124,6 +129,7 @@ public class MainController {
         updateTopApps();
     }
 
+    // ---- INSIGHTS MENU ----
     @FXML
     protected void onInsightsButtonClick() throws IOException {
         clearActiveButtonStyle();
@@ -132,7 +138,16 @@ public class MainController {
         insightsContent.setVisible(true);
         timeLimitsContent.setVisible(false);
         addProgramContent.setVisible(false);
+
+        graphsHandler = new Graph(defaultGraph, graphLocation);
     }
+
+    @FXML
+    protected void onBarChartButtonClick() throws IOException { graphsHandler.showBarChart(graphLocation); }
+    @FXML
+    protected void onColumnChartButtonClick() throws IOException { graphsHandler.showColumnChart(graphLocation); }
+    @FXML
+    protected void onPieChartButtonClick() throws IOException { graphsHandler.showPieChart(graphLocation); }
 
     @FXML
     protected void onTimeLimitsButtonClick() throws IOException {
@@ -215,11 +230,19 @@ public class MainController {
 
     private void updateTopApps() {
         topApps = dbConnection.mostUsedApps(currentUser.getEmail());
-        firstAppLabel.setText(topApps[0].getName());
-        firstTimeLabel.setText(Integer.toString(topApps[0].getTimeUse()) + " Minutes");
-        secondAppLabel.setText(topApps[1].getName());
-        secondTimeLabel.setText(Integer.toString(topApps[1].getTimeUse()) + " Minutes");
-        thirdAppLabel.setText(topApps[2].getName());
-        thirdTimeLabel.setText(Integer.toString(topApps[2].getTimeUse()) + " Minutes");
+        if (topApps[0] != null) {
+            firstAppLabel.setText(topApps[0].getName());
+            firstTimeLabel.setText(Integer.toString(topApps[0].getTimeUse()) + " Minutes");
+        }
+        if (topApps[1] != null)
+        {
+            secondAppLabel.setText(topApps[1].getName());
+            secondTimeLabel.setText(Integer.toString(topApps[1].getTimeUse()) + " Minutes");
+        }
+        if (topApps[2] != null)
+        {
+            thirdAppLabel.setText(topApps[2].getName());
+            thirdTimeLabel.setText(Integer.toString(topApps[2].getTimeUse()) + " Minutes");
+        }
     }
 }
