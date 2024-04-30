@@ -10,6 +10,7 @@
 <?import javafx.scene.control.ToggleButton?>
 <?import java.net.URL?>
 
+<?import javafx.scene.control.TextField?>
 <HBox alignment="TOP_LEFT" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.DataPyramid.controller.MainController">
     <stylesheets>
@@ -29,6 +30,8 @@
                 <ToggleButton fx:id="insightButton" text="Insights" onAction="#onInsightsButtonClick"
                               styleClass="nav-button" minWidth="100" minHeight="40"/>
                 <ToggleButton fx:id="timelimitButton" text="Time Limits" onAction="#onTimeLimitsButtonClick"
+                              styleClass="nav-button" style="-fx-padding: 5px;" minWidth="100" minHeight="40"/>
+                <ToggleButton fx:id="newAppButton" text="Add Program" onAction="#onNewAppButtonClick"
                               styleClass="nav-button" style="-fx-padding: 5px;" minWidth="100" minHeight="40"/>
                 <Button fx:id="logoutButton" text="Log Out" onAction="#onLogoutButtonClick" styleClass="nav-button"
                         minWidth="100" minHeight="40"/>
@@ -74,6 +77,8 @@
                               spacing="10" prefWidth="153" prefHeight="120">
 
                             <!-- Add content here -->
+                            <Label fx:id="firstAppLabel"/>
+                            <Label fx:id="firstTimeLabel" style="-fx-text-fill: grey;"/>
 
                         </VBox>
                         <Region prefWidth="20" />
@@ -81,6 +86,8 @@
                               spacing="10" prefWidth="153" prefHeight="120">
 
                             <!-- Add content here -->
+                            <Label fx:id="secondAppLabel"/>
+                            <Label fx:id="secondTimeLabel" style="-fx-text-fill: grey;"/>
 
                         </VBox>
                         <Region prefWidth="20" />
@@ -88,6 +95,8 @@
                               spacing="10" prefWidth="153" prefHeight="120">
 
                             <!-- Add content here -->
+                            <Label fx:id="thirdAppLabel"/>
+                            <Label fx:id="thirdTimeLabel" style="-fx-text-fill: grey;"/>
 
                         </VBox>
                     </HBox>
@@ -184,6 +193,27 @@
 
                 </HBox>
             </VBox>
+        </VBox>
+
+        <!-- _____________________________________________ -->
+
+        <!-- Add Program Content -->
+        <VBox fx:id="addProgramContent" visible="false">
+            <Region prefHeight="20" />
+            <VBox>
+                <Label text="Add New Program" id="headlines"/>
+                <Region prefHeight="20" />
+                <Label text="Enter the program name" styleClass="instruction" />
+                <TextField fx:id="appNameField" maxWidth="250" prefHeight="30"/>
+                <Label text="Enter the program type (Game, Entertainment, Internet, Productive)" styleClass="instruction" />
+                <TextField fx:id="appTypeField" maxWidth="250" prefHeight="30"/>
+                <Label text="Enter time usage limit in minutes (0 if unlimited)" styleClass="instruction"/>
+                <TextField fx:id="appLimitField" maxWidth="250" prefHeight="30"/>
+            </VBox>
+            <Label fx:id="errorLabel" styleClass="error-label" />
+            <HBox alignment="BOTTOM_LEFT">
+                <Button id="addAppButton" text="Add Application" onAction="#onAddAppButtonClick"/>
+            </HBox>
         </VBox>
     </StackPane>
 
