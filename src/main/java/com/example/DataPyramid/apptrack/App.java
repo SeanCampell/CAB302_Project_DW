@@ -19,8 +19,10 @@ public class App {
 
     private int timeNotif;
 
+    private boolean isTracking;
+
     // Constructor
-    public App(String name, AppType type, int timeLimit) {
+    public App(String name, AppType type, int timeLimit, boolean isTracking) {
         this.name = name;
         this.type = type;
         timeUse = 0;
@@ -33,6 +35,7 @@ public class App {
         fridayUse = 0;
         saturdayUse = 0;
         sundayUse = 0;
+        this.isTracking = isTracking;
     }
 
     // Get and Set functions
@@ -117,6 +120,10 @@ public class App {
     public  int getTimeNotif() { return timeNotif; }
 
     public void setTimeNotif(int timeNotif) { this.timeNotif = timeNotif; }
+
+    public boolean isTracking() { return isTracking; }
+
+    public void setTracking(boolean tracking) { isTracking = tracking; }
 
     // Add time that has been used on the application
     public void addTime(int time) {
