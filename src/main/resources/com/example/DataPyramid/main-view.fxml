@@ -11,6 +11,9 @@
 <?import java.net.URL?>
 
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
 <HBox alignment="TOP_LEFT" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.DataPyramid.controller.MainController">
     <stylesheets>
@@ -199,20 +202,28 @@
 
         <!-- Add Program Content -->
         <VBox fx:id="addProgramContent" visible="false">
+            <Label text="Add New Program" id="headlines"/>
             <Region prefHeight="20" />
-            <VBox>
-                <Label text="Add New Program" id="headlines"/>
-                <Region prefHeight="20" />
-                <Label text="Enter the program name" styleClass="instruction" />
-                <TextField fx:id="appNameField" maxWidth="250" prefHeight="30"/>
-                <Label text="Enter the program type (Game, Entertainment, Internet, Productive)" styleClass="instruction" />
-                <TextField fx:id="appTypeField" maxWidth="250" prefHeight="30"/>
-                <Label text="Enter time usage limit in minutes (0 if unlimited)" styleClass="instruction"/>
-                <TextField fx:id="appLimitField" maxWidth="250" prefHeight="30"/>
-            </VBox>
-            <Label fx:id="errorLabel" styleClass="error-label" />
-            <HBox alignment="BOTTOM_LEFT">
-                <Button id="addAppButton" text="Add Application" onAction="#onAddAppButtonClick"/>
+            <HBox VBox.vgrow="ALWAYS" spacing="20.0">
+                <VBox spacing="10.0">
+                    <ListView fx:id="processListView" />
+                </VBox>
+                <VBox>
+                    <VBox>
+                        <Region prefHeight="20" />
+                        <Label text="Program Type:" styleClass="instruction" />
+                        <ChoiceBox fx:id="typeChoiceBox"/>
+                        <Region prefHeight="10" />
+                        <Label text="Time Limit in minutes (0 if unlimited):" styleClass="instruction"/>
+                        <TextField fx:id="appLimitField" text="0" maxWidth="250" prefHeight="30"/>
+                        <Region prefHeight="10" />
+                        <CheckBox text="Track Now?" styleClass="instruction" fx:id="isTrack" />
+                    </VBox>
+                    <Label fx:id="errorLabel" styleClass="error-label" />
+                    <HBox alignment="BOTTOM_LEFT">
+                        <Button id="addAppButton" text="Add Application" onAction="#onAddAppButtonClick"/>
+                    </HBox>
+                </VBox>
             </HBox>
         </VBox>
     </StackPane>
