@@ -245,17 +245,19 @@ public class MainController {
 
     private void updateTopApps() {
         topApps = dbConnection.mostUsedApps(currentUser.getEmail());
-        if (topApps[0] != null) {
-            firstAppLabel.setText(topApps[0].getName());
-            firstTimeLabel.setText(Integer.toString(topApps[0].getTimeUse()) + " Minutes");
-        }
-        if (topApps[1] != null) {
-            secondAppLabel.setText(topApps[1].getName());
-            secondTimeLabel.setText(topApps[1].getTimeUse() + " Minutes");
-        }
-        if (topApps[2] != null) {
-            thirdAppLabel.setText(topApps[2].getName());
-            thirdTimeLabel.setText(topApps[2].getTimeUse() + " Minutes");
+        if(topApps != null){
+            if (topApps[0] != null) {
+                firstAppLabel.setText(topApps[0].getName());
+                firstTimeLabel.setText(Integer.toString(topApps[0].getTimeUse()) + " Minutes");
+            }
+            if (topApps[1] != null) {
+                secondAppLabel.setText(topApps[1].getName());
+                secondTimeLabel.setText(topApps[1].getTimeUse() + " Minutes");
+            }
+            if (topApps[2] != null) {
+                thirdAppLabel.setText(topApps[2].getName());
+                thirdTimeLabel.setText(topApps[2].getTimeUse() + " Minutes");
+            }
         }
     }
 
@@ -295,19 +297,19 @@ public class MainController {
             String nextProcess = processes.contains(currentProcess) ? currentProcess : processes.get(0);
             processListView.getSelectionModel().select(nextProcess);
         }
-        if (topApps[0] != null) {
-            firstAppLabel.setText(topApps[0].getName());
-            firstTimeLabel.setText(Integer.toString(topApps[0].getTimeUse()) + " Minutes");
-        }
-        if (topApps[1] != null)
-        {
-            secondAppLabel.setText(topApps[1].getName());
-            secondTimeLabel.setText(Integer.toString(topApps[1].getTimeUse()) + " Minutes");
-        }
-        if (topApps[2] != null)
-        {
-            thirdAppLabel.setText(topApps[2].getName());
-            thirdTimeLabel.setText(Integer.toString(topApps[2].getTimeUse()) + " Minutes");
+        if(topApps != null) {
+            if (topApps[0] != null) {
+                firstAppLabel.setText(topApps[0].getName());
+                firstTimeLabel.setText(Integer.toString(topApps[0].getTimeUse()) + " Minutes");
+            }
+            if (topApps[1] != null) {
+                secondAppLabel.setText(topApps[1].getName());
+                secondTimeLabel.setText(Integer.toString(topApps[1].getTimeUse()) + " Minutes");
+            }
+            if (topApps[2] != null) {
+                thirdAppLabel.setText(topApps[2].getName());
+                thirdTimeLabel.setText(Integer.toString(topApps[2].getTimeUse()) + " Minutes");
+            }
         }
     }
 }
