@@ -1,6 +1,7 @@
 package com.example.DataPyramid;
 
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -19,6 +20,12 @@ public class HelloApplication extends Application {
         stage.setTitle(TITLE);
         stage.setScene(scene);
         stage.show();
+
+        ChangeListener<Number> stageSizeListener = (observable, oldValue, newValue) ->
+                System.out.println("Height: " + stage.getHeight() + " Width: " + stage.getWidth());
+
+        stage.widthProperty().addListener(stageSizeListener);
+        stage.heightProperty().addListener(stageSizeListener);
     }
 
     public static void main(String[] args) {
