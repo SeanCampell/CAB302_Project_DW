@@ -6,6 +6,9 @@ import com.example.DataPyramid.db.DatabaseInitializer;
 import com.example.DataPyramid.model.Graph;
 import com.example.DataPyramid.model.User;
 import com.example.DataPyramid.HelloApplication;
+import com.example.DataPyramid.controller.SignUpController;
+import com.example.DataPyramid.model.GraphDAO;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,7 +18,13 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+
 import static java.lang.Integer.parseInt;
 
 public class MainController {
@@ -46,11 +55,9 @@ public class MainController {
     @FXML
     private Label welcomeLabel;
     @FXML
-    private TextField appNameField;
-    @FXML
-    private TextField appTypeField;
-    @FXML
     private TextField appLimitField;
+    @FXML
+    private CheckBox isTrack;
     @FXML
     private Label errorLabel;
 
@@ -63,6 +70,7 @@ public class MainController {
     private Button columnChartButton;
     @FXML
     private Button pieChartButton;
+    private GraphDAO graphDAO;
 
     // ---- INTERNAL VARIABLES ------
     @FXML
@@ -78,6 +86,11 @@ public class MainController {
     @FXML
     private Label thirdTimeLabel;
 
+    @FXML
+    private ListView<String> processListView;
+    @FXML
+    private ChoiceBox<String> typeChoiceBox = new ChoiceBox<>();
+
     private ToggleGroup toggleGroup;
     private User currentUser;
     private DatabaseInitializer dbConnection;
@@ -85,6 +98,7 @@ public class MainController {
     private Graph graphsHandler;
 
     private App[] topApps;
+    private List<String> processes;
 
     public void initialize() {
         toggleGroup = new ToggleGroup();
@@ -101,6 +115,9 @@ public class MainController {
                 ((ToggleButton) newValue).getStyleClass().add("active-nav-button");
             }
         });
+        syncProcesses();
+        typeChoiceBox.setItems(
+                FXCollections.observableArrayList("Other", "Game", "Productive", "Internet", "Entertainment"));
     }
 
     public void setCurrentUser(User user) {
@@ -115,7 +132,10 @@ public class MainController {
         }
     }
 
-    public MainController() { dbConnection = new DatabaseInitializer(); }
+    public MainController() {
+        dbConnection = new DatabaseInitializer();
+        this.graphDAO = new GraphDAO("program"); // Ensure to provide the correct table name
+    }
 
 
     @FXML
@@ -139,15 +159,15 @@ public class MainController {
         timeLimitsContent.setVisible(false);
         addProgramContent.setVisible(false);
 
-        graphsHandler = new Graph(defaultGraph, graphLocation);
+        graphsHandler = new Graph(defaultGraph, graphLocation, graphDAO);
     }
 
     @FXML
-    protected void onBarChartButtonClick() throws IOException { graphsHandler.showBarChart(graphLocation); }
+    protected void onBarChartButtonClick() throws IOException { graphsHandler.showBarChart(graphLocation, currentUser.getEmail()); }
     @FXML
-    protected void onColumnChartButtonClick() throws IOException { graphsHandler.showColumnChart(graphLocation); }
+    protected void onColumnChartButtonClick() throws IOException { graphsHandler.showColumnChart(graphLocation, currentUser.getEmail()); }
     @FXML
-    protected void onPieChartButtonClick() throws IOException { graphsHandler.showPieChart(graphLocation); }
+    protected void onPieChartButtonClick() throws IOException { graphsHandler.showPieChart(graphLocation, currentUser.getEmail()); }
 
     @FXML
     protected void onTimeLimitsButtonClick() throws IOException {
@@ -180,29 +200,29 @@ public class MainController {
     protected void onAddAppButtonClick() {
         errorLabel.setText("");
 
-        if (appNameField.getText().isEmpty() || appTypeField.getText().isEmpty() ||
-                appLimitField.getText().isEmpty()) {
+        if (typeChoiceBox.getSelectionModel().getSelectedItem().isEmpty() || appLimitField.getText().isEmpty()) {
             errorLabel.setText("All fields are required");
             return;
         }
 
-        String appName = appNameField.getText();
-        AppType appType = AppType.valueOf(appTypeField.getText());
+        String appName = processListView.getSelectionModel().getSelectedItem();
+        AppType appType = AppType.valueOf(typeChoiceBox.getValue());
         int appLimit = parseInt(appLimitField.getText());
+        boolean isTracking = isTrack.isSelected();
 
         App existApp = dbConnection.getAppByName(appName, currentUser);
         if (existApp != null) {
-            errorLabel.setText("Application is already being tracked");
+            errorLabel.setText("Application is already added");
             return;
         }
-        App newApp = new App(appName, appType, appLimit);
+        App newApp = new App(appName, appType, appLimit, isTracking);
 
         boolean success = dbConnection.saveApp(newApp, currentUser);
 
         if (success) {
-            appNameField.clear();
-            appTypeField.clear();
+            typeChoiceBox.getSelectionModel().clearSelection();
             appLimitField.clear();
+            isTrack.setSelected(false);
 
             showFlashMessage("Add Program Success", "You have successfully added a program to track");
         } else {
@@ -230,19 +250,71 @@ public class MainController {
 
     private void updateTopApps() {
         topApps = dbConnection.mostUsedApps(currentUser.getEmail());
-        if (topApps[0] != null) {
-            firstAppLabel.setText(topApps[0].getName());
-            firstTimeLabel.setText(Integer.toString(topApps[0].getTimeUse()) + " Minutes");
+        if(topApps != null){
+            if (topApps[0] != null) {
+                firstAppLabel.setText(topApps[0].getName());
+                firstTimeLabel.setText(Integer.toString(topApps[0].getTimeUse()) + " Minutes");
+            }
+            if (topApps[1] != null) {
+                secondAppLabel.setText(topApps[1].getName());
+                secondTimeLabel.setText(topApps[1].getTimeUse() + " Minutes");
+            }
+            if (topApps[2] != null) {
+                thirdAppLabel.setText(topApps[2].getName());
+                thirdTimeLabel.setText(topApps[2].getTimeUse() + " Minutes");
+            }
         }
-        if (topApps[1] != null)
-        {
-            secondAppLabel.setText(topApps[1].getName());
-            secondTimeLabel.setText(Integer.toString(topApps[1].getTimeUse()) + " Minutes");
+    }
+
+    public static List<String> listProcesses() {
+        List<String> processes = new ArrayList<String>();
+        try {
+            String line;
+            Process p = Runtime.getRuntime().exec("tasklist.exe /svc /fo csv /nh");
+            BufferedReader input = new BufferedReader
+                    (new InputStreamReader(p.getInputStream()));
+            while ((line = input.readLine()) != null) {
+
+                if (!line.trim().equals("")) {
+                    // keep only the process name
+                    line = line.substring(1);
+                    if (!processes.contains(line.substring(0, line.indexOf('"')))){
+                        processes.add(line.substring(0, line.indexOf('"')));
+                    }
+                }
+
+            }
+            input.close();
         }
-        if (topApps[2] != null)
-        {
-            thirdAppLabel.setText(topApps[2].getName());
-            thirdTimeLabel.setText(Integer.toString(topApps[2].getTimeUse()) + " Minutes");
+        catch (Exception err) {
+            err.printStackTrace();
+        }
+        return processes;
+    }
+
+    private void syncProcesses() {
+        String currentProcess = processListView.getSelectionModel().getSelectedItem();
+        processListView.getItems().clear();
+        processes = listProcesses();
+        boolean hasProcess = !processes.isEmpty();
+        if (hasProcess) {
+            processListView.getItems().addAll(processes);
+            String nextProcess = processes.contains(currentProcess) ? currentProcess : processes.get(0);
+            processListView.getSelectionModel().select(nextProcess);
+        }
+        if(topApps != null) {
+            if (topApps[0] != null) {
+                firstAppLabel.setText(topApps[0].getName());
+                firstTimeLabel.setText(Integer.toString(topApps[0].getTimeUse()) + " Minutes");
+            }
+            if (topApps[1] != null) {
+                secondAppLabel.setText(topApps[1].getName());
+                secondTimeLabel.setText(Integer.toString(topApps[1].getTimeUse()) + " Minutes");
+            }
+            if (topApps[2] != null) {
+                thirdAppLabel.setText(topApps[2].getName());
+                thirdTimeLabel.setText(Integer.toString(topApps[2].getTimeUse()) + " Minutes");
+            }
         }
     }
 }
