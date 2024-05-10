@@ -11,12 +11,12 @@ import java.io.IOException;
 
 public class HelloApplication extends Application {
     public static final String TITLE = "Data Pyramid Team";
-    public static final int WIDTH = 800;
-    public static final int HEIGHT = 530;
-    public UIListener uiListener;
+    public static final double WIDTH = 800;
+    public static final double HEIGHT = 530;
+    public static UIListener uiListener;
     @Override
     public void start(Stage stage) throws IOException {
-        uiListener = new UIListener();
+        uiListener = new UIListener(WIDTH, HEIGHT);
 
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), uiListener.getWindowWidth(), uiListener.getWindowHeight());
@@ -24,8 +24,7 @@ public class HelloApplication extends Application {
         stage.setScene(scene);
         stage.show();
 
-        ChangeListener<Number> stageSizeListener = (observable, oldValue, newValue) ->
-                System.out.println("Height: " + stage.getHeight() + " Width: " + stage.getWidth());
+        ChangeListener<Number> stageSizeListener = (observable, oldValue, newValue) -> uiListener.update(stage.getWidth(), stage.getHeight());
 
         stage.widthProperty().addListener(stageSizeListener);
         stage.heightProperty().addListener(stageSizeListener);

@@ -25,9 +25,7 @@
         <Label id="welcome">WELCOME</Label>
         <Label text="to Your Wellbeing Tracker"/>
         <StackPane>
-            <padding>
-                <Insets top="5" />
-            </padding>
+            <padding> <Insets top="5" /> </padding>
             <Line startX="0" startY="0" endX="200" endY="0" stroke="grey" strokeWidth="1" />
         </StackPane>
         <Label textAlignment="CENTER"

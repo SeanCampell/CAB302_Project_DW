@@ -24,9 +24,9 @@
     <HBox alignment="TOP_LEFT">
         <VBox spacing="30.0" style=" -fx-background-color: #CAD8B3;" prefWidth="100" prefHeight="530"
               alignment="TOP_CENTER">
-            <Region prefHeight="10" />
+            <Region prefHeight="10"/>
             <Label text="LOGO?"/>
-            <Region prefHeight="40" />
+            <Region prefHeight="40"/>
             <VBox alignment="CENTER">
                 <ToggleButton fx:id="homeButton" text="Home" onAction="#onHomeButtonClick" styleClass="nav-button"
                               minWidth="100" minHeight="40" />

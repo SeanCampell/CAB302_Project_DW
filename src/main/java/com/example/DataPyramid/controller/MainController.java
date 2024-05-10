@@ -6,7 +6,6 @@ import com.example.DataPyramid.db.DatabaseInitializer;
 import com.example.DataPyramid.model.Graph;
 import com.example.DataPyramid.model.User;
 import com.example.DataPyramid.HelloApplication;
-import com.example.DataPyramid.controller.SignUpController;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -187,7 +186,8 @@ public class MainController {
         setCurrentUser(null);
         Stage stage = (Stage) logoutButton.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
+        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.uiListener.getWindowWidth(),
+                HelloApplication.uiListener.getWindowHeight());
         stage.setScene(scene);
     }
 
