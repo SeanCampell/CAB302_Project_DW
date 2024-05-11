@@ -22,7 +22,7 @@
 
     <!-- Navbar -->
     <HBox alignment="TOP_LEFT">
-        <VBox spacing="30.0" style=" -fx-background-color: #CAD8B3;" prefWidth="100" prefHeight="530"
+        <VBox fx:id="navigationBar" spacing="30.0" style=" -fx-background-color: #CAD8B3;" minWidth="100"
               alignment="TOP_CENTER">
             <Region prefHeight="10"/>
             <Label text="LOGO?"/>

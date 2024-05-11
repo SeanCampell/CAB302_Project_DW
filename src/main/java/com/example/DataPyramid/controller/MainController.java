@@ -27,7 +27,9 @@ import static java.lang.Integer.parseInt;
 
 public class MainController {
 
-    // ----- NAVIGATION BAR BUTTONS ------
+    // ----- NAVIGATION BAR
+    @FXML
+    private VBox navigationBar;
     @FXML
     private ToggleButton homeButton;
     @FXML

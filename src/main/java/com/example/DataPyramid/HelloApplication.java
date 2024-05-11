@@ -1,6 +1,6 @@
 package com.example.DataPyramid;
 
-import com.example.DataPyramid.model.UIListener;
+import com.example.DataPyramid.model.UISubject;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXMLLoader;
@@ -13,10 +13,10 @@ public class HelloApplication extends Application {
     public static final String TITLE = "Data Pyramid Team";
     public static final double WIDTH = 800;
     public static final double HEIGHT = 530;
-    public static UIListener uiListener;
+    public static UISubject uiListener;
     @Override
     public void start(Stage stage) throws IOException {
-        uiListener = new UIListener(WIDTH, HEIGHT);
+        uiListener = new UISubject(WIDTH, HEIGHT);
 
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), uiListener.getWindowWidth(), uiListener.getWindowHeight());
