@@ -1,39 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
-
 <?import java.net.URL?>
-
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
-<StackPane xmlns="http://javafx.com/javafx"
-           xmlns:fx="http://javafx.com/fxml"
-           fx:controller="com.example.DataPyramid.controller.HelloController">
+
+<FlowPane alignment="CENTER" columnHalignment="CENTER" focusTraversable="true" maxHeight="1.7976931348623157E308"
+          maxWidth="1.7976931348623157E308" orientation="VERTICAL" xmlns:fx="http://javafx.com/fxml"
+          fx:controller="com.example.DataPyramid.controller.HelloController">
     <stylesheets>
         <URL value="@stylesheet.css" />
     </stylesheets>
     <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
     <VBox alignment="CENTER">
-        <Label id="welcome">WELCOME</Label>
-        <Label text="to Your Wellbeing Tracker"/>
-        <StackPane>
-            <padding> <Insets top="5" /> </padding>
-            <Line startX="0" startY="0" endX="200" endY="0" stroke="grey" strokeWidth="1" />
-        </StackPane>
-        <Label textAlignment="CENTER"
-               text="Track, Monitor, and Improve your Wellbeing." wrapText="true" />
-        <Region prefHeight="20"/>
+        <Label id="welcome" stylesheets="@stylesheet.css" text="WELCOME">WELCOME</Label>
+        <Label text="to Your Wellbeing Tracker" />
+         <Line endX="200" endY="0" startX="0" startY="0" stroke="grey" strokeWidth="1" />
+        <Label text="Track, Monitor, and Improve your Wellbeing." textAlignment="CENTER" wrapText="true" />
+        <Region prefHeight="20" />
         <HBox alignment="CENTER" spacing="10.0">
-            <Button fx:id="signUpButton" text="Sign Up" onAction="#onSignupButtonClick"/>
-            <Button fx:id="loginButton" text="Log In" onAction="#onLoginButtonClick"/>
-            <Button fx:id="nextButton" text="Debug" onAction="#onNextButtonClick"/>
+            <Button fx:id="signUpButton" onAction="#onSignupButtonClick" text="Sign Up" />
+            <Button fx:id="loginButton" onAction="#onLoginButtonClick" text="Log In" />
+            <Button fx:id="nextButton" onAction="#onNextButtonClick" text="Debug" />
         </HBox>
     </VBox>
-</StackPane>
+</FlowPane>
