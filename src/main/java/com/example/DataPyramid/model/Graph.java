@@ -121,8 +121,6 @@ public class Graph {
                 for (Map.Entry<String, Integer> entry : appUsageData.entrySet()) {
                     pieChartData.add(new PieChart.Data(entry.getKey() + " (0 Usage)", 1)); // Show zero usage distinctly
                 }
-
-                pieChartData.add(new PieChart.Data("No other data", 1));
             } else {
                 // There are actual usage values to display
                 for (Map.Entry<String, Integer> entry : appUsageData.entrySet()) {
