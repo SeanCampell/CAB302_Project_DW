@@ -22,8 +22,10 @@
         <URL value="@stylesheet.css" />
     </stylesheets>
 
-    <!-- Navbar -->
+
     <HBox alignment="TOP_LEFT" spacing="15.0" HBox.hgrow="ALWAYS">
+
+        <!-- Navbar -->
         <VBox id="nav-bar" fx:id="navigationBar" alignment="CENTER" maxHeight="1.7976931348623157E308"
               maxWidth="1.7976931348623157E308" minWidth="100" style=" -fx-background-color: #CAD8B3;"
               styleClass="nav-bar">
@@ -119,9 +121,6 @@
                </VBox>
            </HBox>
    
-   
-           <!-- _____________________________________________ -->
-   
            <!-- Insights Content -->
            <VBox fx:id="insightsContent" visible="false">
                <VBox VBox.vgrow="ALWAYS">
@@ -179,7 +178,6 @@
                </padding>
                </VBox>
            </VBox>
-           <!-- _____________________________________________ -->
    
            <!-- Time Limits Content -->
            <VBox fx:id="timeLimitsContent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" visible="false">
@@ -225,8 +223,6 @@
             </padding>
            </VBox>
    
-           <!-- _____________________________________________ -->
-   
            <!-- Add Program Content -->
            <VBox fx:id="addProgramContent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
                  spacing="10.0" visible="false">
@@ -263,7 +259,10 @@
                <Insets bottom="10.0" top="10.0" />
             </StackPane.margin>
            </VBox>
+
        </StackPane>
+
+        <!-- RHS Panel -->
         <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" style="-fx-background-color: white;" HBox.hgrow="ALWAYS">
              <Label fx:id="welcomeLabel" text="Hello, {firstname}!" VBox.vgrow="ALWAYS">
             <VBox.margin>

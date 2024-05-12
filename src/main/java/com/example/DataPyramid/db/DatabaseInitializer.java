@@ -108,7 +108,9 @@ public class DatabaseInitializer {
     public boolean saveApp(App app, User user) {
         try (Connection connection = DriverManager.getConnection(DB_URL)) {
 
-            String sql = "INSERT INTO program (userEmail, name, type, timeUse, timeLimit, timeNotif, mondayUse, tuesdayUse, wednesdayUse, thursdayUse, fridayUse, saturdayUse, sundayUse, isTracking) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO program (userEmail, name, type, timeUse, timeLimit, timeNotif, mondayUse, " +
+                    "tuesdayUse, wednesdayUse, thursdayUse, fridayUse, saturdayUse, sundayUse, isTracking) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, user.getEmail());
                 preparedStatement.setString(2, app.getName());
