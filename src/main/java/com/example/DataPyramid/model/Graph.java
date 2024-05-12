@@ -3,6 +3,7 @@ package com.example.DataPyramid.model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.*;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import java.util.Map;
 
@@ -11,12 +12,19 @@ import java.util.Arrays;
 
 /** Simple class to manage the implementation of the various graphs in the application */
 public class Graph {
-    private GraphDAO graphDAO; // Assuming GraphDAO is properly set up to handle database operations.
-    private String userEmail; // User email to fetch data for specific user
+    private final GraphDAO graphDAO; // Assuming GraphDAO is properly set up to handle database operations.
 
-    public Graph(String defaultGraph, Pane pane, GraphDAO graphDAO) {
+    /** Current User's email */
+    private String userEmail;
 
-        this.graphDAO = graphDAO; // Initialize GraphDAO
+    private Label noDataLabel = new Label("Start tracking app usage to see your data here!");
+
+    public Graph(String defaultGraph, Pane pane, GraphDAO graphDAO, String email) {
+
+        noDataLabel.getStyleClass().add("error-graph");
+
+        this.graphDAO = graphDAO;
+        this.userEmail = email;
 
         switch (defaultGraph)
         {
@@ -61,11 +69,15 @@ public class Graph {
 
         Map<String, Integer> data = graphDAO.getAppTimeUsageByUser(userEmail);
         for (Map.Entry<String, Integer> entry : data.entrySet()) {
-            series.getData().add(new XYChart.Data<>(entry.getKey(), entry.getValue()));
+            if(entry.getValue() != 0) { series.getData().add(new XYChart.Data<>(entry.getKey(), entry.getValue())); }
         }
 
-        barChart.getData().add(series);
-        pane.getChildren().add(barChart);
+        if(!series.getData().isEmpty())
+        {
+            barChart.getData().add(series);
+            pane.getChildren().add(barChart);
+        }
+        else { pane.getChildren().add(noDataLabel); }
     }
 
     /**

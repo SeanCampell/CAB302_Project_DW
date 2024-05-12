@@ -152,7 +152,7 @@ public class MainController {
         timeLimitsContent.setVisible(false);
         addProgramContent.setVisible(false);
 
-        graphsHandler = new Graph(defaultGraph, graphLocation, graphDAO);
+        graphsHandler = new Graph(defaultGraph, graphLocation, graphDAO, currentUser.getEmail());
     }
 
     @FXML
