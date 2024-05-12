@@ -189,7 +189,7 @@
                      <Insets bottom="10.0" top="10.0" />
                   </VBox.margin>
                </Label>
-                   <HBox maxWidth="500" prefHeight="35" spacing="10"
+                   <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10"
                          style="-fx-background-color: white;-fx-background-radius: 5px; -fx-padding: 10px;" VBox.vgrow="ALWAYS">
                        <Label text="{Some Info}" HBox.hgrow="ALWAYS" />
    
@@ -201,19 +201,19 @@
                      <Insets bottom="5.0" top="10.0" />
                   </VBox.margin>
                </Label>
-                   <HBox maxWidth="500" prefHeight="35" spacing="10"
+                   <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10"
                          style="-fx-background-color: white;-fx-background-radius: 5px; -fx-padding: 10px;" VBox.vgrow="ALWAYS">
 
                     <!-- Add content here -->
 
                 </HBox>
-                   <HBox maxWidth="500" prefHeight="35" spacing="10"
+                   <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10"
                          style="-fx-background-color: white;-fx-background-radius: 5px; -fx-padding: 10px;" VBox.vgrow="ALWAYS">
 
                     <!-- Add content here -->
 
                 </HBox>
-                   <HBox maxWidth="500" prefHeight="35" spacing="10"
+                   <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10"
                          style="-fx-background-color: white;-fx-background-radius: 5px; -fx-padding: 10px;" VBox.vgrow="ALWAYS">
 
                     <!-- Add content here -->
