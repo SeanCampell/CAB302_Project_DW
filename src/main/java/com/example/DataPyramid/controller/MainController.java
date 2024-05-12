@@ -7,6 +7,9 @@ import com.example.DataPyramid.model.Graph;
 import com.example.DataPyramid.model.User;
 import com.example.DataPyramid.HelloApplication;
 import javafx.collections.FXCollections;
+import com.example.DataPyramid.controller.SignUpController;
+import com.example.DataPyramid.model.GraphDAO;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -70,6 +73,7 @@ public class MainController {
     private Button columnChartButton;
     @FXML
     private Button pieChartButton;
+    private GraphDAO graphDAO;
 
     // ---- INTERNAL VARIABLES ------
     @FXML
@@ -131,7 +135,10 @@ public class MainController {
         }
     }
 
-    public MainController() { dbConnection = new DatabaseInitializer(); }
+    public MainController() {
+        dbConnection = new DatabaseInitializer();
+        this.graphDAO = new GraphDAO("program"); // Ensure to provide the correct table name
+    }
 
 
     @FXML
@@ -155,15 +162,15 @@ public class MainController {
         timeLimitsContent.setVisible(false);
         addProgramContent.setVisible(false);
 
-        graphsHandler = new Graph(defaultGraph, graphLocation);
+        graphsHandler = new Graph(defaultGraph, graphLocation, graphDAO);
     }
 
     @FXML
-    protected void onBarChartButtonClick() throws IOException { graphsHandler.showBarChart(graphLocation); }
+    protected void onBarChartButtonClick() throws IOException { graphsHandler.showBarChart(graphLocation, currentUser.getEmail()); }
     @FXML
-    protected void onColumnChartButtonClick() throws IOException { graphsHandler.showColumnChart(graphLocation); }
+    protected void onColumnChartButtonClick() throws IOException { graphsHandler.showColumnChart(graphLocation, currentUser.getEmail()); }
     @FXML
-    protected void onPieChartButtonClick() throws IOException { graphsHandler.showPieChart(graphLocation); }
+    protected void onPieChartButtonClick() throws IOException { graphsHandler.showPieChart(graphLocation, currentUser.getEmail()); }
 
     @FXML
     protected void onTimeLimitsButtonClick() throws IOException {

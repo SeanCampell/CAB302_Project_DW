@@ -3,26 +3,31 @@ package com.example.DataPyramid.model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.*;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import java.util.Map;
+
 
 import java.util.Arrays;
 
 /** Simple class to manage the implementation of the various graphs in the application */
 public class Graph {
+    private GraphDAO graphDAO; // Assuming GraphDAO is properly set up to handle database operations.
+    private String userEmail; // User email to fetch data for specific user
 
-    public Graph(String defaultGraph, Pane pane)
-    {
+    public Graph(String defaultGraph, Pane pane, GraphDAO graphDAO) {
+
+        this.graphDAO = graphDAO; // Initialize GraphDAO
+
         switch (defaultGraph)
         {
             case "b":
-                showBarChart(pane);
+                showBarChart(pane, userEmail);
                 break;
             case "c":
-                showColumnChart(pane);
+                showColumnChart(pane, userEmail);
                 break;
             case "p":
-                showPieChart(pane);
+                showPieChart(pane, userEmail);
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + defaultGraph);
@@ -41,42 +46,37 @@ public class Graph {
      * Creates a new Bar chart and displays it in the provided pane
      * @param pane The pane to display the bar graph in
      */
-    public void showBarChart(Pane pane) {
+    public void showBarChart(Pane pane, String userEmail) {
         removeGraph(pane);
 
-        //TODO: Add the ability to fetch data and remove the temporary graph
         CategoryAxis xAxis = new CategoryAxis();
-        xAxis.setLabel("product");
+        xAxis.setLabel("App");
 
         NumberAxis yAxis = new NumberAxis();
-        yAxis.setLabel("quantity");
+        yAxis.setLabel("Total Time Used (in minutes)");
 
-        BarChart barchart = new BarChart<>(xAxis, yAxis);
+        BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        series.setName("App Usage");
 
-        XYChart.Series data = new XYChart.Series();
-        data.setName("Products sold");
+        Map<String, Integer> data = graphDAO.getAppTimeUsageByUser(userEmail);
+        for (Map.Entry<String, Integer> entry : data.entrySet()) {
+            series.getData().add(new XYChart.Data<>(entry.getKey(), entry.getValue()));
+        }
 
-        data.getData().add(new XYChart.Data("Product A", 3000));
-        data.getData().add(new XYChart.Data("Product B", 1500));
-        data.getData().add(new XYChart.Data("Product C", 3000));
-
-        barchart.getData().add(data);
-
-        pane.getChildren().add(barchart);
+        barChart.getData().add(series);
+        pane.getChildren().add(barChart);
     }
 
     /**
      * Creates a new Stacked Bar Chart and displays it in the provided pane
      * @param pane The pane to display the graph in.
      */
-    public void showColumnChart(Pane pane)
-    {
-        //Remove the existing graphs
+    public void showColumnChart(Pane pane, String userEmail) {
         removeGraph(pane);
 
-        //Create the Axis for the chart
         CategoryAxis xAxis = new CategoryAxis();
-        xAxis.setCategories(FXCollections.<String>observableArrayList(
+        xAxis.setCategories(FXCollections.observableArrayList(
                 Arrays.asList("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
         ));
         xAxis.setLabel("Day");
@@ -84,53 +84,19 @@ public class Graph {
         NumberAxis yAxis = new NumberAxis();
         yAxis.setLabel("Time Spent");
 
-        //Create the chart
         StackedBarChart<String, Number> stackedBarChart = new StackedBarChart<>(xAxis, yAxis);
-        stackedBarChart.setTitle("Sample Weekly Overview");
+        stackedBarChart.setTitle("Weekly App Usage Overview");
 
-        //Prepare the data
-        XYChart.Series<String, Number> series1 = new XYChart.Series<>();
-        series1.setName("Program 1");
-        series1.getData().add(new XYChart.Data<>("Monday", 107));
-        series1.getData().add(new XYChart.Data<>("Tuesday", 57));
-        series1.getData().add(new XYChart.Data<>("Wednesday", 10));
-        series1.getData().add(new XYChart.Data<>("Thursday", 80));
-        series1.getData().add(new XYChart.Data<>("Friday", 107));
-        series1.getData().add(new XYChart.Data<>("Saturday", 57));
-        series1.getData().add(new XYChart.Data<>("Sunday", 10));
-
-        XYChart.Series<String, Number> series2 = new XYChart.Series<>();
-        series2.setName("Program 2");
-        series2.getData().add(new XYChart.Data<>("Monday", 17));
-        series2.getData().add(new XYChart.Data<>("Tuesday", 67));
-        series2.getData().add(new XYChart.Data<>("Wednesday", 37));
-        series2.getData().add(new XYChart.Data<>("Thursday", 40));
-        series2.getData().add(new XYChart.Data<>("Friday", 67));
-        series2.getData().add(new XYChart.Data<>("Saturday", 37));
-        series2.getData().add(new XYChart.Data<>("Sunday", 40));
-
-        XYChart.Series<String, Number> series3 = new XYChart.Series<>();
-        series3.setName("Program 3");
-        series3.getData().add(new XYChart.Data<>("Monday", 107));
-        series3.getData().add(new XYChart.Data<>("Tuesday", 57));
-        series3.getData().add(new XYChart.Data<>("Wednesday", 10));
-        series3.getData().add(new XYChart.Data<>("Thursday", 80));
-        series3.getData().add(new XYChart.Data<>("Friday", 107));
-        series3.getData().add(new XYChart.Data<>("Saturday", 57));
-        series3.getData().add(new XYChart.Data<>("Sunday", 10));
-
-        XYChart.Series<String, Number> series4 = new XYChart.Series<>();
-        series4.setName("Program 4");
-        series4.getData().add(new XYChart.Data<>("Monday", 17));
-        series4.getData().add(new XYChart.Data<>("Tuesday", 67));
-        series4.getData().add(new XYChart.Data<>("Wednesday", 37));
-        series4.getData().add(new XYChart.Data<>("Thursday", 40));
-        series4.getData().add(new XYChart.Data<>("Friday", 67));
-        series4.getData().add(new XYChart.Data<>("Saturday", 37));
-        series4.getData().add(new XYChart.Data<>("Sunday", 40));
-
-        //Add data to the stacked chart
-        stackedBarChart.getData().addAll(series1, series2, series3, series4);
+        Map<String, Map<String, Integer>> data = graphDAO.getWeeklyAppUsageByUser(userEmail);
+        for (Map.Entry<String, Map<String, Integer>> appEntry : data.entrySet()) {
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
+            series.setName(appEntry.getKey());
+            Map<String, Integer> weeklyData = appEntry.getValue();
+            for (Map.Entry<String, Integer> dayEntry : weeklyData.entrySet()) {
+                series.getData().add(new XYChart.Data<>(dayEntry.getKey(), dayEntry.getValue()));
+            }
+            stackedBarChart.getData().add(series);
+        }
 
         pane.getChildren().add(stackedBarChart);
     }
@@ -139,27 +105,43 @@ public class Graph {
      * Creates a new pie chart and displays it in the provided pane.
      * @param pane The pane to display the graph in.
      */
-    public void showPieChart(Pane pane)
-    {
-        //Clear existing graphs from the HBox
-        removeGraph(pane);
+    public void showPieChart(Pane pane, String userEmail) {
+        removeGraph(pane); // Clear any existing graphs from the pane
 
-        //TODO: Add the ability to fetch data and remove the temporary graph
-        //Create a new Pie Chart
-        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
-                new PieChart.Data("Program 1", 13),
-                new PieChart.Data("Program 2", 25),
-                new PieChart.Data("Program 3", 10),
-                new PieChart.Data("Program 4", 22)
-        );
+        Map<String, Integer> appUsageData = graphDAO.getAppUsageByUser(userEmail);
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+
+        if (appUsageData.isEmpty()) {
+            pieChartData.add(new PieChart.Data("No Data Available", 1));
+        } else {
+            int totalUsage = appUsageData.values().stream().mapToInt(Integer::intValue).sum();
+
+            if (totalUsage == 0) {
+                // All data points are zero but we still display them
+                for (Map.Entry<String, Integer> entry : appUsageData.entrySet()) {
+                    pieChartData.add(new PieChart.Data(entry.getKey() + " (0 Usage)", 1)); // Show zero usage distinctly
+                }
+
+                pieChartData.add(new PieChart.Data("No other data", 1));
+            } else {
+                // There are actual usage values to display
+                for (Map.Entry<String, Integer> entry : appUsageData.entrySet()) {
+                    if (entry.getValue() > 0) {
+                        pieChartData.add(new PieChart.Data(entry.getKey(), entry.getValue()));
+                    } else {
+                        // Handle zero values explicitly
+                        pieChartData.add(new PieChart.Data(entry.getKey() + " (0 Usage)", 1));
+                    }
+                }
+            }
+        }
 
         PieChart pieChart = new PieChart(pieChartData);
-        pieChart.setTitle("Sample Program Data");
+        pieChart.setTitle("App Usage Data");
         pieChart.setLabelLineLength(50);
         pieChart.setLabelsVisible(true);
         pieChart.setStartAngle(180);
 
         pane.getChildren().add(pieChart);
     }
-
 }
