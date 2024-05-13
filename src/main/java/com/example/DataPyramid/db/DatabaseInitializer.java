@@ -5,9 +5,11 @@ import com.example.DataPyramid.apptrack.AppType;
 import com.example.DataPyramid.model.User;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DatabaseInitializer {
-    private static final String DB_URL = "jdbc:sqlite:database.db";
+    public static final String DB_URL = "jdbc:sqlite:database.db";
 
     public DatabaseInitializer() {
         createTable();
@@ -105,7 +107,7 @@ public class DatabaseInitializer {
         return null; // User not found
     }
 
-    public boolean saveApp(App app, User user) {
+    public boolean saveApp(App app, User user, int timeUse) {
         try (Connection connection = DriverManager.getConnection(DB_URL)) {
 
             String sql = "INSERT INTO program (userEmail, name, type, timeUse, timeLimit, timeNotif, mondayUse, " +
@@ -115,7 +117,7 @@ public class DatabaseInitializer {
                 preparedStatement.setString(1, user.getEmail());
                 preparedStatement.setString(2, app.getName());
                 preparedStatement.setString(3, app.getType().toString());
-                preparedStatement.setInt(4, app.getTimeUse());
+                preparedStatement.setInt(4, timeUse);
                 preparedStatement.setInt(5, app.getTimeLimit());
                 preparedStatement.setInt(6, app.getTimeNotif());
                 preparedStatement.setInt(7, app.getMondayUse());
@@ -173,6 +175,37 @@ public class DatabaseInitializer {
         }
         return null; // User not found
     }
+
+    public List<String> loadStoredAppNames(User currentUser) {
+        List<String> appNames = new ArrayList<>();
+        try (Connection connection = DriverManager.getConnection(DB_URL)) {
+            String sql = "SELECT DISTINCT name FROM program WHERE userEmail = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, currentUser.getEmail());
+                ResultSet resultSet = preparedStatement.executeQuery();
+
+                while (resultSet.next()) {
+                    appNames.add(resultSet.getString("name"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return appNames;
+    }
+
+
+    public void removeAllPrograms() { // Debugging
+        try (Connection connection = DriverManager.getConnection(DB_URL)) {
+            String sql = "DELETE FROM program";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public App[] mostUsedApps(String email) {
         App[] mostUsedApps = new App[3];
@@ -250,5 +283,18 @@ public class DatabaseInitializer {
             e.printStackTrace();
         }
         return mostUsedApps;
+    }
+
+    public void updateAppTimeUse(String appName, int newTimeUse) {
+        try (Connection connection = DriverManager.getConnection(DB_URL)) {
+            String sql = "UPDATE program SET timeUse = ? WHERE name = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, newTimeUse);
+                preparedStatement.setString(2, appName);
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

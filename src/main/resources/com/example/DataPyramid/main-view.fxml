@@ -15,6 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 
+<?import javafx.scene.control.ScrollPane?>
 <HBox alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
       spacing="20.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.DataPyramid.controller.MainController">
@@ -65,7 +66,7 @@
                              style="-fx-background-color: white; -fx-background-radius: 20px; -fx-padding: 10px;"
                              HBox.hgrow="ALWAYS">
                            <Label style="-fx-text-fill: grey;" text="Today" />
-         
+                           <!-- Add ScreenTime Label here________________________ -->
                            <!-- Add content here -->
          
                        </VBox>
@@ -113,7 +114,7 @@
                             <Label fx:id="thirdAppLabel" />
                             <Label fx:id="thirdTimeLabel" style="-fx-text-fill: grey;" />
       
-                                 </VBox>
+                        </VBox>
                   <VBox.margin>
                      <Insets bottom="10.0" />
                   </VBox.margin>
@@ -122,61 +123,47 @@
            </HBox>
    
            <!-- Insights Content -->
-           <VBox fx:id="insightsContent" visible="false">
-               <VBox VBox.vgrow="ALWAYS">
-                   <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
-                       <Button fx:id="columnChartButton" onAction="#onColumnChartButtonClick"
-                               text="Column Chart" HBox.hgrow="SOMETIMES" />
-                       <Button fx:id="pieChartButton" onAction="#onPieChartButtonClick"
-                               text="Pie Chart" HBox.hgrow="SOMETIMES" />
-                       <Button fx:id="barChartButton" onAction="#onBarChartButtonClick"
-                               text="Bar Chart" HBox.hgrow="SOMETIMES" />
-                  <VBox.margin>
-                     <Insets bottom="10.0" top="10.0" />
-                  </VBox.margin>
-                   </HBox>
-                   <HBox fx:id="graphLocation" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                         spacing="10" style="-fx-background-color: white;-fx-background-radius: 20px; -fx-padding: 10px;"
-                         stylesheets="@stylesheet.css" VBox.vgrow="ALWAYS">
-                       <Label text="{Type of Chart}" />
-                  <VBox.margin>
-                     <Insets />
-                  </VBox.margin>
-   
-                       <!-- Add content here -->
-   
-                   </HBox>
-                   <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                         spacing="10.0" VBox.vgrow="ALWAYS">
-                       <Label id="headlines" text="Most Used Apps Today">
-                     <VBox.margin>
-                        <Insets bottom="5.0" top="20.0" />
-                     </VBox.margin>
-                  </Label>
-                       <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10"
-                             style="-fx-background-color: white;-fx-background-radius: 5px; -fx-padding: 10px;" VBox.vgrow="ALWAYS">
-                           <Label text="{Some Info}" />
-   
-                           <!-- Add content here -->
-   
+           <VBox fx:id="insightsContent" visible="false" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+               <ScrollPane fitToWidth="true" fitToHeight="true" style="-fx-background-color: transparent; -fx-background-insets: 0;">
+                   <VBox VBox.vgrow="ALWAYS">
+                       <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                           <Button fx:id="columnChartButton" onAction="#onColumnChartButtonClick"
+                                   text="Column Chart" HBox.hgrow="SOMETIMES" />
+                           <Button fx:id="pieChartButton" onAction="#onPieChartButtonClick"
+                                   text="Pie Chart" HBox.hgrow="SOMETIMES" />
+                           <Button fx:id="barChartButton" onAction="#onBarChartButtonClick"
+                                   text="Bar Chart" HBox.hgrow="SOMETIMES" />
+                           <VBox.margin>
+                               <Insets bottom="10.0" top="10.0" />
+                           </VBox.margin>
                        </HBox>
-                       <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10"
-                             style="-fx-background-color: white;-fx-background-radius: 5px; -fx-padding: 10px;" VBox.vgrow="ALWAYS">
+                       <HBox fx:id="graphLocation" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                             spacing="10" style="-fx-background-color: white;-fx-background-radius: 20px; -fx-padding: 10px;"
+                             stylesheets="@stylesheet.css" VBox.vgrow="ALWAYS">
+                           <Label text="{Type of Chart}" />
+                           <VBox.margin>
+                               <Insets />
+                           </VBox.margin>
 
-                        <!-- Add content here -->
+                           <!-- Add content here________________________- -->
 
-                    </HBox>
-                       <HBox maxWidth="1.7976931348623157E308" spacing="10"
-                             style="-fx-background-color: white;-fx-background-radius: 5px; -fx-padding: 10px;" VBox.vgrow="ALWAYS">
+                       </HBox>
+                       <VBox fx:id="programList" spacing="10.0" VBox.vgrow="ALWAYS">
+                           <Label id="headlines" text="Tracked Apps">
+                               <VBox.margin>
+                                   <Insets bottom="5.0" top="20.0" />
+                               </VBox.margin>
+                           </Label>
+                           <!-- Your existing content for programList here -->
+                       </VBox>
 
-                        <!-- Add content here -->
+                       <!-- Additional content can be added here -->
 
-                    </HBox>
+                       <padding>
+                           <Insets bottom="10.0" top="10.0" />
+                       </padding>
                    </VBox>
-               <padding>
-                  <Insets bottom="10.0" top="10.0" />
-               </padding>
-               </VBox>
+               </ScrollPane>
            </VBox>
    
            <!-- Time Limits Content -->
@@ -252,6 +239,8 @@
                        <Label fx:id="errorLabel" styleClass="error-label" />
                        <HBox alignment="BOTTOM_LEFT">
                            <Button id="addAppButton" onAction="#onAddAppButtonClick" text="Add Application" />
+                           <Button id="removeAllButton" onAction="#onRemoveAllButtonClick" text="Remove All Applications" />
+
                        </HBox>
                    </VBox>
                </HBox>

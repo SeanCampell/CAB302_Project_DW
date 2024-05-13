@@ -2,6 +2,7 @@ package com.example.DataPyramid.controller;
 
 import com.example.DataPyramid.apptrack.App;
 import com.example.DataPyramid.apptrack.AppType;
+import com.example.DataPyramid.apptrack.TimeTracking;
 import com.example.DataPyramid.db.DatabaseInitializer;
 import com.example.DataPyramid.model.Graph;
 import com.example.DataPyramid.model.User;
@@ -21,9 +22,13 @@ import javafx.scene.control.ToggleGroup;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import static com.example.DataPyramid.db.DatabaseInitializer.DB_URL;
 import static java.lang.Integer.parseInt;
 
 public class MainController {
@@ -78,6 +83,8 @@ public class MainController {
     private Label secondTimeLabel;
     @FXML
     private Label thirdTimeLabel;
+    @FXML
+    private VBox programList;
 
     @FXML
     private ListView<String> processListView;
@@ -86,12 +93,14 @@ public class MainController {
 
     private ToggleGroup toggleGroup;
     private User currentUser;
-    private final DatabaseInitializer dbConnection;
+    private DatabaseInitializer dbConnection;
     private final String defaultGraph = "c";
     private Graph graphsHandler;
 
     private App[] topApps;
     private List<String> processes;
+    private TimeTracking timeTracker;
+
 
     public void initialize() {
         toggleGroup = new ToggleGroup();
@@ -113,6 +122,26 @@ public class MainController {
                 FXCollections.observableArrayList("Other", "Game", "Productive", "Internet", "Entertainment", "Social"));
     }
 
+    private void populateUIWithAppNames(List<String> appNames) {
+        for (String appName : appNames) {
+            Label label = new Label(appName);
+            programList.getChildren().add(label);
+        }
+    }
+
+    @FXML
+    protected void onRemoveAllButtonClick() {
+        programList.getChildren().clear();
+        removeAllProgramsFromDatabase();
+    }
+
+    private void removeAllProgramsFromDatabase() {
+        dbConnection.removeAllPrograms();
+    }
+
+    //_________________________________________-
+
+
     public void setCurrentUser(User user) {
         this.currentUser = user;
         updateWelcomeLabel();
@@ -127,8 +156,10 @@ public class MainController {
 
     public MainController() {
         dbConnection = new DatabaseInitializer();
-        this.graphDAO = new GraphDAO("program"); // Ensure to provide the correct table name
+        this.graphDAO = new GraphDAO("program");
+        timeTracker = new TimeTracking(dbConnection);
     }
+
 
 
     @FXML
@@ -195,9 +226,15 @@ public class MainController {
         }
         App newApp = new App(appName, appType, appLimit, isTracking);
 
-        boolean success = dbConnection.saveApp(newApp, currentUser);
+        timeTracker.startTracking(appName);
+        timeTracker.endTracking(appName);
+        int timeUse = timeTracker.getTimeSpentMinutes(appName);
+        boolean success = dbConnection.saveApp(newApp, currentUser, timeUse);
+
 
         if (success) {
+            populateUIWithAppNames(dbConnection.loadStoredAppNames(currentUser));
+
             typeChoiceBox.getSelectionModel().clearSelection();
             appLimitField.clear();
             isTrack.setSelected(false);
@@ -246,21 +283,44 @@ public class MainController {
 
     private void updateTopApps() {
         topApps = dbConnection.mostUsedApps(currentUser.getEmail());
-        if(topApps != null){
-            if (topApps[0] != null) {
-                firstAppLabel.setText(topApps[0].getName());
-                firstTimeLabel.setText(topApps[0].getTimeUse() + " Minutes");
-            }
-            if (topApps[1] != null) {
-                secondAppLabel.setText(topApps[1].getName());
-                secondTimeLabel.setText(topApps[1].getTimeUse() + " Minutes");
-            }
-            if (topApps[2] != null) {
-                thirdAppLabel.setText(topApps[2].getName());
-                thirdTimeLabel.setText(topApps[2].getTimeUse() + " Minutes");
+        if (topApps != null) {
+            for (int i = 0; i < topApps.length; i++) {
+                if (topApps[i] != null) {
+                    switch (i) {
+                        case 0:
+                            firstAppLabel.setText(topApps[i].getName());
+                            break;
+                        case 1:
+                            secondAppLabel.setText(topApps[i].getName());
+                            break;
+                        case 2:
+                            thirdAppLabel.setText(topApps[i].getName());
+                            break;
+                        default:
+                            break;
+                    }
+
+                    long timeUseMinutes = topApps[i].getTimeUse();
+                    String timeLabelText = String.format("%d Minutes", timeUseMinutes);
+                    switch (i) {
+                        case 0:
+                            firstTimeLabel.setText(timeLabelText);
+                            break;
+                        case 1:
+                            secondTimeLabel.setText(timeLabelText);
+                            break;
+                        case 2:
+                            thirdTimeLabel.setText(timeLabelText);
+                            break;
+                        default:
+                            break;
+                    }
+                }
             }
         }
     }
+
+
 
     public static List<String> listProcesses() {
         List<String> processes = new ArrayList<String>();
@@ -272,7 +332,7 @@ public class MainController {
             while ((line = input.readLine()) != null) {
 
                 if (!line.trim().equals("")) {
-                    // keep only the process name
+
                     line = line.substring(1);
                     if (!processes.contains(line.substring(0, line.indexOf('"')))){
                         processes.add(line.substring(0, line.indexOf('"')));
