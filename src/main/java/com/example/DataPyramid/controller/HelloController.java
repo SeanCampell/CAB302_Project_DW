@@ -11,24 +11,12 @@ import java.io.IOException;
 
 public class HelloController {
     @FXML
-    private Button nextButton;
-    @FXML
     private Button signUpButton;
     @FXML
     private Button loginButton;
 
 
     public HelloController() { }
-    
-
-    @FXML
-    protected void onNextButtonClick() throws IOException {
-        Stage stage = (Stage) nextButton.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("main-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.uiListener.getWindowWidth(),
-                HelloApplication.uiListener.getWindowHeight());
-        stage.setScene(scene);
-    }
 
     @FXML
     protected void onLoginButtonClick() throws IOException {
