@@ -239,8 +239,8 @@ public class MainController {
         setCurrentUser(null);
         Stage stage = (Stage) logoutButton.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.uiListener.getWindowWidth(),
-                HelloApplication.uiListener.getWindowHeight());
+        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.uiSubject.getWindowWidth(),
+                HelloApplication.uiSubject.getWindowHeight());
         stage.setScene(scene);
     }
 

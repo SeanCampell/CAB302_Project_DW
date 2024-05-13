@@ -23,7 +23,9 @@ public class UIObserver implements Observer {
     @Override
     public void update(double WIDTH, double HEIGHT) {
         System.out.println("Current view: " + viewName + ". Dimensions: " + WIDTH + ", " + HEIGHT);
-        for (int i = 0; i < connectedNodes.size(); i++ ) { System.out.println("Updating node " + i);}
+        if(connectedNodes != null) {
+            for (int i = 0; i < connectedNodes.size(); i++ ) { System.out.println("Updating node " + i);}
+        }
     }
 
     /**

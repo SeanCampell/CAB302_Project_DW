@@ -54,8 +54,8 @@ public class TermsController {
     protected void onBackButtonClick() throws IOException {
         Stage stage = (Stage) backButton.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.uiListener.getWindowWidth(),
-                HelloApplication.uiListener.getWindowHeight());
+        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.uiSubject.getWindowWidth(),
+                HelloApplication.uiSubject.getWindowHeight());
         stage.setScene(scene);
     }
 
@@ -63,8 +63,8 @@ public class TermsController {
     protected void onNextButtonClick() throws IOException {
         Stage stage = (Stage) agreeButton.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("signup-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.uiListener.getWindowWidth(),
-                HelloApplication.uiListener.getWindowHeight());
+        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.uiSubject.getWindowWidth(),
+                HelloApplication.uiSubject.getWindowHeight());
         stage.setScene(scene);
     }
 
