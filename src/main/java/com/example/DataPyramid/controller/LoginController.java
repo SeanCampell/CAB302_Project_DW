@@ -1,6 +1,7 @@
 package com.example.DataPyramid.controller;
 
 import com.example.DataPyramid.db.DatabaseInitializer;
+import com.example.DataPyramid.model.UIObserver;
 import com.example.DataPyramid.model.User;
 import com.example.DataPyramid.HelloApplication;
 import javafx.fxml.FXML;
@@ -28,9 +29,12 @@ public class LoginController {
 
     private DatabaseInitializer dbConnection;
 
-    public LoginController() {
+    private UIObserver observer;
+    private final String viewName = "Login View";
 
+    public LoginController() {
         dbConnection = new DatabaseInitializer();
+        observerInit(viewName);
     }
 
     @FXML
@@ -53,12 +57,12 @@ public class LoginController {
             mainController.setCurrentUser(user);
 
             Stage stage = (Stage) loginButton.getScene().getWindow();
+            HelloApplication.uiSubject.removeObserver(observer);
             stage.setScene(new Scene(root));
         } else {
             errorLabel.setText("Invalid email or password");
         }
     }
-
 
     @FXML
     protected void onBackButtonClick() throws IOException {
@@ -66,6 +70,7 @@ public class LoginController {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), HelloApplication.uiSubject.getWindowWidth(),
                 HelloApplication.uiSubject.getWindowHeight());
+        HelloApplication.uiSubject.removeObserver(observer);
         stage.setScene(scene);
     }
 
@@ -75,6 +80,12 @@ public class LoginController {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("signup-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), HelloApplication.uiSubject.getWindowWidth(),
                 HelloApplication.uiSubject.getWindowHeight());
+        HelloApplication.uiSubject.removeObserver(observer);
         stage.setScene(scene);
+    }
+
+    private void observerInit(String viewName) {
+        observer = new UIObserver(viewName);
+        HelloApplication.uiSubject.registerObserver(observer);
     }
 }
