@@ -266,15 +266,18 @@ public class MainController {
         List<String> processes = new ArrayList<String>();
         try {
             String line;
-            Process p = Runtime.getRuntime().exec("tasklist.exe /svc /fo csv /nh");
+            String[] sessionName;
+            Process p = Runtime.getRuntime().exec("tasklist.exe /fo csv");
             BufferedReader input = new BufferedReader
                     (new InputStreamReader(p.getInputStream()));
             while ((line = input.readLine()) != null) {
 
                 if (!line.trim().equals("")) {
                     // keep only the process name
+                    sessionName = line.split(",");
                     line = line.substring(1);
-                    if (!processes.contains(line.substring(0, line.indexOf('"')))){
+                    //System.out.println(sessionName[2]);
+                    if (!processes.contains(line.substring(0, line.indexOf('"'))) && !sessionName[2].contains("Services")){
                         processes.add(line.substring(0, line.indexOf('"')));
                     }
                 }
