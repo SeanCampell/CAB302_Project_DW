@@ -48,7 +48,10 @@ public class UISubject implements Subject {
         // If they aren't these numbers the window grows upon scene change
         setWindowWidth(WIDTH - 16);
         setWindowHeight(HEIGHT - 39);
-        System.out.println("Height: " + HEIGHT + " Width: " + WIDTH);
+
+        //System.out.println("Height: " + HEIGHT + " Width: " + WIDTH);     //DEBUG LINE FOR TESTING SUBJECT INITALISATION
+
+        notifyObservers();
     }
 
     @Override

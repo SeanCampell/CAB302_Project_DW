@@ -34,6 +34,3 @@ public class HelloApplication extends Application {
         launch();
     }
 }
-
-//TODO remove this if commits are coming through correctly
-//TODO test commit number 2
