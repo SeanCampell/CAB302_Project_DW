@@ -110,7 +110,7 @@ public class MainController {
         });
         syncProcesses();
         typeChoiceBox.setItems(
-                FXCollections.observableArrayList("Other", "Game", "Productive", "Internet", "Entertainment"));
+                FXCollections.observableArrayList("Other", "Game", "Productive", "Internet", "Entertainment", "Social"));
     }
 
     public void setCurrentUser(User user) {
