@@ -139,7 +139,7 @@ public class MainController {
         dbConnection.removeAllPrograms();
     }
 
-    //_________________________________________-
+    //_____________________________________
 
 
     public void setCurrentUser(User user) {
@@ -159,7 +159,6 @@ public class MainController {
         this.graphDAO = new GraphDAO("program");
         timeTracker = new TimeTracking(dbConnection);
     }
-
 
 
     @FXML

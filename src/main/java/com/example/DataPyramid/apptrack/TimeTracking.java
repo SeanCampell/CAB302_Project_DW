@@ -35,7 +35,7 @@ public class TimeTracking {
         if (startTime != null) {
             Instant endTime = Instant.now();
             Duration duration = Duration.between(startTime, endTime);
-            programStartTimes.remove(appName); // Remove start time entry
+            programStartTimes.remove(appName);
             programTotalTimes.put(appName, programTotalTimes.getOrDefault(appName, Duration.ZERO).plus(duration));
 
             // Update timeUse in the database
@@ -60,19 +60,4 @@ public class TimeTracking {
         System.out.printf("Total time spent on all programs: %d hours, %d minutes, %d seconds\n", hours, minutes, seconds);
     }
 
-    public void simulateProgramUsage(String appName, int timeSpentMinutes) {
-        startTracking(appName);
-        try {
-            Thread.sleep(timeSpentMinutes * 60 * 1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        endTracking(appName);
-    }
-
-    private void saveProgramDuration(String appName, long duration) {
-        // Implement saving duration to the database
-        // For demonstration purposes, you can print it for now
-        System.out.println("Program: " + appName + ", Duration: " + duration + " milliseconds");
-    }
 }
