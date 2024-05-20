@@ -26,6 +26,12 @@ Label { }
     -fx-text-fill: red;
 }
 
+.error-graph {
+    -fx-text-fill: #3A592B;
+    -fx-font-weight: bold;
+    -fx-font-size: 1.5em;
+}
+
 .label-link {
     -fx-text-fill: #3A592B;
     -fx-font-weight: bold;

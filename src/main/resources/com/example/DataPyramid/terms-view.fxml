@@ -1,28 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<?import java.net.URL?>
-<VBox alignment="TOP_LEFT" spacing="15.0" xmlns:fx="http://javafx.com/fxml"
+<VBox alignment="TOP_LEFT" maxHeight="1.7976931348623157E308"
+      maxWidth="1.7976931348623157E308" spacing="15.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.DataPyramid.controller.TermsController">
     <stylesheets>
         <URL value="@stylesheet.css" />
     </stylesheets>
-    <padding>
-        <Insets bottom="20.0" left="40.0" right="40.0" top="20.0"/>
-    </padding>
 
     <Label text="Please read through our terms and conditions. By using the application, you agree to the following:"
-           wrapText="true"/>
-    <TextArea fx:id="termsAndConditions" wrapText="true" editable="false" minHeight="400"/>
-    <HBox alignment="BOTTOM_RIGHT" spacing="10.0">
-        <Button fx:id="backButton" text="Cancel" onAction="#onBackButtonClick"/>
-        <Button fx:id="agreeButton" text="Next" onAction="#onNextButtonClick"/>
+           wrapText="true" VBox.vgrow="SOMETIMES" />
+    <TextArea fx:id="termsAndConditions" editable="false" maxHeight="1.7976931348623157E308"
+              maxWidth="1.7976931348623157E308" wrapText="true" VBox.vgrow="ALWAYS" />
+    <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+          spacing="10.0" VBox.vgrow="SOMETIMES">
+        <Button fx:id="backButton" onAction="#onBackButtonClick" text="Cancel" />
+        <Button fx:id="agreeButton" onAction="#onNextButtonClick" text="Next" />
     </HBox>
+   <padding>
+      <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+   </padding>
 
 </VBox>

@@ -44,14 +44,16 @@ public class SignUpController {
     protected void onTermsButtonClick() throws IOException {
         Stage stage = (Stage) backButton.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("terms-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
+        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.uiListener.getWindowWidth(),
+                HelloApplication.uiListener.getWindowHeight());
         stage.setScene(scene);
     }
     @FXML
     protected void onBackButtonClick() throws IOException {
         Stage stage = (Stage) backButton.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
+        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.uiListener.getWindowWidth(),
+                HelloApplication.uiListener.getWindowHeight());
         stage.setScene(scene);
     }
 
@@ -92,7 +94,8 @@ public class SignUpController {
             try {
                 Stage stage = (Stage) signUpButton.getScene().getWindow();
                 FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("main-view.fxml"));
-                Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
+                Scene scene = new Scene(fxmlLoader.load(), HelloApplication.uiListener.getWindowWidth(),
+                        HelloApplication.uiListener.getWindowHeight());
                 stage.setScene(scene);
                 MainController mainController = fxmlLoader.getController();
                 mainController.setCurrentUser(newUser);
@@ -117,7 +120,8 @@ public class SignUpController {
     protected void onLoginButtonClick() throws IOException {
         Stage stage = (Stage) backButton.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
+        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.uiListener.getWindowWidth(),
+                HelloApplication.uiListener.getWindowHeight());
         stage.setScene(scene);
     }
 }

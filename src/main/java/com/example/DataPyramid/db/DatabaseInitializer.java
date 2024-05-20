@@ -48,7 +48,8 @@ public class DatabaseInitializer {
                     + "thursdayUse INTEGER NOT NULL,"
                     + "fridayUse INTEGER NOT NULL,"
                     + "saturdayUse INTEGER NOT NULL,"
-                    + "sundayUse INTEGER NOT NULL)";
+                    + "sundayUse INTEGER NOT NULL,"
+                    + "isTracking BIT)";
 
             // Create the table
             Statement statement = connection.createStatement();
@@ -107,7 +108,9 @@ public class DatabaseInitializer {
     public boolean saveApp(App app, User user) {
         try (Connection connection = DriverManager.getConnection(DB_URL)) {
 
-            String sql = "INSERT INTO program (userEmail, name, type, timeUse, timeLimit, timeNotif, mondayUse, tuesdayUse, wednesdayUse, thursdayUse, fridayUse, saturdayUse, sundayUse) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO program (userEmail, name, type, timeUse, timeLimit, timeNotif, mondayUse, " +
+                    "tuesdayUse, wednesdayUse, thursdayUse, fridayUse, saturdayUse, sundayUse, isTracking) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, user.getEmail());
                 preparedStatement.setString(2, app.getName());
@@ -122,6 +125,7 @@ public class DatabaseInitializer {
                 preparedStatement.setInt(11, app.getFridayUse());
                 preparedStatement.setInt(12, app.getSaturdayUse());
                 preparedStatement.setInt(13, app.getSundayUse());
+                preparedStatement.setBoolean(14, app.isTracking());
 
                 int rowsAffected = preparedStatement.executeUpdate();
 
@@ -147,7 +151,8 @@ public class DatabaseInitializer {
                     App returnApp = new App(
                             resultSet.getString("name"),
                             AppType.valueOf(resultSet.getString("type")),
-                            resultSet.getInt("timeLimit")
+                            resultSet.getInt("timeLimit"),
+                            resultSet.getBoolean("isTracking")
                     );
                     returnApp.setTimeNotif(resultSet.getInt("timeNotif"));
                     returnApp.setTimeUse(resultSet.getInt("timeUse"));
@@ -158,6 +163,7 @@ public class DatabaseInitializer {
                     returnApp.setFridayUse(resultSet.getInt("fridayUse"));
                     returnApp.setSaturdayUse(resultSet.getInt("saturdayUse"));
                     returnApp.setSundayUse(resultSet.getInt("sundayUse"));
+                    returnApp.setTracking(resultSet.getBoolean("isTracking"));
 
                     return returnApp;
                 }
@@ -181,7 +187,8 @@ public class DatabaseInitializer {
                     App firstApp = new App(
                             resultSet.getString("name"),
                             AppType.valueOf(resultSet.getString("type")),
-                            resultSet.getInt("timeLimit")
+                            resultSet.getInt("timeLimit"),
+                            resultSet.getBoolean("isTracking")
                     );
                     firstApp.setTimeNotif(resultSet.getInt("timeNotif"));
                     firstApp.setTimeUse(resultSet.getInt("timeUse"));
@@ -192,6 +199,7 @@ public class DatabaseInitializer {
                     firstApp.setFridayUse(resultSet.getInt("fridayUse"));
                     firstApp.setSaturdayUse(resultSet.getInt("saturdayUse"));
                     firstApp.setSundayUse(resultSet.getInt("sundayUse"));
+                    firstApp.setTracking(resultSet.getBoolean("isTracking"));
 
                     mostUsedApps[0] = firstApp;
 
@@ -199,7 +207,8 @@ public class DatabaseInitializer {
                         App secondApp = new App(
                                 resultSet.getString("name"),
                                 AppType.valueOf(resultSet.getString("type")),
-                                resultSet.getInt("timeLimit")
+                                resultSet.getInt("timeLimit"),
+                                resultSet.getBoolean("isTracking")
                         );
                         secondApp.setTimeNotif(resultSet.getInt("timeNotif"));
                         secondApp.setTimeUse(resultSet.getInt("timeUse"));
@@ -210,6 +219,7 @@ public class DatabaseInitializer {
                         secondApp.setFridayUse(resultSet.getInt("fridayUse"));
                         secondApp.setSaturdayUse(resultSet.getInt("saturdayUse"));
                         secondApp.setSundayUse(resultSet.getInt("sundayUse"));
+                        secondApp.setTracking(resultSet.getBoolean("isTracking"));
 
                         mostUsedApps[1] = secondApp;
 
@@ -217,7 +227,8 @@ public class DatabaseInitializer {
                             App thirdApp = new App(
                                     resultSet.getString("name"),
                                     AppType.valueOf(resultSet.getString("type")),
-                                    resultSet.getInt("timeLimit")
+                                    resultSet.getInt("timeLimit"),
+                                    resultSet.getBoolean("isTracking")
                             );
                             thirdApp.setTimeNotif(resultSet.getInt("timeNotif"));
                             thirdApp.setTimeUse(resultSet.getInt("timeUse"));
@@ -228,6 +239,7 @@ public class DatabaseInitializer {
                             thirdApp.setFridayUse(resultSet.getInt("fridayUse"));
                             thirdApp.setSaturdayUse(resultSet.getInt("saturdayUse"));
                             thirdApp.setSundayUse(resultSet.getInt("sundayUse"));
+                            thirdApp.setTracking(resultSet.getBoolean("isTracking"));
 
                             mostUsedApps[2] = thirdApp;
                         }
