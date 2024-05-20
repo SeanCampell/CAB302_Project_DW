@@ -22,6 +22,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static java.lang.Integer.parseInt;
@@ -92,6 +93,19 @@ public class MainController {
 
     private App[] topApps;
     private List<String> processes;
+
+    private static final String[] excludeProcesses = {"Widgets.exe", "RuntimeBroker.exe",
+        "dllhost.exe", "SenaryAudioApp.exe", "Windows.Media.BackgroundPlayback.exe",
+        "ctfmon.exe", "PhoneExperienceHost.exe", "SecurityHealthSystray.exe",
+        "WidgetService.exe", "TextInputHost.exe", "cncmd.exe", "AMDRSServ.exe",
+        "CrossDeviceService.exe", "fsnotifier.exe", "conhost.exe", "SystemSettings.exe",
+        "ApplicationFrameHost.exe", "UserOOBEBroker.exe", "ShellExperienceHost.exe",
+        "AMDRSSrcExt.exe", "backgroundTaskHost.exe", "ai.exe", "tasklist.exe",
+        "Image Name", "csrss.exe", "winlogon.exe", "fontdrvhost.exe", "dwm.exe",
+        "atieclxx.exe", "uihost.exe", "EPDCtrl.exe", "sihost.exe", "tposd.exe",
+        "svchost.exe", "shtctky.exe", "taskhostw.exe", "PowerMgr.exe", "LsaToast.exe",
+        "LsaServerPartner.exe", "FaceBeautify.exe", "DAX3API.exe", "SearchHost.exe",
+        "StartMenuExperienceHost.exe"};
 
     public void initialize() {
         toggleGroup = new ToggleGroup();
@@ -266,6 +280,8 @@ public class MainController {
 
     public static List<String> listProcesses() {
         List<String> processes = new ArrayList<String>();
+        List<String> exclude = new ArrayList<String>(Arrays.asList(excludeProcesses));
+
         try {
             String line;
             String[] sessionName;
@@ -279,7 +295,8 @@ public class MainController {
                     sessionName = line.split(",");
                     line = line.substring(1);
                     //System.out.println(sessionName[2]);
-                    if (!processes.contains(line.substring(0, line.indexOf('"'))) && !sessionName[2].contains("Services")){
+                    if (!processes.contains(line.substring(0, line.indexOf('"'))) && !sessionName[2].contains("Services")
+                        && !exclude.contains(line.substring(0, line.indexOf('"')))){
                         processes.add(line.substring(0, line.indexOf('"')));
                     }
                 }
