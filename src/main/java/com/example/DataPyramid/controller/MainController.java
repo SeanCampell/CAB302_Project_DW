@@ -6,9 +6,8 @@ import com.example.DataPyramid.db.DatabaseInitializer;
 import com.example.DataPyramid.model.Graph;
 import com.example.DataPyramid.model.User;
 import com.example.DataPyramid.HelloApplication;
-import com.example.DataPyramid.controller.SignUpController;
-import com.example.DataPyramid.model.GraphDAO;
 import javafx.collections.FXCollections;
+import com.example.DataPyramid.model.GraphDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -29,7 +28,7 @@ import static java.lang.Integer.parseInt;
 
 public class MainController {
 
-    // ----- NAVIGATION BAR BUTTONS ------
+    // ----- NAVIGATION BAR
     @FXML
     private ToggleButton homeButton;
     @FXML
@@ -64,13 +63,7 @@ public class MainController {
     // ----- GRAPH TESTING ------
     @FXML
     private HBox graphLocation;
-    @FXML
-    private Button barChartButton;
-    @FXML
-    private Button columnChartButton;
-    @FXML
-    private Button pieChartButton;
-    private GraphDAO graphDAO;
+    private final GraphDAO graphDAO;
 
     // ---- INTERNAL VARIABLES ------
     @FXML
@@ -93,8 +86,8 @@ public class MainController {
 
     private ToggleGroup toggleGroup;
     private User currentUser;
-    private DatabaseInitializer dbConnection;
-    private String defaultGraph = "c";
+    private final DatabaseInitializer dbConnection;
+    private final String defaultGraph = "c";
     private Graph graphsHandler;
 
     private App[] topApps;
@@ -117,7 +110,7 @@ public class MainController {
         });
         syncProcesses();
         typeChoiceBox.setItems(
-                FXCollections.observableArrayList("Other", "Game", "Productive", "Internet", "Entertainment"));
+                FXCollections.observableArrayList("Other", "Game", "Productive", "Internet", "Entertainment", "Social"));
     }
 
     public void setCurrentUser(User user) {
@@ -159,7 +152,7 @@ public class MainController {
         timeLimitsContent.setVisible(false);
         addProgramContent.setVisible(false);
 
-        graphsHandler = new Graph(defaultGraph, graphLocation, graphDAO);
+        graphsHandler = new Graph(defaultGraph, graphLocation, graphDAO, currentUser.getEmail());
     }
 
     @FXML
@@ -168,7 +161,10 @@ public class MainController {
     protected void onColumnChartButtonClick() throws IOException { graphsHandler.showColumnChart(graphLocation, currentUser.getEmail()); }
     @FXML
     protected void onPieChartButtonClick() throws IOException { graphsHandler.showPieChart(graphLocation, currentUser.getEmail()); }
+    @FXML
+    protected void onColumnChartByTypeButtonClick() throws IOException { graphsHandler.showColumnChartByType(graphLocation, currentUser.getEmail()); }
 
+    // ---- TIME LIMITS MENU ----
     @FXML
     protected void onTimeLimitsButtonClick() throws IOException {
         clearActiveButtonStyle();
@@ -179,23 +175,7 @@ public class MainController {
         addProgramContent.setVisible(false);
     }
 
-    private void clearActiveButtonStyle() {
-        homeButton.getStyleClass().remove("active-nav-button");
-        insightButton.getStyleClass().remove("active-nav-button");
-        timelimitButton.getStyleClass().remove("active-nav-button");
-        newAppButton.getStyleClass().remove("active-nav-button");
-    }
-
-
-    @FXML
-    protected void onLogoutButtonClick() throws IOException {
-        setCurrentUser(null);
-        Stage stage = (Stage) logoutButton.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
-        stage.setScene(scene);
-    }
-
+    // ---- ADD APP MENU ----
     @FXML
     protected void onAddAppButtonClick() {
         errorLabel.setText("");
@@ -248,12 +228,30 @@ public class MainController {
         addProgramContent.setVisible(true);
     }
 
+    // ---- MISC ----
+    private void clearActiveButtonStyle() {
+        homeButton.getStyleClass().remove("active-nav-button");
+        insightButton.getStyleClass().remove("active-nav-button");
+        timelimitButton.getStyleClass().remove("active-nav-button");
+        newAppButton.getStyleClass().remove("active-nav-button");
+    }
+
+    @FXML
+    protected void onLogoutButtonClick() throws IOException {
+        setCurrentUser(null);
+        Stage stage = (Stage) logoutButton.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.uiListener.getWindowWidth(),
+                HelloApplication.uiListener.getWindowHeight());
+        stage.setScene(scene);
+    }
+
     private void updateTopApps() {
         topApps = dbConnection.mostUsedApps(currentUser.getEmail());
         if(topApps != null){
             if (topApps[0] != null) {
                 firstAppLabel.setText(topApps[0].getName());
-                firstTimeLabel.setText(Integer.toString(topApps[0].getTimeUse()) + " Minutes");
+                firstTimeLabel.setText(topApps[0].getTimeUse() + " Minutes");
             }
             if (topApps[1] != null) {
                 secondAppLabel.setText(topApps[1].getName());
@@ -270,15 +268,18 @@ public class MainController {
         List<String> processes = new ArrayList<String>();
         try {
             String line;
-            Process p = Runtime.getRuntime().exec("tasklist.exe /svc /fo csv /nh");
+            String[] sessionName;
+            Process p = Runtime.getRuntime().exec("tasklist.exe /fo csv");
             BufferedReader input = new BufferedReader
                     (new InputStreamReader(p.getInputStream()));
             while ((line = input.readLine()) != null) {
 
                 if (!line.trim().equals("")) {
                     // keep only the process name
+                    sessionName = line.split(",");
                     line = line.substring(1);
-                    if (!processes.contains(line.substring(0, line.indexOf('"')))){
+                    //System.out.println(sessionName[2]);
+                    if (!processes.contains(line.substring(0, line.indexOf('"'))) && !sessionName[2].contains("Services")){
                         processes.add(line.substring(0, line.indexOf('"')));
                     }
                 }
@@ -305,15 +306,15 @@ public class MainController {
         if(topApps != null) {
             if (topApps[0] != null) {
                 firstAppLabel.setText(topApps[0].getName());
-                firstTimeLabel.setText(Integer.toString(topApps[0].getTimeUse()) + " Minutes");
+                firstTimeLabel.setText(topApps[0].getTimeUse() + " Minutes");
             }
             if (topApps[1] != null) {
                 secondAppLabel.setText(topApps[1].getName());
-                secondTimeLabel.setText(Integer.toString(topApps[1].getTimeUse()) + " Minutes");
+                secondTimeLabel.setText(topApps[1].getTimeUse() + " Minutes");
             }
             if (topApps[2] != null) {
                 thirdAppLabel.setText(topApps[2].getName());
-                thirdTimeLabel.setText(Integer.toString(topApps[2].getTimeUse()) + " Minutes");
+                thirdTimeLabel.setText(topApps[2].getTimeUse() + " Minutes");
             }
         }
     }
