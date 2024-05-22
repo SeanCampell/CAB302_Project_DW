@@ -49,21 +49,30 @@ public class UISubject implements Subject {
         setWindowWidth(WIDTH - 16);
         setWindowHeight(HEIGHT - 39);
 
-        //System.out.println("Height: " + HEIGHT + " Width: " + WIDTH);     //DEBUG LINE FOR TESTING SUBJECT INITALISATION
-
         notifyObservers();
     }
 
+    /**
+     * Register a new observer to be notified when the window size changes.
+     * @param observer The observer to be notified.
+     */
     @Override
     public void registerObserver(Observer observer) {
        observers.add(observer);
     }
 
+    /**
+     * Remove an observer from the list of registered observers.
+     * @param observer The observer to remove.
+     */
     @Override
     public void removeObserver(Observer observer) {
         observers.remove(observer);
     }
 
+    /**
+     * Notify all observers currently in the list of registered observers.
+     */
     @Override
     public void notifyObservers() {
         for (Observer observer : observers) { observer.update(getWindowWidth(), getWindowHeight());}

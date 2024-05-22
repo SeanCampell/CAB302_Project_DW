@@ -10,8 +10,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 
-<FlowPane alignment="CENTER" columnHalignment="CENTER" focusTraversable="true" maxHeight="1.7976931348623157E308"
-          maxWidth="1.7976931348623157E308" orientation="VERTICAL" xmlns:fx="http://javafx.com/fxml"
+<FlowPane fx:id="rootPane" alignment="CENTER" columnHalignment="CENTER" focusTraversable="true"
+          maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseMoved="#onVisible" onMouseDragged="#onVisible"
+          orientation="VERTICAL" xmlns:fx="http://javafx.com/fxml"
           fx:controller="com.example.DataPyramid.controller.HelloController">
     <stylesheets>
         <URL value="@stylesheet.css" />
