@@ -6,7 +6,8 @@ public enum AppType {
     Productive('p'),
     Internet('i'),
     Entertainment('e'),
-    Other('o');
+    Other('o'),
+    Social('s');
 
     /*
      * This particular char value to its possessor

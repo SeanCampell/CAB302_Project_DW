@@ -85,4 +85,22 @@ public class GraphDAO {
         return usageData;
     }
 
+    public Map<String, Map<String, Integer>> getTimeUsageByTypeAndApp(String userEmail) {
+        Map<String, Map<String, Integer>> usageByTypeAndApp = new LinkedHashMap<>();
+        String sql = "SELECT type, name, SUM(timeUse) as totalUsage FROM program WHERE userEmail = ? GROUP BY type, name";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, userEmail);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                String type = rs.getString("type");
+                String appName = rs.getString("name");
+                int totalUsage = rs.getInt("totalUsage");
+                usageByTypeAndApp.computeIfAbsent(type, k -> new LinkedHashMap<>()).put(appName, totalUsage);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return usageByTypeAndApp;
+    }
+
 }
