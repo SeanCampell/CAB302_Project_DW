@@ -66,7 +66,9 @@
                              style="-fx-background-color: white; -fx-background-radius: 20px; -fx-padding: 10px;"
                              HBox.hgrow="ALWAYS">
                            <Label style="-fx-text-fill: grey;" text="Today" />
-                           <!-- Add ScreenTime Label here________________________ -->
+                           <Label fx:id="totalTimeLabel" style="-fx-font-size: 30px"
+                                  HBox.hgrow="ALWAYS"/>
+
                            <!-- Add content here -->
          
                        </VBox>
@@ -154,10 +156,8 @@
                                    <Insets bottom="5.0" top="20.0" />
                                </VBox.margin>
                            </Label>
-                           <!-- Your existing content for programList here -->
-                       </VBox>
 
-                       <!-- Additional content can be added here -->
+                       </VBox>
 
                        <padding>
                            <Insets bottom="10.0" top="10.0" />

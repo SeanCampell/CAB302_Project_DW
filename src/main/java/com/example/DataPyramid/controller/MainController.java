@@ -7,8 +7,11 @@ import com.example.DataPyramid.db.DatabaseInitializer;
 import com.example.DataPyramid.model.Graph;
 import com.example.DataPyramid.model.User;
 import com.example.DataPyramid.HelloApplication;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import com.example.DataPyramid.model.GraphDAO;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -23,6 +26,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.*;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -84,7 +88,11 @@ public class MainController {
     @FXML
     private Label thirdTimeLabel;
     @FXML
+    private Label totalTimeLabel;
+
+    @FXML
     private VBox programList;
+
 
     @FXML
     private ListView<String> processListView;
@@ -100,6 +108,7 @@ public class MainController {
     private App[] topApps;
     private List<String> processes;
     private TimeTracking timeTracker;
+    private int totalScreenTime;
 
 
     public void initialize() {
@@ -118,14 +127,74 @@ public class MainController {
             }
         });
         syncProcesses();
+        dbConnection = new DatabaseInitializer();
         typeChoiceBox.setItems(
                 FXCollections.observableArrayList("Other", "Game", "Productive", "Internet", "Entertainment", "Social"));
     }
 
-    private void populateUIWithAppNames(List<String> appNames) {
-        for (String appName : appNames) {
-            Label label = new Label(appName);
-            programList.getChildren().add(label);
+
+    public void setCurrentUser(User user) {
+        this.currentUser = user;
+        updateWelcomeLabel();
+        initializeOutsideInitialize();
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            dbConnection.updateTotalScreenTime(currentUser, totalScreenTime);
+        }));
+    }
+
+    private void updateWelcomeLabel() {
+        if (currentUser != null) {
+            welcomeLabel.setText("Hello, " + currentUser.getFirstname());
+            updateTopApps();
+        }
+    }
+
+
+    public void initializeOutsideInitialize() {
+        timeTracker = new TimeTracking(dbConnection, currentUser);
+        totalScreenTime = dbConnection.loadTotalScreenTime(currentUser);
+        displayTotalTime(totalTimeLabel, timeTracker.getProgramTotalTimes(), totalScreenTime);
+
+        Timeline timeline = getTimeline();
+        timeline.play();
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            dbConnection.updateTotalScreenTime(currentUser, totalScreenTime);
+        }));
+    }
+
+
+    private Timeline getTimeline() {
+        Timeline timeline = new Timeline(
+                new KeyFrame(javafx.util.Duration.seconds(1), event -> {
+                    totalScreenTime += 1;
+                    displayTotalTime(totalTimeLabel, timeTracker.getProgramTotalTimes(), totalScreenTime);
+                    dbConnection.updateTotalScreenTime(currentUser, totalScreenTime);
+                })
+        );
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        return timeline;
+    }
+
+
+    public void displayTotalTime(Label totalTimeLabel, Map<String, Duration> programTotalTimes, int totalScreenTime) {
+        Duration totalDuration = Duration.ZERO;
+        for (Duration duration : programTotalTimes.values()) {
+            totalDuration = totalDuration.plus(duration);
+        }
+        long totalSeconds = totalDuration.getSeconds() + totalScreenTime;
+        long hours = totalSeconds / 3600;
+        long minutes = (totalSeconds % 3600) / 60;
+        long seconds = totalSeconds % 60;
+        totalTimeLabel.setText(String.format("%d h %d min %d sec", hours, minutes, seconds));
+    }
+
+
+    private void populateUIWithAppNames(List<String> appNames, List<Integer> timeSpentList) {
+        for (int i = 0; i < appNames.size(); i++) {
+            String appName = appNames.get(i);
+            int timeSpentMinutes = timeSpentList.get(i);
+            Label appLabel = new Label(appName + " - Time Spent: " + timeSpentMinutes + " minutes");
+            programList.getChildren().add(appLabel);
         }
     }
 
@@ -139,25 +208,9 @@ public class MainController {
         dbConnection.removeAllPrograms();
     }
 
-    //_____________________________________
-
-
-    public void setCurrentUser(User user) {
-        this.currentUser = user;
-        updateWelcomeLabel();
-    }
-
-    private void updateWelcomeLabel() {
-        if (currentUser != null) {
-            welcomeLabel.setText("Hello, " + currentUser.getFirstname());
-            updateTopApps();
-        }
-    }
 
     public MainController() {
-        dbConnection = new DatabaseInitializer();
         this.graphDAO = new GraphDAO("program");
-        timeTracker = new TimeTracking(dbConnection);
     }
 
 
@@ -226,13 +279,15 @@ public class MainController {
         App newApp = new App(appName, appType, appLimit, isTracking);
 
         timeTracker.startTracking(appName);
-        timeTracker.endTracking(appName);
+        timeTracker.endTracking(appName, currentUser);
         int timeUse = timeTracker.getTimeSpentMinutes(appName);
         boolean success = dbConnection.saveApp(newApp, currentUser, timeUse);
 
 
         if (success) {
-            populateUIWithAppNames(dbConnection.loadStoredAppNames(currentUser));
+            List<String> appNames = dbConnection.loadStoredAppNames(currentUser);
+            List<Integer> timeSpentList = dbConnection.loadTimeSpentList(currentUser);
+            populateUIWithAppNames(appNames, timeSpentList);
 
             typeChoiceBox.getSelectionModel().clearSelection();
             appLimitField.clear();
@@ -278,6 +333,7 @@ public class MainController {
         Scene scene = new Scene(fxmlLoader.load(), HelloApplication.uiListener.getWindowWidth(),
                 HelloApplication.uiListener.getWindowHeight());
         stage.setScene(scene);
+        stage.show();
     }
 
     private void updateTopApps() {

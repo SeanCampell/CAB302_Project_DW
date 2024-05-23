@@ -23,9 +23,10 @@ public class DatabaseInitializer {
                     + "firstname TEXT NOT NULL,"
                     + "lastname TEXT NOT NULL,"
                     + "email TEXT NOT NULL,"
-                    + "password TEXT NOT NULL)";
+                    + "password TEXT NOT NULL,"
+                    + "total_screen_time INTEGER NOT NULL)";
 
-            // Create the table
+
             Statement statement = connection.createStatement();
             statement.executeUpdate(sql);
         } catch (SQLException e) {
@@ -53,7 +54,6 @@ public class DatabaseInitializer {
                     + "sundayUse INTEGER NOT NULL,"
                     + "isTracking BIT)";
 
-            // Create the table
             Statement statement = connection.createStatement();
             statement.executeUpdate(sql);
         } catch (SQLException e) {
@@ -65,21 +65,21 @@ public class DatabaseInitializer {
     public boolean saveUser(User user) {
         try (Connection connection = DriverManager.getConnection(DB_URL)) {
 
-            String sql = "INSERT INTO user (firstname, lastname, email, password) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO user (firstname, lastname, email, password, total_screen_time) VALUES (?, ?, ?, ?, ?)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, user.getFirstname());
                 preparedStatement.setString(2, user.getLastname());
                 preparedStatement.setString(3, user.getEmail());
                 preparedStatement.setString(4, user.getPassword());
+                preparedStatement.setInt(5, 0);
 
                 int rowsAffected = preparedStatement.executeUpdate();
 
-                // Return true if the user was successfully saved
                 return rowsAffected > 0;
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return false; // Error occurred while saving user
+            return false;
         }
     }
 
@@ -92,12 +92,12 @@ public class DatabaseInitializer {
                 ResultSet resultSet = preparedStatement.executeQuery();
 
                 if (resultSet.next()) {
-                    // User found, create and return User object
                     return new User(
                             resultSet.getString("firstname"),
                             resultSet.getString("lastname"),
                             resultSet.getString("email"),
-                            resultSet.getString("password")
+                            resultSet.getString("password"),
+                            resultSet.getInt("total_screen_time")
                     );
                 }
             }
@@ -106,6 +106,8 @@ public class DatabaseInitializer {
         }
         return null; // User not found
     }
+
+
 
     public boolean saveApp(App app, User user, int timeUse) {
         try (Connection connection = DriverManager.getConnection(DB_URL)) {
@@ -131,12 +133,11 @@ public class DatabaseInitializer {
 
                 int rowsAffected = preparedStatement.executeUpdate();
 
-                // Return true if the user was successfully saved
                 return rowsAffected > 0;
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return false; // Error occurred while saving user
+            return false;
         }
     }
 
@@ -149,7 +150,6 @@ public class DatabaseInitializer {
                 ResultSet resultSet = preparedStatement.executeQuery();
 
                 if (resultSet.next()) {
-                    // App found, create and return App object
                     App returnApp = new App(
                             resultSet.getString("name"),
                             AppType.valueOf(resultSet.getString("type")),
@@ -173,7 +173,7 @@ public class DatabaseInitializer {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null; // User not found
+        return null;
     }
 
     public List<String> loadStoredAppNames(User currentUser) {
@@ -296,5 +296,57 @@ public class DatabaseInitializer {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+
+    public List<Integer> loadTimeSpentList(User user) {
+        List<Integer> timeSpentList = new ArrayList<>();
+        try (Connection connection = DriverManager.getConnection(DB_URL)) {
+            String sql = "SELECT timeUse FROM program WHERE userEmail = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, user.getEmail());
+                ResultSet resultSet = preparedStatement.executeQuery();
+                while (resultSet.next()) {
+                    int timeSpent = resultSet.getInt("timeUse");
+                    timeSpentList.add(timeSpent);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return timeSpentList;
+    }
+
+
+    public void updateTotalScreenTime(User user, int totalScreenTime) {
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement stmt = conn.prepareStatement(
+                     "UPDATE user SET total_screen_time = ? WHERE email = ?")) {
+            stmt.setInt(1, totalScreenTime);
+            stmt.setString(2, user.getEmail());
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected == 0) {
+
+                System.out.println("No rows updated. User not found.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public int loadTotalScreenTime(User user) {
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement stmt = conn.prepareStatement(
+                     "SELECT total_screen_time FROM user WHERE email = ?")) {
+            stmt.setString(1, user.getEmail());
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("total_screen_time");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }
