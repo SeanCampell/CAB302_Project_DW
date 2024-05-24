@@ -154,7 +154,7 @@ public class MainController {
         timeTracker = new TimeTracking(dbConnection, currentUser);
         totalScreenTime = dbConnection.loadTotalScreenTime(currentUser);
         displayTotalTime(totalTimeLabel, timeTracker.getProgramTotalTimes(), totalScreenTime);
-
+        loadTimeSpentList(currentUser);
         Timeline timeline = getTimeline();
         timeline.play();
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
@@ -184,19 +184,39 @@ public class MainController {
         long totalSeconds = totalDuration.getSeconds() + totalScreenTime;
         long hours = totalSeconds / 3600;
         long minutes = (totalSeconds % 3600) / 60;
-        long seconds = totalSeconds % 60;
-        totalTimeLabel.setText(String.format("%d h %d min %d sec", hours, minutes, seconds));
+        totalTimeLabel.setText(String.format("%dh %dmin", hours, minutes));
     }
 
 
+
+    private void loadTimeSpentList(User currentUser) {
+        List<String> appNames = dbConnection.loadStoredAppNames(currentUser);
+        List<Integer> timeSpentList = dbConnection.loadTimeSpentList(currentUser);
+        populateUIWithAppNames(appNames, timeSpentList);
+    }
+
     private void populateUIWithAppNames(List<String> appNames, List<Integer> timeSpentList) {
+        programList.getChildren().clear();
+
         for (int i = 0; i < appNames.size(); i++) {
             String appName = appNames.get(i);
             int timeSpentMinutes = timeSpentList.get(i);
-            Label appLabel = new Label(appName + " - Time Spent: " + timeSpentMinutes + " minutes");
-            programList.getChildren().add(appLabel);
+
+            HBox appContainer = new HBox();
+            appContainer.setId("program-list-item");
+            appContainer.setSpacing(10);
+
+            Label appNameLabel = new Label(appName);
+            appNameLabel.getStyleClass().add("program-name");
+
+            Label timeSpentLabel = new Label("Time Spent: " + timeSpentMinutes + " minutes");
+            timeSpentLabel.getStyleClass().add("time-spent");
+
+            appContainer.getChildren().addAll(appNameLabel, timeSpentLabel);
+            programList.getChildren().add(appContainer);
         }
     }
+
 
     @FXML
     protected void onRemoveAllButtonClick() {

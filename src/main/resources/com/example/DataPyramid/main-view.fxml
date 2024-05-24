@@ -16,6 +16,8 @@
 <?import javafx.scene.shape.Line?>
 
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <HBox alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
       spacing="20.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.DataPyramid.controller.MainController">
@@ -30,11 +32,14 @@
         <VBox id="nav-bar" fx:id="navigationBar" alignment="CENTER" maxHeight="1.7976931348623157E308"
               maxWidth="1.7976931348623157E308" minWidth="100" style=" -fx-background-color: #CAD8B3;"
               styleClass="nav-bar">
-            <Label alignment="CENTER" text="LOGO?" VBox.vgrow="ALWAYS">
-            <opaqueInsets>
-               <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-            </opaqueInsets>
-         </Label>
+            <ImageView fitHeight="40" fitWidth="40">
+                <image>
+                    <Image url="@images/R.png"/>
+                </image>
+                <VBox.margin>
+                    <Insets top="-120" bottom="60"/>
+                </VBox.margin>
+            </ImageView>
              <ToggleButton fx:id="homeButton" minHeight="40" minWidth="100" onAction="#onHomeButtonClick"
                            styleClass="nav-button" text="Home" />
              <ToggleButton fx:id="insightButton" minHeight="40" minWidth="100" onAction="#onInsightsButtonClick"
@@ -62,23 +67,13 @@
                   </VBox.margin>
                </Label>
                    <HBox spacing="10.0" VBox.vgrow="ALWAYS">
-                       <VBox prefHeight="230" prefWidth="260" spacing="10"
+                       <VBox prefHeight="230" spacing="10"
                              style="-fx-background-color: white; -fx-background-radius: 20px; -fx-padding: 10px;"
                              HBox.hgrow="ALWAYS">
                            <Label style="-fx-text-fill: grey;" text="Today" />
-                           <Label fx:id="totalTimeLabel" style="-fx-font-size: 30px"
+                           <Label fx:id="totalTimeLabel" style="-fx-font-size: 25px"
                                   HBox.hgrow="ALWAYS"/>
-
-                           <!-- Add content here -->
-         
-                       </VBox>
-                       <VBox prefHeight="230" prefWidth="220" spacing="10"
-                             style="-fx-background-color: white;-fx-background-radius: 20px;-fx-padding: 10px;"
-                             HBox.hgrow="ALWAYS">
-                           <Label style="-fx-text-fill: grey;" text="This Week" />
-         
-                           <!-- Add content here -->
-         
+                           <Label style="-fx-text-fill: grey;" text="Chart for today's usage (Insights content has chart for weekly usage)" />
                        </VBox>
                   <padding>
                      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -123,10 +118,10 @@
                     </HBox>
                </VBox>
            </HBox>
-   
+
+
            <!-- Insights Content -->
            <VBox fx:id="insightsContent" visible="false" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
-               <ScrollPane fitToWidth="true" fitToHeight="true" style="-fx-background-color: transparent; -fx-background-insets: 0;">
                    <VBox VBox.vgrow="ALWAYS">
                        <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                            <Button fx:id="columnChartButton" onAction="#onColumnChartButtonClick"
@@ -146,26 +141,27 @@
                            <VBox.margin>
                                <Insets />
                            </VBox.margin>
-
-                           <!-- Add content here________________________- -->
-
                        </HBox>
+
+                       <Label id="headlines" text="Tracked Apps">
+                           <VBox.margin>
+                               <Insets top="20.0" />
+                           </VBox.margin>
+                       </Label>
+                       <ScrollPane fitToWidth="true" fitToHeight="true" style="-fx-background-color: transparent; -fx-background-insets: 0;">
                        <VBox fx:id="programList" spacing="10.0" VBox.vgrow="ALWAYS">
-                           <Label id="headlines" text="Tracked Apps">
-                               <VBox.margin>
-                                   <Insets bottom="5.0" top="20.0" />
-                               </VBox.margin>
-                           </Label>
-
+                           <padding>
+                               <Insets top="10.0" />
+                           </padding>
                        </VBox>
-
+                       </ScrollPane>
                        <padding>
-                           <Insets bottom="10.0" top="10.0" />
+                           <Insets bottom="10.0" />
                        </padding>
                    </VBox>
-               </ScrollPane>
            </VBox>
-   
+
+
            <!-- Time Limits Content -->
            <VBox fx:id="timeLimitsContent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" visible="false">
                <VBox spacing="10.0" VBox.vgrow="ALWAYS">

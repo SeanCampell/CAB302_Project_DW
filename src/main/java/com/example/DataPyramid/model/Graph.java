@@ -91,7 +91,6 @@ public class Graph {
         xAxis.setCategories(FXCollections.observableArrayList(
                 Arrays.asList("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
         ));
-        xAxis.setLabel("Day");
 
         NumberAxis yAxis = new NumberAxis();
         yAxis.setLabel("Time Spent");
