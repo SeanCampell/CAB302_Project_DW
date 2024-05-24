@@ -32,15 +32,21 @@
         <VBox id="nav-bar" fx:id="navigationBar" alignment="CENTER" maxHeight="1.7976931348623157E308"
               maxWidth="1.7976931348623157E308" minWidth="100" style=" -fx-background-color: #CAD8B3;"
               styleClass="nav-bar">
-            <ImageView fitHeight="40" fitWidth="40">
-                <image>
-                    <Image url="@images/R.png"/>
-                </image>
+            <VBox alignment="CENTER">
+                <children>
+                    <ImageView fitHeight="40" fitWidth="40">
+                        <image>
+                            <Image url="@images/R.png"/>
+                        </image>
+                    </ImageView>
+                    <Label style="-fx-text-fill: grey;" text="Balance Buddy"/>
+                </children>
                 <VBox.margin>
                     <Insets top="-120" bottom="60"/>
                 </VBox.margin>
-            </ImageView>
-             <ToggleButton fx:id="homeButton" minHeight="40" minWidth="100" onAction="#onHomeButtonClick"
+            </VBox>
+
+            <ToggleButton fx:id="homeButton" minHeight="40" minWidth="100" onAction="#onHomeButtonClick"
                            styleClass="nav-button" text="Home" />
              <ToggleButton fx:id="insightButton" minHeight="40" minWidth="100" onAction="#onInsightsButtonClick"
                            styleClass="nav-button" text="Insights" />

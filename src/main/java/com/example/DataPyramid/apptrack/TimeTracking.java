@@ -54,7 +54,6 @@ public class TimeTracking {
         if (startTime != null) {
             Instant endTime = Instant.now();
             Duration duration = Duration.between(startTime, endTime);
-            programStartTimes.remove(appName);
             programTotalTimes.put(appName, programTotalTimes.getOrDefault(appName, Duration.ZERO).plus(duration));
 
             int totalMinutes = getTimeSpentMinutes(appName);
