@@ -19,7 +19,7 @@
       spacing="20.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.DataPyramid.controller.MainController">
     <stylesheets>
-        <URL value="@stylesheet.css" />
+        <URL value="@StyleSmall.css" />
     </stylesheets>
 
 
@@ -139,7 +139,7 @@
                     </HBox>
                     <HBox fx:id="graphLocation" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
                           spacing="10" style="-fx-background-color: white;-fx-background-radius: 20px; -fx-padding: 10px;"
-                          stylesheets="@stylesheet.css" VBox.vgrow="ALWAYS">
+                          stylesheets="@StyleSmall.css" VBox.vgrow="ALWAYS">
                         <Label text="{Type of Chart}" />
                         <VBox.margin>
                             <Insets />

@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -16,8 +15,6 @@ public class HelloController {
     private Button signUpButton;
     @FXML
     private Button loginButton;
-    @FXML
-    private FlowPane rootPane;
 
     private UIObserver observer;
     private final String viewName = "Hello View";
@@ -48,15 +45,13 @@ public class HelloController {
     @FXML
     protected void onVisible() {
         if(!observerInit) {
-            observerInit(viewName);
+            observerInit();
             observerInit = true;
         }
     }
 
-    private void observerInit(String viewName) {
-        observer = new UIObserver(viewName);
+    private void observerInit() {
+        observer = new UIObserver(viewName, loginButton.getScene());
         HelloApplication.uiSubject.registerObserver(observer);
-        observer.addAllNodes(rootPane);
     }
-
 }

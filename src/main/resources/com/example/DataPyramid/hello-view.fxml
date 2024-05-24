@@ -14,14 +14,11 @@
           maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseMoved="#onVisible" onMouseDragged="#onVisible"
           orientation="VERTICAL" xmlns:fx="http://javafx.com/fxml"
           fx:controller="com.example.DataPyramid.controller.HelloController">
-    <stylesheets>
-        <URL value="@stylesheet.css" />
-    </stylesheets>
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
     <VBox alignment="CENTER">
-        <Label id="welcome" stylesheets="@stylesheet.css" text="WELCOME" />
+        <Label id="welcome" stylesheets="@StyleSmall.css" text="WELCOME" />
         <Label text="to Your Wellbeing Tracker" />
          <Line endX="200" endY="0" startX="0" startY="0" stroke="grey" strokeWidth="1" />
         <Label text="Track, Monitor, and Improve your Wellbeing." textAlignment="CENTER" wrapText="true" />

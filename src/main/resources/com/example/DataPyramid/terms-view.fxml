@@ -12,7 +12,7 @@
       maxWidth="1.7976931348623157E308" spacing="15.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.DataPyramid.controller.TermsController">
     <stylesheets>
-        <URL value="@stylesheet.css" />
+        <URL value="@StyleSmall.css" />
     </stylesheets>
 
     <Label text="Please read through our terms and conditions. By using the application, you agree to the following:"

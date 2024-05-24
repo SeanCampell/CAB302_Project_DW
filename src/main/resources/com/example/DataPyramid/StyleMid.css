@@ -1,0 +1,120 @@
+/*
+ *
+ *  BASE COLOURS FOR THEME
+ *  #F2F2F2     :   Off-White
+ *  #494949     :   Charcoal
+ *  #CAD8B3     :   Pale Green
+ *  #3A592B     :   Forest Green
+ *  #192613     :   Deep Green
+ *  #F0BCA5     :   Peach
+ */
+
+ /* Setting up basic styles for the entire application. */
+.root {
+    -fx-font-size: 16px;
+    -fx-font-family: 'Arial';
+    -fx-background-color: #F2F2F2;
+}
+
+/*
+ *  LABEL Styles and related classes or ids
+ */
+
+Label { }
+
+.error-label {
+    -fx-text-fill: red;
+}
+
+.error-graph {
+    -fx-text-fill: #3A592B;
+    -fx-font-weight: bold;
+    -fx-font-size: 1.5em;
+}
+
+.label-link {
+    -fx-text-fill: #3A592B;
+    -fx-font-weight: bold;
+}
+
+.instruction {
+    -fx-font-size: 0.75em;
+    -fx-text-fill: #494949;
+    }
+
+.header-label {
+    -fx-font-size: 2em;
+    -fx-font-weight: bold;
+}
+
+#welcome {
+    -fx-font-size: 3em;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3A592B;
+    -fx-padding: 0.25em;
+}
+
+/*
+ *  TEXTFIELD Styles and related classes or ids
+ */
+
+/*
+ *  TEXTAREA Styles and related classes or ids
+ */
+
+text-area{}
+
+/*
+ *  BUTTON Styles and related classes or ids
+ */
+
+Button {
+    -fx-background-color: transparent;
+    -fx-border-color: #000000;
+    -fx-font-weight: bold;
+    -fx-padding: 0.75em 1.5em;
+    -fx-border-width: 0px;
+    }
+
+Button:hover {
+    -fx-background-color: #CAD8B3;
+}
+
+.nav-button {
+    -fx-text-fill: black;
+    -fx-background-color: #CAD8B3;
+}
+
+.nav-button:hover {
+    -fx-background-color: #3A592B;
+    -fx-text-fill: white;
+}
+
+.nav-button:selected {
+    -fx-background-color: #F2F2F2;
+    -fx-text-fill: black;
+}
+
+.back-button {
+    -fx-font-size: 1.25em;
+    -fx-text-fill: #192613;
+}
+
+#signupButton {
+    -fx-background-color: #3A592B;
+    -fx-text-fill: #F2F2F2;
+    -fx-font-weight: bold;
+    -fx-min-width: 250px;
+    -fx-min-height: 35px;
+}
+
+#signupButton:hover {
+    -fx-background-color: #192613;
+}
+
+#headlines {
+    -fx-font-size: 2em;
+    -fx-font-weight: bold;
+    -fx-font-family: 'Arial';
+    -fx-background-color: #F2F2F2;
+}

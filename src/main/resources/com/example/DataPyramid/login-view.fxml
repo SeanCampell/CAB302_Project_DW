@@ -17,7 +17,7 @@
         <Insets bottom="20.0" left="50.0" right="50.0" top="20.0" />
     </padding>
     <stylesheets>
-        <URL value="@stylesheet.css" />
+        <URL value="@StyleSmall.css" />
     </stylesheets>
     <HBox alignment="CENTER_LEFT" spacing="10.0" VBox.vgrow="ALWAYS">
         <VBox spacing="5.0" HBox.hgrow="ALWAYS">

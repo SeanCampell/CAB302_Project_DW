@@ -85,7 +85,7 @@ public class LoginController {
     }
 
     private void observerInit(String viewName) {
-        observer = new UIObserver(viewName);
-        HelloApplication.uiSubject.registerObserver(observer);
+        //observer = new UIObserver(viewName, backButton.getScene());
+        //HelloApplication.uiSubject.registerObserver(observer);
     }
 }

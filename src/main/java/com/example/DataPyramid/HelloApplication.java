@@ -20,8 +20,10 @@ public class HelloApplication extends Application {
 
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), uiSubject.getWindowWidth(), uiSubject.getWindowHeight());
+        scene.getStylesheets().add(String.valueOf(HelloApplication.class.getResource("StyleSmall.css")));
         stage.setTitle(TITLE);
         stage.setScene(scene);
+
         stage.show();
 
         ChangeListener<Number> stageSizeListener = (observable, oldValue, newValue) -> uiSubject.update(stage.getWidth(), stage.getHeight());
