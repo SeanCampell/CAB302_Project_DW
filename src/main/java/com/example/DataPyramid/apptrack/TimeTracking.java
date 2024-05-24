@@ -57,14 +57,10 @@ public class TimeTracking {
             programStartTimes.remove(appName);
             programTotalTimes.put(appName, programTotalTimes.getOrDefault(appName, Duration.ZERO).plus(duration));
 
-            // Update the database with the total time used
             int totalMinutes = getTimeSpentMinutes(appName);
             dbConnection.updateAppTimeUse(appName, totalMinutes);
 
-            // Update total screen time
             dbConnection.updateTotalScreenTime(user, calculateTotalScreenTime());
-
-            // Update all program times in the database
             updateAllProgramTimes(user);
 
             System.out.println("Tracking ended for program: " + appName + ". Time spent: " + duration.toMinutes() + " minutes.");
