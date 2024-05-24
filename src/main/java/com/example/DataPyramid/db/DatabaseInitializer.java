@@ -6,7 +6,9 @@ import com.example.DataPyramid.model.User;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DatabaseInitializer {
     public static final String DB_URL = "jdbc:sqlite:database.db";
@@ -318,6 +320,26 @@ public class DatabaseInitializer {
     }
 
 
+    public Map<String, Integer> loadProgramTotalTimes(User user) {
+        Map<String, Integer> timeMap = new HashMap<>();
+        try (Connection connection = DriverManager.getConnection(DB_URL)) {
+            String sql = "SELECT name, timeUse FROM program WHERE userEmail = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, user.getEmail());
+                ResultSet resultSet = preparedStatement.executeQuery();
+                while (resultSet.next()) {
+                    String appName = resultSet.getString("name");
+                    int timeSpent = resultSet.getInt("timeUse");
+                    timeMap.put(appName, timeSpent);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return timeMap;
+    }
+
+
     public void updateTotalScreenTime(User user, int totalScreenTime) {
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement stmt = conn.prepareStatement(
@@ -335,6 +357,7 @@ public class DatabaseInitializer {
     }
 
 
+
     public int loadTotalScreenTime(User user) {
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement stmt = conn.prepareStatement(
@@ -349,4 +372,114 @@ public class DatabaseInitializer {
         }
         return 0;
     }
+
+
+    public List<String> getFirstThreeProgramNames(User user) {
+        List<String> programNames = new ArrayList<>();
+        String query = "SELECT name FROM program WHERE userEmail = ? LIMIT 3";
+
+        try (Connection connection = DriverManager.getConnection(DB_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, user.getEmail());
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                programNames.add(resultSet.getString("name"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return programNames;
+    }
+
+
+    public List<Integer> getTimeSpentForFirstThreePrograms(User user) {
+        List<Integer> timeSpentList = new ArrayList<>();
+        String query = "SELECT timeUse FROM program WHERE userEmail = ? LIMIT 3";
+
+        try (Connection connection = DriverManager.getConnection(DB_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, user.getEmail());
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                timeSpentList.add(resultSet.getInt("timeUse"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return timeSpentList;
+    }
+
+
+    public int getTimeSpentForApp(String appName, User user) {
+        try (Connection connection = DriverManager.getConnection(DB_URL)) {
+            String sql = "SELECT timeUse FROM program WHERE userEmail = ? AND appName = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, user.getEmail());
+                preparedStatement.setString(2, appName);
+                ResultSet resultSet = preparedStatement.executeQuery();
+                if (resultSet.next()) {
+                    return resultSet.getInt("timeUse");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+
+    public void stopTrackingApp(User user, String appName) {
+        String query = "UPDATE program SET isTracking = 0 WHERE userEmail = ? AND name = ?";
+
+        try (Connection connection = DriverManager.getConnection(DB_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, user.getEmail());
+            preparedStatement.setString(2, appName);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void startTrackingApp(User user, String appName) {
+        String query = "UPDATE program SET isTracking = 1 WHERE userEmail = ? AND name = ?";
+
+        try (Connection connection = DriverManager.getConnection(DB_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, user.getEmail());
+            preparedStatement.setString(2, appName);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    public boolean isAppTracked(String appName) {
+        String query = "SELECT isTracking FROM program WHERE name = ?";
+        boolean isTracked = false;
+
+        try (Connection connection = DriverManager.getConnection(DB_URL);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, appName);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                int isTracking = resultSet.getInt("isTracking");
+                isTracked = (isTracking == 1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return isTracked;
+    }
+
+
 }

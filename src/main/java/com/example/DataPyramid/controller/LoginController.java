@@ -1,5 +1,6 @@
 package com.example.DataPyramid.controller;
 
+import com.example.DataPyramid.apptrack.TrackingSwitch;
 import com.example.DataPyramid.db.DatabaseInitializer;
 import com.example.DataPyramid.model.User;
 import com.example.DataPyramid.HelloApplication;
@@ -51,6 +52,7 @@ public class LoginController {
             Parent root = loader.load();
             MainController mainController = loader.getController();
             mainController.setCurrentUser(user);
+            TrackingSwitch.continuePopulating = true;
 
             Stage stage = (Stage) loginButton.getScene().getWindow();
             stage.setScene(new Scene(root));

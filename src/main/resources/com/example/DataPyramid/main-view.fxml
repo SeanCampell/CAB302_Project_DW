@@ -14,17 +14,16 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
-
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <HBox alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
       spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.DataPyramid.controller.MainController">
+      fx:controller="com.example.DataPyramid.controller.MainController"
+    prefWidth="800" prefHeight="530">
     <stylesheets>
         <URL value="@stylesheet.css" />
     </stylesheets>
-
 
     <HBox alignment="TOP_LEFT" spacing="15.0" HBox.hgrow="ALWAYS">
 
@@ -116,7 +115,6 @@
                                      <!-- Add content here -->
                             <Label fx:id="thirdAppLabel" />
                             <Label fx:id="thirdTimeLabel" style="-fx-text-fill: grey;" />
-      
                         </VBox>
                   <VBox.margin>
                      <Insets bottom="10.0" />
@@ -140,7 +138,7 @@
                                <Insets bottom="10.0" top="10.0" />
                            </VBox.margin>
                        </HBox>
-                       <HBox fx:id="graphLocation" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                       <HBox fx:id="graphLocation" maxHeight="280.0" minHeight="280.0" maxWidth="1.7976931348623157E308"
                              spacing="10" style="-fx-background-color: white;-fx-background-radius: 20px; -fx-padding: 10px;"
                              stylesheets="@stylesheet.css" VBox.vgrow="ALWAYS">
                            <Label text="{Type of Chart}" />
@@ -155,15 +153,14 @@
                            </VBox.margin>
                        </Label>
                        <ScrollPane fitToWidth="true" fitToHeight="true" style="-fx-background-color: transparent; -fx-background-insets: 0;">
-                       <VBox fx:id="programList" spacing="10.0" VBox.vgrow="ALWAYS">
-                           <padding>
-                               <Insets top="10.0" />
-                           </padding>
-                       </VBox>
+                           <VBox spacing="5.0" VBox.vgrow="ALWAYS" prefHeight="140">
+                               <VBox fx:id="programList" spacing="10.0" VBox.vgrow="ALWAYS">
+                                   <padding>
+                                       <Insets top="10.0" />
+                                   </padding>
+                               </VBox>
+                           </VBox>
                        </ScrollPane>
-                       <padding>
-                           <Insets bottom="10.0" />
-                       </padding>
                    </VBox>
            </VBox>
 
@@ -242,7 +239,6 @@
                        <HBox alignment="BOTTOM_LEFT">
                            <Button id="addAppButton" onAction="#onAddAppButtonClick" text="Add Application" />
                            <Button id="removeAllButton" onAction="#onRemoveAllButtonClick" text="Remove All Applications" />
-
                        </HBox>
                    </VBox>
                </HBox>
@@ -250,36 +246,32 @@
                <Insets bottom="10.0" top="10.0" />
             </StackPane.margin>
            </VBox>
-
        </StackPane>
 
         <!-- RHS Panel -->
-        <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" style="-fx-background-color: white;" HBox.hgrow="ALWAYS">
+        <VBox alignment="CENTER" minWidth="170" prefWidth="170" spacing="10.0" style="-fx-background-color: white;" HBox.hgrow="ALWAYS">
              <Label fx:id="welcomeLabel" text="Hello, {firstname}!" VBox.vgrow="ALWAYS">
-            <VBox.margin>
-               <Insets bottom="30.0" top="30.0" />
-            </VBox.margin>
-         </Label>
-            <Line endX="140" endY="0" startX="0" startY="0" stroke="grey" strokeWidth="1" VBox.vgrow="ALWAYS" />
-            <Label text="{Maybe some Chart}" VBox.vgrow="ALWAYS" />
-            <VBox alignment="TOP_CENTER" spacing="10.0" style="-fx-padding:15px;" VBox.vgrow="ALWAYS">
-                <Label text="Total Screen Time:" />
-                <Line endX="140" endY="0" startX="0" startY="0" stroke="grey" strokeWidth="1" />
+                 <VBox.margin>
+                    <Insets bottom="10.0" top="30.0" />
+                 </VBox.margin>
+            </Label>
+            <Line endX="100" endY="0" startX="0" startY="0" stroke="grey" strokeWidth="0.5" VBox.vgrow="ALWAYS" />
+            <VBox alignment="TOP_CENTER" spacing="10.0" style="-fx-padding:15px; -fx-background-color: white;" VBox.vgrow="ALWAYS">
                 <Label style="-fx-text-fill: grey;" text="Apps" />
-            <padding>
-               <Insets bottom="10.0" top="10.0" />
-            </padding>
-
-                    <!-- App -->
-                    <!-- App -->
-                    <!-- App -->
-
-               </VBox>
+                <padding>
+                    <Insets bottom="10.0" top="10.0" />
+                </padding>
+                <ScrollPane style="-fx-background-color: white;" fitToWidth="true" fitToHeight="true" VBox.vgrow="ALWAYS">
+                        <VBox fx:id="rightNavbar" alignment="TOP_LEFT" spacing="10.0" style="-fx-padding:0; -fx-background-color: white;">
+                            <padding>
+                                <Insets top="10.0"  />
+                            </padding>
+                        </VBox>
+                </ScrollPane>
+            </VBox>
          <padding>
             <Insets bottom="10.0" top="10.0" />
          </padding>
-
         </VBox>
     </HBox>
-
 </HBox>

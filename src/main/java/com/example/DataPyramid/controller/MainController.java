@@ -3,6 +3,7 @@ package com.example.DataPyramid.controller;
 import com.example.DataPyramid.apptrack.App;
 import com.example.DataPyramid.apptrack.AppType;
 import com.example.DataPyramid.apptrack.TimeTracking;
+import com.example.DataPyramid.apptrack.TrackingSwitch;
 import com.example.DataPyramid.db.DatabaseInitializer;
 import com.example.DataPyramid.model.Graph;
 import com.example.DataPyramid.model.User;
@@ -11,9 +12,9 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import com.example.DataPyramid.model.GraphDAO;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -25,14 +26,9 @@ import javafx.scene.control.ToggleGroup;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.sql.*;
-import java.time.Duration;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import static com.example.DataPyramid.db.DatabaseInitializer.DB_URL;
 import static java.lang.Integer.parseInt;
 
 public class MainController {
@@ -92,6 +88,8 @@ public class MainController {
 
     @FXML
     private VBox programList;
+    @FXML
+    private VBox rightNavbar;
 
 
     @FXML
@@ -109,6 +107,8 @@ public class MainController {
     private List<String> processes;
     private TimeTracking timeTracker;
     private int totalScreenTime;
+
+
 
 
     public void initialize() {
@@ -134,27 +134,32 @@ public class MainController {
 
 
     public void setCurrentUser(User user) {
+        if (!TrackingSwitch.continuePopulating) {
+            return;
+        }
         this.currentUser = user;
         updateWelcomeLabel();
         initializeOutsideInitialize();
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            dbConnection.updateTotalScreenTime(currentUser, totalScreenTime);
-        }));
     }
 
     private void updateWelcomeLabel() {
         if (currentUser != null) {
             welcomeLabel.setText("Hello, " + currentUser.getFirstname());
-            updateTopApps();
         }
     }
 
 
     public void initializeOutsideInitialize() {
+        if (!TrackingSwitch.continuePopulating) {
+            return;
+        }
         timeTracker = new TimeTracking(dbConnection, currentUser);
         totalScreenTime = dbConnection.loadTotalScreenTime(currentUser);
-        displayTotalTime(totalTimeLabel, timeTracker.getProgramTotalTimes(), totalScreenTime);
+        displayTotalTime(totalTimeLabel, totalScreenTime);
         loadTimeSpentList(currentUser);
+        List<String> topThreeAppNames = dbConnection.getFirstThreeProgramNames(currentUser);
+        List<Integer> topThreeTimeSpentList = dbConnection.getTimeSpentForFirstThreePrograms(currentUser);
+        updateTopApps(topThreeAppNames, topThreeTimeSpentList);
         Timeline timeline = getTimeline();
         timeline.play();
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
@@ -167,7 +172,7 @@ public class MainController {
         Timeline timeline = new Timeline(
                 new KeyFrame(javafx.util.Duration.seconds(1), event -> {
                     totalScreenTime += 1;
-                    displayTotalTime(totalTimeLabel, timeTracker.getProgramTotalTimes(), totalScreenTime);
+                    displayTotalTime(totalTimeLabel, totalScreenTime);
                     dbConnection.updateTotalScreenTime(currentUser, totalScreenTime);
                 })
         );
@@ -176,56 +181,148 @@ public class MainController {
     }
 
 
-    public void displayTotalTime(Label totalTimeLabel, Map<String, Duration> programTotalTimes, int totalScreenTime) {
-        Duration totalDuration = Duration.ZERO;
-        for (Duration duration : programTotalTimes.values()) {
-            totalDuration = totalDuration.plus(duration);
+    public void displayTotalTime(Label totalTimeLabel, int totalScreenTime) {
+        if (!TrackingSwitch.continuePopulating) {
+            return;
         }
-        long totalSeconds = totalDuration.getSeconds() + totalScreenTime;
-        long hours = totalSeconds / 3600;
-        long minutes = (totalSeconds % 3600) / 60;
+        long hours = totalScreenTime / 3600;
+        long minutes = (totalScreenTime % 3600) / 60;
         totalTimeLabel.setText(String.format("%dh %dmin", hours, minutes));
     }
 
 
-
     private void loadTimeSpentList(User currentUser) {
+        if (!TrackingSwitch.continuePopulating) {
+            return;
+        }
         List<String> appNames = dbConnection.loadStoredAppNames(currentUser);
         List<Integer> timeSpentList = dbConnection.loadTimeSpentList(currentUser);
         populateUIWithAppNames(appNames, timeSpentList);
+        populateRightNavbarWithAppNames(appNames, timeSpentList);
+
     }
 
-    private void populateUIWithAppNames(List<String> appNames, List<Integer> timeSpentList) {
-        programList.getChildren().clear();
 
+    private HBox createAppEntry(String appName, int timeSpentMinutes) {
+        HBox appContainer = new HBox();
+        appContainer.setId("program-list-item");
+        appContainer.setSpacing(5);
+        appContainer.setAlignment(Pos.CENTER_LEFT);
+
+        Label appNameLabel = new Label(appName);
+        appNameLabel.getStyleClass().add("program-name");
+
+        Label timeSpentLabel = new Label("Time Spent: " + timeSpentMinutes + " min");
+        timeSpentLabel.getStyleClass().add("time-spent");
+
+        Button stopTrackingButton = new Button("Stop Tracking");
+        Button startTrackingButton = new Button("Start Tracking");
+
+        startTrackingButton.setStyle("-fx-font-size: 10px;");
+        startTrackingButton.setOnAction(startEvent -> {
+            startTrackingApp(appName);
+            appContainer.setStyle("");
+            appContainer.getChildren().remove(startTrackingButton);
+            appContainer.getChildren().add(stopTrackingButton);
+        });
+
+        stopTrackingButton.setStyle("-fx-font-size: 10px;");
+        stopTrackingButton.setOnAction(stopEvent -> {
+            stopTrackingApp(appName);
+            if (!isAppTracked(appName)) {
+                appContainer.setStyle("-fx-background-color: #cccccc; -fx-text-fill: #666666;");
+            }
+            appContainer.getChildren().remove(stopTrackingButton);
+            appContainer.getChildren().add(startTrackingButton);
+        });
+
+        if (!isAppTracked(appName)) {
+            appContainer.setStyle("-fx-background-color: #cccccc; -fx-text-fill: #666666;");
+            appContainer.getChildren().addAll(appNameLabel, timeSpentLabel, startTrackingButton);
+        } else {
+            appContainer.getChildren().addAll(appNameLabel, timeSpentLabel, stopTrackingButton);
+        }
+
+        return appContainer;
+    }
+
+
+    private void populateUIWithAppNames(List<String> appNames, List<Integer> timeSpentList) {
         for (int i = 0; i < appNames.size(); i++) {
             String appName = appNames.get(i);
             int timeSpentMinutes = timeSpentList.get(i);
-
-            HBox appContainer = new HBox();
-            appContainer.setId("program-list-item");
-            appContainer.setSpacing(10);
-
-            Label appNameLabel = new Label(appName);
-            appNameLabel.getStyleClass().add("program-name");
-
-            Label timeSpentLabel = new Label("Time Spent: " + timeSpentMinutes + " minutes");
-            timeSpentLabel.getStyleClass().add("time-spent");
-
-            appContainer.getChildren().addAll(appNameLabel, timeSpentLabel);
-            programList.getChildren().add(appContainer);
+            if (!TrackingSwitch.continuePopulating) {
+                return;
+            }
+            HBox appEntry = createAppEntry(appName, timeSpentMinutes);
+            programList.getChildren().add(appEntry);
         }
     }
 
 
+
+    private VBox createAppEntryforRightNavbar(String appName, int timeSpentMinutes) {
+        VBox appContainer = new VBox();
+        appContainer.setSpacing(5);
+        appContainer.setAlignment(Pos.CENTER_LEFT);
+
+        Label appNameLabel = new Label(appName);
+        appNameLabel.getStyleClass().add("program-name");
+
+        Label timeSpentLabel = new Label("Time: " + timeSpentMinutes + " min");
+        timeSpentLabel.getStyleClass().add("time-spent");
+
+        appContainer.getChildren().addAll(appNameLabel, timeSpentLabel);
+        return appContainer;
+    }
+
+
+    private void populateRightNavbarWithAppNames(List<String> appNames, List<Integer> timeSpentList) {
+        for (int i = 0; i < appNames.size(); i++) {
+            String appName = appNames.get(i);
+            int timeSpentMinutes = timeSpentList.get(i);
+            if (!TrackingSwitch.continuePopulating) {
+                return;
+            }
+            VBox appEntry = createAppEntryforRightNavbar(appName, timeSpentMinutes);
+            rightNavbar.getChildren().add(appEntry);
+        }
+    }
+
+
+    private boolean isAppTracked(String appName) {
+        return dbConnection.isAppTracked(appName);
+    }
+
+
+    private void startTrackingApp(String appName) {
+        dbConnection.stopTrackingApp(currentUser, appName);
+    }
+
+    private void stopTrackingApp(String appName) {
+        dbConnection.stopTrackingApp(currentUser, appName);
+    }
+
+
+
+
+
     @FXML
     protected void onRemoveAllButtonClick() {
+        rightNavbar.getChildren().clear();
         programList.getChildren().clear();
+        firstAppLabel.setText("");
+        firstTimeLabel.setText("");
+        secondAppLabel.setText("");
+        secondTimeLabel.setText("");
+        thirdAppLabel.setText("");
+        thirdTimeLabel.setText("");
         removeAllProgramsFromDatabase();
     }
 
     private void removeAllProgramsFromDatabase() {
         dbConnection.removeAllPrograms();
+
     }
 
 
@@ -242,7 +339,6 @@ public class MainController {
         insightsContent.setVisible(false);
         timeLimitsContent.setVisible(false);
         addProgramContent.setVisible(false);
-        updateTopApps();
     }
 
     // ---- INSIGHTS MENU ----
@@ -298,16 +394,23 @@ public class MainController {
         }
         App newApp = new App(appName, appType, appLimit, isTracking);
 
-        timeTracker.startTracking(appName);
+        timeTracker.startTracking(appName, currentUser);
         timeTracker.endTracking(appName, currentUser);
         int timeUse = timeTracker.getTimeSpentMinutes(appName);
         boolean success = dbConnection.saveApp(newApp, currentUser, timeUse);
 
 
         if (success) {
+            programList.getChildren().clear();
+            rightNavbar.getChildren().clear();
             List<String> appNames = dbConnection.loadStoredAppNames(currentUser);
             List<Integer> timeSpentList = dbConnection.loadTimeSpentList(currentUser);
             populateUIWithAppNames(appNames, timeSpentList);
+            List<String> topThreeAppNames = dbConnection.getFirstThreeProgramNames(currentUser);
+            List<Integer> topThreeTimeSpentList = dbConnection.getTimeSpentForFirstThreePrograms(currentUser);
+            updateTopApps(topThreeAppNames, topThreeTimeSpentList);
+            populateRightNavbarWithAppNames(appNames, timeSpentList);
+
 
             typeChoiceBox.getSelectionModel().clearSelection();
             appLimitField.clear();
@@ -347,54 +450,46 @@ public class MainController {
 
     @FXML
     protected void onLogoutButtonClick() throws IOException {
-        setCurrentUser(null);
         Stage stage = (Stage) logoutButton.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), HelloApplication.uiListener.getWindowWidth(),
                 HelloApplication.uiListener.getWindowHeight());
         stage.setScene(scene);
         stage.show();
+        TrackingSwitch.continuePopulating = false;
+        setCurrentUser(null);
     }
 
-    private void updateTopApps() {
-        topApps = dbConnection.mostUsedApps(currentUser.getEmail());
-        if (topApps != null) {
-            for (int i = 0; i < topApps.length; i++) {
-                if (topApps[i] != null) {
-                    switch (i) {
-                        case 0:
-                            firstAppLabel.setText(topApps[i].getName());
-                            break;
-                        case 1:
-                            secondAppLabel.setText(topApps[i].getName());
-                            break;
-                        case 2:
-                            thirdAppLabel.setText(topApps[i].getName());
-                            break;
-                        default:
-                            break;
-                    }
 
-                    long timeUseMinutes = topApps[i].getTimeUse();
-                    String timeLabelText = String.format("%d Minutes", timeUseMinutes);
-                    switch (i) {
-                        case 0:
-                            firstTimeLabel.setText(timeLabelText);
-                            break;
-                        case 1:
-                            secondTimeLabel.setText(timeLabelText);
-                            break;
-                        case 2:
-                            thirdTimeLabel.setText(timeLabelText);
-                            break;
-                        default:
-                            break;
-                    }
-                }
+    private void updateTopApps(List<String> topThreeAppNames, List<Integer> topThreeTimeSpentList) {
+        if (topThreeAppNames != null && topThreeTimeSpentList != null
+                && !topThreeAppNames.isEmpty() && !topThreeTimeSpentList.isEmpty()) {
+            if (topThreeAppNames.size() >= 1 && topThreeTimeSpentList.size() >= 1) {
+                firstAppLabel.setText(topThreeAppNames.get(0));
+                int timeSpentMinutes1 = topThreeTimeSpentList.get(0);
+                String timeLabelText1 = String.format("%d Minutes", timeSpentMinutes1);
+                firstTimeLabel.setText(timeLabelText1);
+                firstAppLabel.getStyleClass().add("program-name");
+                firstTimeLabel.getStyleClass().add("time-spent");
+            }
+            if (topThreeAppNames.size() >= 2 && topThreeTimeSpentList.size() >= 2) {
+                secondAppLabel.setText(topThreeAppNames.get(1));
+                int timeSpentMinutes2 = topThreeTimeSpentList.get(1);
+                String timeLabelText2 = String.format("%d Minutes", timeSpentMinutes2);
+                secondTimeLabel.setText(timeLabelText2);
+                secondAppLabel.getStyleClass().add("program-name");
+                secondTimeLabel.getStyleClass().add("time-spent");
+            }
+            if (topThreeAppNames.size() >= 3 && topThreeTimeSpentList.size() >= 3) {
+                thirdAppLabel.setText(topThreeAppNames.get(2));
+                int timeSpentMinutes3 = topThreeTimeSpentList.get(2);
+                String timeLabelText3 = String.format("%d Minutes", timeSpentMinutes3);
+                thirdTimeLabel.setText(timeLabelText3);
+                thirdAppLabel.getStyleClass().add("program-name");
+                thirdTimeLabel.getStyleClass().add("time-spent");
             }
         }
     }
-
 
 
     public static List<String> listProcesses() {
@@ -432,20 +527,6 @@ public class MainController {
             processListView.getItems().addAll(processes);
             String nextProcess = processes.contains(currentProcess) ? currentProcess : processes.get(0);
             processListView.getSelectionModel().select(nextProcess);
-        }
-        if(topApps != null) {
-            if (topApps[0] != null) {
-                firstAppLabel.setText(topApps[0].getName());
-                firstTimeLabel.setText(topApps[0].getTimeUse() + " Minutes");
-            }
-            if (topApps[1] != null) {
-                secondAppLabel.setText(topApps[1].getName());
-                secondTimeLabel.setText(topApps[1].getTimeUse() + " Minutes");
-            }
-            if (topApps[2] != null) {
-                thirdAppLabel.setText(topApps[2].getName());
-                thirdTimeLabel.setText(topApps[2].getTimeUse() + " Minutes");
-            }
         }
     }
 }
