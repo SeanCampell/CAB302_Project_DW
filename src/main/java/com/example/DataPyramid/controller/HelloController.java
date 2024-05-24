@@ -28,6 +28,7 @@ public class HelloController {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), HelloApplication.uiSubject.getWindowWidth(),
                 HelloApplication.uiSubject.getWindowHeight());
+        scene.getStylesheets().add(observer.getStylesheet());
         HelloApplication.uiSubject.removeObserver(observer);
         stage.setScene(scene);
     }
@@ -38,6 +39,7 @@ public class HelloController {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("signup-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), HelloApplication.uiSubject.getWindowWidth(),
                 HelloApplication.uiSubject.getWindowHeight());
+        scene.getStylesheets().add(observer.getStylesheet());
         HelloApplication.uiSubject.removeObserver(observer);
         stage.setScene(scene);
     }
@@ -45,13 +47,9 @@ public class HelloController {
     @FXML
     protected void onVisible() {
         if(!observerInit) {
-            observerInit();
+            observer = new UIObserver(viewName, loginButton.getScene());
+            HelloApplication.uiSubject.registerObserver(observer);
             observerInit = true;
         }
-    }
-
-    private void observerInit() {
-        observer = new UIObserver(viewName, loginButton.getScene());
-        HelloApplication.uiSubject.registerObserver(observer);
     }
 }
