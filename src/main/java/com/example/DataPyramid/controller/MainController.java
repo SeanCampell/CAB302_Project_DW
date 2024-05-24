@@ -153,7 +153,7 @@ public class MainController {
         if (!TrackingSwitch.continuePopulating) {
             return;
         }
-        timeTracker = new TimeTracking(dbConnection, currentUser);
+        timeTracker = new TimeTracking(dbConnection, currentUser, "");
         totalScreenTime = dbConnection.loadTotalScreenTime(currentUser);
         displayTotalTime(totalTimeLabel, totalScreenTime);
         loadTimeSpentList(currentUser);
@@ -296,7 +296,7 @@ public class MainController {
 
 
     private void startTrackingApp(String appName) {
-        dbConnection.stopTrackingApp(currentUser, appName);
+        dbConnection.startTrackingApp(currentUser, appName);
     }
 
     private void stopTrackingApp(String appName) {

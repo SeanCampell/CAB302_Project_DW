@@ -15,13 +15,16 @@ public class TimeTracking {
     private int totalScreenTime;
     private Timer timer;
 
-    public TimeTracking(DatabaseInitializer dbConnection, User user) {
+    public TimeTracking(DatabaseInitializer dbConnection, User user, String appName) {
+        setCurrentUser(user);
         this.dbConnection = dbConnection;
         this.programStartTimes = new HashMap<>();
-        this.programTotalTimes = dbConnection.loadProgramTotalTimes(user);
+        int timeSpent = dbConnection.getTimeSpentForApp(appName, user);
+        this.programTotalTimes = new HashMap<>();
+        this.programTotalTimes.put(appName, timeSpent);
         this.totalScreenTime = dbConnection.loadTotalScreenTime(user);
-        setCurrentUser(user);
     }
+
 
     public void setCurrentUser(User currentUser) {
         startActiveAppMonitoring(currentUser);
@@ -37,8 +40,10 @@ public class TimeTracking {
     }
 
     public int getTimeSpentMinutes(String appName) {
-        return programTotalTimes.getOrDefault(appName, 0) / 60;
+        Integer timeSpentSeconds = programTotalTimes.get(appName);
+        return timeSpentSeconds != null ? timeSpentSeconds / 60 : 0;
     }
+
 
     public void endTracking(String appName, User user) {
         if (!TrackingSwitch.continuePopulating) {

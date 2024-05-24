@@ -416,7 +416,7 @@ public class DatabaseInitializer {
 
     public int getTimeSpentForApp(String appName, User user) {
         try (Connection connection = DriverManager.getConnection(DB_URL)) {
-            String sql = "SELECT timeUse FROM program WHERE userEmail = ? AND appName = ?";
+            String sql = "SELECT timeUse FROM program WHERE userEmail = ? AND name = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, user.getEmail());
                 preparedStatement.setString(2, appName);
@@ -480,6 +480,5 @@ public class DatabaseInitializer {
 
         return isTracked;
     }
-
 
 }
