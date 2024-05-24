@@ -1,6 +1,7 @@
 package com.example.DataPyramid.controller;
 
 import com.example.DataPyramid.HelloApplication;
+import com.example.DataPyramid.model.UIObserver;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -16,6 +17,9 @@ public class TermsController {
     private Button agreeButton;
     @FXML
     private Button backButton;
+    private UIObserver observer;
+    private final String viewName = "Terms View";
+    private boolean observerInit = false;
 
 
     @FXML
@@ -54,8 +58,10 @@ public class TermsController {
     protected void onBackButtonClick() throws IOException {
         Stage stage = (Stage) backButton.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.uiListener.getWindowWidth(),
-                HelloApplication.uiListener.getWindowHeight());
+        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.uiSubject.getWindowWidth(),
+                HelloApplication.uiSubject.getWindowHeight());
+        scene.getStylesheets().add(observer.getStylesheet());
+        HelloApplication.uiSubject.removeObserver(observer);
         stage.setScene(scene);
     }
 
@@ -63,9 +69,19 @@ public class TermsController {
     protected void onNextButtonClick() throws IOException {
         Stage stage = (Stage) agreeButton.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("signup-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.uiListener.getWindowWidth(),
-                HelloApplication.uiListener.getWindowHeight());
+        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.uiSubject.getWindowWidth(),
+                HelloApplication.uiSubject.getWindowHeight());
+        scene.getStylesheets().add(observer.getStylesheet());
+        HelloApplication.uiSubject.removeObserver(observer);
         stage.setScene(scene);
     }
 
+    @FXML
+    protected void onVisible() {
+        if(!observerInit) {
+            observer = new UIObserver(viewName, agreeButton.getScene());
+            HelloApplication.uiSubject.registerObserver(observer);
+            observerInit = true;
+        }
+    }
 }

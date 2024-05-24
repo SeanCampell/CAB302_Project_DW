@@ -4,6 +4,7 @@ import com.example.DataPyramid.apptrack.App;
 import com.example.DataPyramid.apptrack.AppType;
 import com.example.DataPyramid.db.DatabaseInitializer;
 import com.example.DataPyramid.model.Graph;
+import com.example.DataPyramid.model.UIObserver;
 import com.example.DataPyramid.model.User;
 import com.example.DataPyramid.HelloApplication;
 import javafx.collections.FXCollections;
@@ -93,6 +94,10 @@ public class MainController {
 
     private App[] topApps;
     private List<String> processes;
+
+    private UIObserver observer;
+    private final String viewName = "Main View";
+    private boolean observerInit = false;
 
     private static final String[] excludeProcesses = {"Widgets.exe", "RuntimeBroker.exe",
         "dllhost.exe", "SenaryAudioApp.exe", "Windows.Media.BackgroundPlayback.exe",
@@ -255,8 +260,10 @@ public class MainController {
         setCurrentUser(null);
         Stage stage = (Stage) logoutButton.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.uiListener.getWindowWidth(),
-                HelloApplication.uiListener.getWindowHeight());
+        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.uiSubject.getWindowWidth(),
+                HelloApplication.uiSubject.getWindowHeight());
+        scene.getStylesheets().add(observer.getStylesheet());
+        HelloApplication.uiSubject.removeObserver(observer);
         stage.setScene(scene);
     }
 
@@ -333,6 +340,15 @@ public class MainController {
                 thirdAppLabel.setText(topApps[2].getName());
                 thirdTimeLabel.setText(topApps[2].getTimeUse() + " Minutes");
             }
+        }
+    }
+
+    @FXML
+    protected void onVisible() {
+        if(!observerInit) {
+            observer = new UIObserver(viewName, homeContent.getScene());
+            HelloApplication.uiSubject.registerObserver(observer);
+            observerInit = true;
         }
     }
 }

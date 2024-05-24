@@ -17,7 +17,6 @@ public class UISubject implements Subject {
     /**
      * windowWidth and windowHeight should always be greater than 0
      */
-    //TODO: Determine if theres a minimum size that the application needs and update the set methods accordingly
     private double windowWidth;
     private double windowHeight;
     private List<Observer> observers;
@@ -48,19 +47,31 @@ public class UISubject implements Subject {
         // If they aren't these numbers the window grows upon scene change
         setWindowWidth(WIDTH - 16);
         setWindowHeight(HEIGHT - 39);
-        System.out.println("Height: " + HEIGHT + " Width: " + WIDTH);
+
+        notifyObservers();
     }
 
+    /**
+     * Register a new observer to be notified when the window size changes.
+     * @param observer The observer to be notified.
+     */
     @Override
     public void registerObserver(Observer observer) {
        observers.add(observer);
     }
 
+    /**
+     * Remove an observer from the list of registered observers.
+     * @param observer The observer to remove.
+     */
     @Override
     public void removeObserver(Observer observer) {
         observers.remove(observer);
     }
 
+    /**
+     * Notify all observers currently in the list of registered observers.
+     */
     @Override
     public void notifyObservers() {
         for (Observer observer : observers) { observer.update(getWindowWidth(), getWindowHeight());}

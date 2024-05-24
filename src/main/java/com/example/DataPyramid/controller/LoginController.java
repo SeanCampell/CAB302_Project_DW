@@ -1,6 +1,7 @@
 package com.example.DataPyramid.controller;
 
 import com.example.DataPyramid.db.DatabaseInitializer;
+import com.example.DataPyramid.model.UIObserver;
 import com.example.DataPyramid.model.User;
 import com.example.DataPyramid.HelloApplication;
 import javafx.fxml.FXML;
@@ -28,10 +29,11 @@ public class LoginController {
 
     private DatabaseInitializer dbConnection;
 
-    public LoginController() {
+    private UIObserver observer;
+    private boolean observerInit = false;
+    private final String viewName = "Login View";
 
-        dbConnection = new DatabaseInitializer();
-    }
+    public LoginController() { dbConnection = new DatabaseInitializer(); }
 
     @FXML
     protected void onLoginButtonClick() throws IOException {
@@ -47,25 +49,30 @@ public class LoginController {
         User user = dbConnection.getUserByEmail(email);
 
         if (user != null && user.getPassword().equals(password)) {
+            Stage stage = (Stage) loginButton.getScene().getWindow();
             FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("main-view.fxml"));
             Parent root = loader.load();
             MainController mainController = loader.getController();
             mainController.setCurrentUser(user);
 
-            Stage stage = (Stage) loginButton.getScene().getWindow();
-            stage.setScene(new Scene(root));
+            Scene scene = new Scene(root, HelloApplication.uiSubject.getWindowWidth(),
+                    HelloApplication.uiSubject.getWindowHeight());
+            scene.getStylesheets().add(observer.getStylesheet());
+            HelloApplication.uiSubject.removeObserver(observer);
+            stage.setScene(scene);
         } else {
             errorLabel.setText("Invalid email or password");
         }
     }
 
-
     @FXML
     protected void onBackButtonClick() throws IOException {
         Stage stage = (Stage) backButton.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.uiListener.getWindowWidth(),
-                HelloApplication.uiListener.getWindowHeight());
+        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.uiSubject.getWindowWidth(),
+                HelloApplication.uiSubject.getWindowHeight());
+        scene.getStylesheets().add(observer.getStylesheet());
+        HelloApplication.uiSubject.removeObserver(observer);
         stage.setScene(scene);
     }
 
@@ -73,8 +80,19 @@ public class LoginController {
     protected void onSignUpButtonClick() throws IOException {
         Stage stage = (Stage) backButton.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("signup-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.uiListener.getWindowWidth(),
-                HelloApplication.uiListener.getWindowHeight());
+        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.uiSubject.getWindowWidth(),
+                HelloApplication.uiSubject.getWindowHeight());
+        scene.getStylesheets().add(observer.getStylesheet());
+        HelloApplication.uiSubject.removeObserver(observer);
         stage.setScene(scene);
+    }
+
+    @FXML
+    protected void onVisible() {
+        if(!observerInit) {
+            observer = new UIObserver(viewName, backButton.getScene());
+            HelloApplication.uiSubject.registerObserver(observer);
+            observerInit = true;
+        }
     }
 }

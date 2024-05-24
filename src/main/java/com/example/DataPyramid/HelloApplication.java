@@ -13,18 +13,20 @@ public class HelloApplication extends Application {
     public static final String TITLE = "Data Pyramid Team";
     public static final double WIDTH = 800;
     public static final double HEIGHT = 530;
-    public static UISubject uiListener;
+    public static UISubject uiSubject;
     @Override
     public void start(Stage stage) throws IOException {
-        uiListener = new UISubject(WIDTH, HEIGHT);
+        uiSubject = new UISubject(WIDTH, HEIGHT);
 
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), uiListener.getWindowWidth(), uiListener.getWindowHeight());
+        Scene scene = new Scene(fxmlLoader.load(), uiSubject.getWindowWidth(), uiSubject.getWindowHeight());
+        scene.getStylesheets().add(String.valueOf(HelloApplication.class.getResource("StyleSmall.css")));
         stage.setTitle(TITLE);
         stage.setScene(scene);
+
         stage.show();
 
-        ChangeListener<Number> stageSizeListener = (observable, oldValue, newValue) -> uiListener.update(stage.getWidth(), stage.getHeight());
+        ChangeListener<Number> stageSizeListener = (observable, oldValue, newValue) -> uiSubject.update(stage.getWidth(), stage.getHeight());
 
         stage.widthProperty().addListener(stageSizeListener);
         stage.heightProperty().addListener(stageSizeListener);

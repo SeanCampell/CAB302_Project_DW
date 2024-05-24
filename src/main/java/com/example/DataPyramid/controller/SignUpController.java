@@ -1,6 +1,7 @@
 package com.example.DataPyramid.controller;
 
 import com.example.DataPyramid.db.DatabaseInitializer;
+import com.example.DataPyramid.model.UIObserver;
 import com.example.DataPyramid.model.User;
 import com.example.DataPyramid.HelloApplication;
 import javafx.fxml.FXML;
@@ -34,26 +35,30 @@ public class SignUpController {
     private Label errorLabel;
 
     private DatabaseInitializer dbConnection;
+    private UIObserver observer;
+    private final String viewName = "Signup View";
+    private boolean observerInit = false;
 
-    public SignUpController() {
-
-        dbConnection = new DatabaseInitializer();
-    }
+    public SignUpController() { dbConnection = new DatabaseInitializer(); }
 
     @FXML
     protected void onTermsButtonClick() throws IOException {
         Stage stage = (Stage) backButton.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("terms-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.uiListener.getWindowWidth(),
-                HelloApplication.uiListener.getWindowHeight());
+        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.uiSubject.getWindowWidth(),
+                HelloApplication.uiSubject.getWindowHeight());
+        scene.getStylesheets().add(observer.getStylesheet());
+        HelloApplication.uiSubject.removeObserver(observer);
         stage.setScene(scene);
     }
     @FXML
     protected void onBackButtonClick() throws IOException {
         Stage stage = (Stage) backButton.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.uiListener.getWindowWidth(),
-                HelloApplication.uiListener.getWindowHeight());
+        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.uiSubject.getWindowWidth(),
+                HelloApplication.uiSubject.getWindowHeight());
+        scene.getStylesheets().add(observer.getStylesheet());
+        HelloApplication.uiSubject.removeObserver(observer);
         stage.setScene(scene);
     }
 
@@ -94,9 +99,12 @@ public class SignUpController {
             try {
                 Stage stage = (Stage) signUpButton.getScene().getWindow();
                 FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("main-view.fxml"));
-                Scene scene = new Scene(fxmlLoader.load(), HelloApplication.uiListener.getWindowWidth(),
-                        HelloApplication.uiListener.getWindowHeight());
+                Scene scene = new Scene(fxmlLoader.load(), HelloApplication.uiSubject.getWindowWidth(),
+                        HelloApplication.uiSubject.getWindowHeight());
+                scene.getStylesheets().add(observer.getStylesheet());
+                HelloApplication.uiSubject.removeObserver(observer);
                 stage.setScene(scene);
+
                 MainController mainController = fxmlLoader.getController();
                 mainController.setCurrentUser(newUser);
             } catch (IOException e) {
@@ -120,8 +128,19 @@ public class SignUpController {
     protected void onLoginButtonClick() throws IOException {
         Stage stage = (Stage) backButton.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.uiListener.getWindowWidth(),
-                HelloApplication.uiListener.getWindowHeight());
+        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.uiSubject.getWindowWidth(),
+                HelloApplication.uiSubject.getWindowHeight());
+        scene.getStylesheets().add(observer.getStylesheet());
+        HelloApplication.uiSubject.removeObserver(observer);
         stage.setScene(scene);
+    }
+
+    @FXML
+    protected void onVisible() {
+        if(!observerInit) {
+            observer = new UIObserver(viewName, backButton.getScene());
+            HelloApplication.uiSubject.registerObserver(observer);
+            observerInit = true;
+        }
     }
 }
