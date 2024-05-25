@@ -38,7 +38,6 @@ public class TimeTracking {
         startActiveAppMonitoring(currentUser);
     }
 
-
     public void startTracking(String appName) {
         if (TrackingSwitch.continuePopulating) {
             programStartTimes.put(appName, Instant.now());
@@ -58,16 +57,18 @@ public class TimeTracking {
                 Instant endTime = Instant.now();
                 Duration duration = Duration.between(startTime, endTime);
 
-            Integer existingTime = programTotalTimes.get(appName);
-            int totalSeconds = (existingTime != null) ? existingTime : dbConnection.getTimeSpentForApp(appName, user) * 60;
+                Integer existingTime = programTotalTimes.get(appName);
+                int totalSeconds = (existingTime != null) ? existingTime
+                        : dbConnection.getTimeSpentForApp(appName, user) * 60;
 
-            totalSeconds += duration.getSeconds();
-            programTotalTimes.put(appName, totalSeconds);
-            int totalMinutes = totalSeconds / 60;
-            updateAllProgramTimes(user);
-            System.out.println("Tracking ended for program: " + appName + ". Time spent: " + totalMinutes + " minutes.");
-            mainController.startPeriodicRefresh(dbConnection);
-            sendAlertIfTimeExceedsLimit(user);
+                totalSeconds += (int) duration.getSeconds();
+                programTotalTimes.put(appName, totalSeconds);
+                int totalMinutes = totalSeconds / 60;
+                updateAllProgramTimes(user);
+                System.out.println("Tracking ended for program: " + appName + ". Time spent: " + totalMinutes + " minutes.");
+                mainController.startPeriodicRefresh(dbConnection);
+                sendAlertIfTimeExceedsLimit(user);
+            }
         }
     }
 

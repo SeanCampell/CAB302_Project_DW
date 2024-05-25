@@ -105,11 +105,7 @@ public class MainController {
     @FXML
     private VBox programList;
     @FXML
-    private VBox rightNavbar;
-    @FXML
     private VBox timeLimitPrograms;
-
-
     @FXML
     private ListView<String> processListView;
     @FXML
@@ -179,7 +175,7 @@ public class MainController {
      */
     public void initializeOutsideInitialize() {
         if (TrackingSwitch.continuePopulating) {
-            timeTracker = new TimeTracking(dbConnection, currentUser, "");
+            timeTracker = new TimeTracking(dbConnection, currentUser, "", this);
             totalScreenTime = dbConnection.loadTotalScreenTime(currentUser);
             displayTotalTime(totalTimeLabel, totalScreenTime);
             loadTimeSpentList(currentUser);
