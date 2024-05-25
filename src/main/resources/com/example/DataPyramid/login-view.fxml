@@ -20,23 +20,27 @@
         <VBox spacing="5.0" HBox.hgrow="ALWAYS">
             <Button fx:id="backButton" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308"
                     maxWidth="1.7976931348623157E308" onAction="#onBackButtonClick" styleClass="back-button"
-                    text="🡠" VBox.vgrow="SOMETIMES" />
+                    text="🡠" VBox.vgrow="SOMETIMES"/>
             <Label styleClass="header-label" text="Log In" VBox.vgrow="SOMETIMES" />
             <Label styleClass="instruction" text="Email address" VBox.vgrow="SOMETIMES" />
             <TextField fx:id="emailField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                       promptText="Email Address" style="-fx-font-weight: bold;" VBox.vgrow="SOMETIMES">
+                       promptText="Email Address" styleClass="accountField" VBox.vgrow="SOMETIMES">
             <padding>
                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-            </padding></TextField>
+            </padding>
+            </TextField>
+
             <Label styleClass="instruction" text="Password" VBox.vgrow="SOMETIMES" />
             <PasswordField fx:id="passwordField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                           promptText="Password" style="-fx-font-weight: bold;" VBox.vgrow="SOMETIMES">
+                           promptText="Password" styleClass="accountField" VBox.vgrow="SOMETIMES">
             <padding>
                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-            </padding></PasswordField>
+            </padding>
+            </PasswordField>
 
             <Label fx:id="errorLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
                    styleClass="error-label" VBox.vgrow="SOMETIMES" />
+
              <Button id="signupButton" fx:id="loginButton" maxHeight="1.7976931348623157E308"
                      maxWidth="1.7976931348623157E308" onAction="#onLoginButtonClick" text="Log In"
                      VBox.vgrow="SOMETIMES" />

@@ -57,7 +57,9 @@ Label { }
 /*
  *  TEXTFIELD Styles and related classes or ids
  */
-
+.accountField {
+    -fx-font-weight: bold;
+}
 /*
  *  TEXTAREA Styles and related classes or ids
  */
@@ -112,13 +114,15 @@ Button:hover {
     -fx-background-color: #192613;
 }
 
-#headlines {
-    -fx-font-size: 2em;
-    -fx-font-weight: bold;
-    -fx-font-family: 'Arial';
-    -fx-background-color: #F2F2F2;
-}
+/*
+ *  OTHER Styles and related classes or ids
+ */
 
+#graphLocation {
+    -fx-background-color: white;
+    -fx-background-radius: 20px;
+    -fx-padding: 10px;
+}
 
 #program-list-item {
     -fx-background-color: #ffffff;
