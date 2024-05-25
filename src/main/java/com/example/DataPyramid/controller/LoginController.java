@@ -1,5 +1,6 @@
 package com.example.DataPyramid.controller;
 
+import com.example.DataPyramid.apptrack.TrackingSwitch;
 import com.example.DataPyramid.db.DatabaseInitializer;
 import com.example.DataPyramid.model.UIObserver;
 import com.example.DataPyramid.model.User;
@@ -54,6 +55,7 @@ public class LoginController {
             Parent root = loader.load();
             MainController mainController = loader.getController();
             mainController.setCurrentUser(user);
+            TrackingSwitch.continuePopulating = true;
 
             Scene scene = new Scene(root, HelloApplication.uiSubject.getWindowWidth(),
                     HelloApplication.uiSubject.getWindowHeight());
@@ -87,6 +89,7 @@ public class LoginController {
         stage.setScene(scene);
     }
 
+    /** Initalises the UIObserver for the scene when the user has their mouse anywhere inside the window. */
     @FXML
     protected void onVisible() {
         if(!observerInit) {

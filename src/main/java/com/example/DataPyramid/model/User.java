@@ -6,12 +6,16 @@ public class User {
     private String email;
     private String password;
 
-    public User(String firstname, String lastname, String email, String password) {
+    private int totalScreenTime;
+
+    public User(String firstname, String lastname, String email, String password, int totalScreenTime) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.password = password;
+        this.totalScreenTime = totalScreenTime;
     }
+
 
     public String getFirstname() {
         return firstname;
@@ -27,6 +31,10 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+
+    public int getTotalScreenTime() {
+        return totalScreenTime;
     }
 }
 

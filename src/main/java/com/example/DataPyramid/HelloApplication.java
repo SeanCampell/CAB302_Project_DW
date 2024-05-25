@@ -30,6 +30,11 @@ public class HelloApplication extends Application {
 
         stage.widthProperty().addListener(stageSizeListener);
         stage.heightProperty().addListener(stageSizeListener);
+
+        //TODO: Find a way to close the program after letting the current loop of the Timer in TimeTracking finish.
+        // This works for now though. javafx.application.Platform.exit(); doesn't work and the program will remain
+        // running in the background after main is visited
+        stage.setOnCloseRequest(event -> System.exit(0));
     }
 
     public static void main(String[] args) {

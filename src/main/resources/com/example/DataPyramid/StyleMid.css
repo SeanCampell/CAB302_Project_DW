@@ -57,7 +57,9 @@ Label { }
 /*
  *  TEXTFIELD Styles and related classes or ids
  */
-
+.accountField {
+    -fx-font-weight: bold;
+}
 /*
  *  TEXTAREA Styles and related classes or ids
  */
@@ -112,9 +114,41 @@ Button:hover {
     -fx-background-color: #192613;
 }
 
-#headlines {
-    -fx-font-size: 2em;
+/*
+ *  OTHER Styles and related classes or ids
+ */
+
+#graphLocation {
+    -fx-background-color: white;
+    -fx-background-radius: 20px;
+    -fx-padding: 10px;
+}
+
+#nav-bar {
+    -fx-background-color: #CAD8B3;
+}
+
+
+#program-list-item {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 10;
+    -fx-spacing: 10;
+}
+
+#program-list-item:hover {
+    -fx-background-color: #f9f9f9;
+}
+
+.program-name {
     -fx-font-weight: bold;
-    -fx-font-family: 'Arial';
-    -fx-background-color: #F2F2F2;
+    -fx-font-size: 14px;
+}
+
+.time-spent {
+    -fx-font-size: 12px;
+    -fx-text-fill: #666666;
 }

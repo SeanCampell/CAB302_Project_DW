@@ -28,30 +28,31 @@
             </VBox.margin></Label>
             <Label styleClass="instruction" text="Enter your first name" VBox.vgrow="SOMETIMES" />
             <TextField fx:id="firstnameField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                       promptText="First Name" VBox.vgrow="ALWAYS">
+                       promptText="First Name" VBox.vgrow="ALWAYS" styleClass="accountField">
             <padding>
                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
             </padding></TextField>
             <Label styleClass="instruction" text="Enter your last name" VBox.vgrow="SOMETIMES" />
-            <TextField fx:id="lastnameField" maxWidth="1.7976931348623157E308" promptText="Last Name" VBox.vgrow="ALWAYS">
+            <TextField fx:id="lastnameField" maxWidth="1.7976931348623157E308" promptText="Last Name"
+                       VBox.vgrow="ALWAYS" styleClass="accountField">
             <padding>
                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
             </padding></TextField>
             <Label styleClass="instruction" text="Email address" VBox.vgrow="SOMETIMES" />
             <TextField fx:id="emailField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                       promptText="Email Address" VBox.vgrow="ALWAYS">
+                       promptText="Email Address" VBox.vgrow="ALWAYS" styleClass="accountField">
             <padding>
                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
             </padding></TextField>
             <Label styleClass="instruction" text="Create password" VBox.vgrow="SOMETIMES" />
             <PasswordField fx:id="passwordField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                           promptText="Create Password" VBox.vgrow="ALWAYS">
+                           promptText="Create Password" VBox.vgrow="ALWAYS" styleClass="accountField">
             <padding>
                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
             </padding></PasswordField>
             <Label styleClass="instruction" text="Confirm password" VBox.vgrow="SOMETIMES" />
             <PasswordField fx:id="confirmPasswordField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                           promptText="Confirm Password" VBox.vgrow="SOMETIMES">
+                           promptText="Confirm Password" VBox.vgrow="SOMETIMES" styleClass="accountField">
             <padding>
                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
             </padding></PasswordField>

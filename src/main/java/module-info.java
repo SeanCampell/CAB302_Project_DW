@@ -2,6 +2,8 @@ module com.example.javafxreadingdemo {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
+    requires com.sun.jna;
+    requires com.sun.jna.platform;
 
 
 

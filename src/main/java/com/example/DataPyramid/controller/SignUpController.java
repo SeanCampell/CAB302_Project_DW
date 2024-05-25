@@ -83,8 +83,9 @@ public class SignUpController {
         String lastname = lastnameField.getText();
         String email = emailField.getText();
         String password = passwordField.getText();
+        int totalScreenTime = 0;
 
-        User newUser = new User(firstname, lastname, email, password);
+        User newUser = new User(firstname, lastname, email, password, totalScreenTime);
         boolean success = dbConnection.saveUser(newUser);
 
         if (success) {
@@ -135,6 +136,7 @@ public class SignUpController {
         stage.setScene(scene);
     }
 
+    /** Initalises the UIObserver for the scene when the user has their mouse anywhere inside the window. */
     @FXML
     protected void onVisible() {
         if(!observerInit) {
