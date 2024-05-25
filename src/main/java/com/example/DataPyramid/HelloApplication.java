@@ -32,6 +32,7 @@ public class HelloApplication extends Application {
         stage.heightProperty().addListener(stageSizeListener);
     }
 
+    //TODO: Program doesn't close when told to. Doesn't happen in main. Figure out why this is the case.
     public static void main(String[] args) {
         launch();
     }
