@@ -422,7 +422,7 @@ public class MainController {
         }
         App newApp = new App(appName, appType, appLimit, isTracking);
 
-        timeTracker.startTracking(appName, currentUser);
+        timeTracker.startTracking(appName);
         timeTracker.endTracking(appName, currentUser);
         int timeUse = timeTracker.getTimeSpentMinutes(appName);
         boolean success = dbConnection.saveApp(newApp, currentUser, timeUse);

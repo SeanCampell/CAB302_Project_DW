@@ -31,12 +31,11 @@ public class TimeTracking {
     }
 
 
-    public void startTracking(String appName, User currentUser) {
-        if (!TrackingSwitch.continuePopulating) {
-            return;
+    public void startTracking(String appName) {
+        if (TrackingSwitch.continuePopulating) {
+            programStartTimes.put(appName, Instant.now());
+            System.out.println("Tracking started for program: " + appName);
         }
-        programStartTimes.put(appName, Instant.now());
-        System.out.println("Tracking started for program: " + appName);
     }
 
     public int getTimeSpentMinutes(String appName) {
@@ -44,69 +43,63 @@ public class TimeTracking {
         return timeSpentSeconds != null ? timeSpentSeconds / 60 : 0;
     }
 
-
     public void endTracking(String appName, User user) {
-        if (!TrackingSwitch.continuePopulating) {
-            return;
-        }
-        Instant startTime = programStartTimes.get(appName);
-        if (startTime != null) {
-            Instant endTime = Instant.now();
-            Duration duration = Duration.between(startTime, endTime);
+        if (TrackingSwitch.continuePopulating) {
+            Instant startTime = programStartTimes.get(appName);
+            if (startTime != null) {
+                Instant endTime = Instant.now();
+                Duration duration = Duration.between(startTime, endTime);
 
-            Integer existingTime = programTotalTimes.get(appName);
-            int totalSeconds;
-            if (existingTime != null) {
-                totalSeconds = existingTime;
-            } else {
-                totalSeconds = dbConnection.getTimeSpentForApp(appName, user) * 60;
+                Integer existingTime = programTotalTimes.get(appName);
+                int totalSeconds;
+                if (existingTime != null) {
+                    totalSeconds = existingTime;
+                } else {
+                    totalSeconds = dbConnection.getTimeSpentForApp(appName, user) * 60;
+                }
+
+                totalSeconds += duration.getSeconds();
+                programTotalTimes.put(appName, totalSeconds);
+                int totalMinutes = totalSeconds / 60;
+                updateAllProgramTimes(user);
+                System.out.println("Tracking ended for program: " + appName + ". Time spent: " + totalMinutes + " minutes.");
             }
-
-            totalSeconds += duration.getSeconds();
-            programTotalTimes.put(appName, totalSeconds);
-            int totalMinutes = totalSeconds / 60;
-            updateAllProgramTimes(user);
-            System.out.println("Tracking ended for program: " + appName + ". Time spent: " + totalMinutes + " minutes.");
         }
     }
 
     private void updateAllProgramTimes(User user) {
-        if (!TrackingSwitch.continuePopulating) {
-            return;
-        }
-        for (Map.Entry<String, Integer> entry : programTotalTimes.entrySet()) {
-            String appName = entry.getKey();
-            int totalMinutes = entry.getValue() / 60;
-            dbConnection.updateAppTimeUse(appName, totalMinutes);
+        if (TrackingSwitch.continuePopulating) {
+            for (Map.Entry<String, Integer> entry : programTotalTimes.entrySet()) {
+                String appName = entry.getKey();
+                int totalMinutes = entry.getValue() / 60;
+                dbConnection.updateAppTimeUse(appName, totalMinutes);
+            }
         }
     }
 
     private void startActiveAppMonitoring(User currentUser) {
-        if (!TrackingSwitch.continuePopulating) {
-            return;
-        }
-        timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                try {
-                    String activeApp = ActiveWindowDetector.getActiveProcessName();
-                    if (activeApp != null && !activeApp.equals(currentActiveApp)) {
-                        if (currentActiveApp != null) {
+        if (TrackingSwitch.continuePopulating) {
+            timer = new Timer();
+            timer.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    try {
+                        String activeApp = ActiveWindowDetector.getActiveProcessName();
+                        if (activeApp != null && !activeApp.equals(currentActiveApp)) {
+                            if (currentActiveApp != null) {
+                                if (dbConnection.isAppTracked(currentActiveApp)) {
+                                    endTracking(currentActiveApp, currentUser);
+                                }
+                            }
+                            currentActiveApp = activeApp;
                             if (dbConnection.isAppTracked(currentActiveApp)) {
-                                endTracking(currentActiveApp, currentUser);
+                                startTracking(currentActiveApp);
                             }
                         }
-                        currentActiveApp = activeApp;
-                        if (dbConnection.isAppTracked(currentActiveApp)) {
-                            startTracking(currentActiveApp, currentUser);
-                        }
-                    }
-                    updateAllProgramTimes(currentUser);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                        updateAllProgramTimes(currentUser);
+                    } catch (Exception e) { e.printStackTrace(); }
                 }
-            }
-        }, 0, 1000);
+            }, 0, 1000);
+        }
     }
 }
