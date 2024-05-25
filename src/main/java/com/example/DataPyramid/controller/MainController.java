@@ -1,9 +1,6 @@
 package com.example.DataPyramid.controller;
 
-import com.example.DataPyramid.apptrack.App;
-import com.example.DataPyramid.apptrack.AppType;
-import com.example.DataPyramid.apptrack.TimeTracking;
-import com.example.DataPyramid.apptrack.TrackingSwitch;
+import com.example.DataPyramid.apptrack.*;
 import com.example.DataPyramid.db.DatabaseInitializer;
 import com.example.DataPyramid.model.Graph;
 import com.example.DataPyramid.model.User;
@@ -26,10 +23,14 @@ import javafx.scene.control.ToggleGroup;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.Process;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import static java.lang.Integer.parseInt;
+
 
 public class MainController {
 
@@ -90,6 +91,8 @@ public class MainController {
     private VBox programList;
     @FXML
     private VBox rightNavbar;
+    @FXML
+    private VBox timeLimitPrograms;
 
 
     @FXML
@@ -107,7 +110,7 @@ public class MainController {
     private List<String> processes;
     private TimeTracking timeTracker;
     private int totalScreenTime;
-
+    private static final int REFRESH_INTERVAL_SECONDS = 60;
 
 
 
@@ -153,7 +156,7 @@ public class MainController {
         if (!TrackingSwitch.continuePopulating) {
             return;
         }
-        timeTracker = new TimeTracking(dbConnection, currentUser, "");
+        timeTracker = new TimeTracking(dbConnection, currentUser, "", this);
         totalScreenTime = dbConnection.loadTotalScreenTime(currentUser);
         displayTotalTime(totalTimeLabel, totalScreenTime);
         loadTimeSpentList(currentUser);
@@ -165,6 +168,36 @@ public class MainController {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             dbConnection.updateTotalScreenTime(currentUser, totalScreenTime);
         }));
+    }
+
+
+
+    public void startPeriodicRefresh(DatabaseInitializer dbConnection) {
+        if (!TrackingSwitch.continuePopulating) {
+            return;
+        }
+        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+        executor.scheduleAtFixedRate(() -> {
+            System.out.println("Refreshing data...");
+            clearAndRefreshUI(dbConnection, currentUser);
+        }, 0, REFRESH_INTERVAL_SECONDS, TimeUnit.SECONDS);
+    }
+
+    public void clearAndRefreshUI(DatabaseInitializer dbConnection, User currentUser) {
+        programList.getChildren().clear();
+        rightNavbar.getChildren().clear();
+        timeLimitPrograms.getChildren().clear();
+
+        List<String> appNames = dbConnection.loadStoredAppNames(currentUser);
+        List<Integer> timeSpentList = dbConnection.loadTimeSpentList(currentUser);
+        List<Integer> timeLimitList = dbConnection.loadTimeLimitForProgram(currentUser);
+        List<String> topThreeAppNames = dbConnection.getFirstThreeProgramNames(currentUser);
+        List<Integer> topThreeTimeSpentList = dbConnection.getTimeSpentForFirstThreePrograms(currentUser);
+
+        populateUIWithAppNames(appNames, timeSpentList);
+        updateTopApps(topThreeAppNames, topThreeTimeSpentList);
+        populateRightNavbarWithAppNames(appNames, timeSpentList);
+        populatePrograms(appNames, timeLimitList);
     }
 
 
@@ -190,16 +223,16 @@ public class MainController {
         totalTimeLabel.setText(String.format("%dh %dmin", hours, minutes));
     }
 
-
     private void loadTimeSpentList(User currentUser) {
         if (!TrackingSwitch.continuePopulating) {
             return;
         }
         List<String> appNames = dbConnection.loadStoredAppNames(currentUser);
         List<Integer> timeSpentList = dbConnection.loadTimeSpentList(currentUser);
+        List<Integer> timeLimitList = dbConnection.loadTimeLimitForProgram(currentUser);
         populateUIWithAppNames(appNames, timeSpentList);
         populateRightNavbarWithAppNames(appNames, timeSpentList);
-
+        populatePrograms(appNames, timeLimitList);
     }
 
 
@@ -242,7 +275,6 @@ public class MainController {
         } else {
             appContainer.getChildren().addAll(appNameLabel, timeSpentLabel, stopTrackingButton);
         }
-
         return appContainer;
     }
 
@@ -259,8 +291,6 @@ public class MainController {
         }
     }
 
-
-
     private VBox createAppEntryforRightNavbar(String appName, int timeSpentMinutes) {
         VBox appContainer = new VBox();
         appContainer.setSpacing(5);
@@ -276,7 +306,6 @@ public class MainController {
         return appContainer;
     }
 
-
     private void populateRightNavbarWithAppNames(List<String> appNames, List<Integer> timeSpentList) {
         for (int i = 0; i < appNames.size(); i++) {
             String appName = appNames.get(i);
@@ -286,6 +315,34 @@ public class MainController {
             }
             VBox appEntry = createAppEntryforRightNavbar(appName, timeSpentMinutes);
             rightNavbar.getChildren().add(appEntry);
+        }
+    }
+
+    private VBox createProgramEntry(String appName, int timeLimit) {
+        VBox programContainer = new VBox();
+        programContainer.setId("program-list-item");
+        programContainer.setSpacing(5);
+        programContainer.setAlignment(Pos.CENTER_LEFT);
+
+        Label appNameLabel = new Label(appName);
+        appNameLabel.getStyleClass().add("program-name");
+
+        Label timeLimitLabel = new Label("Time Limit: " + timeLimit + " min");
+        timeLimitLabel.getStyleClass().add("time-limit");
+
+        programContainer.getChildren().addAll(appNameLabel, timeLimitLabel);
+        return programContainer;
+    }
+
+    private void populatePrograms(List<String> appNames, List<Integer> timeLimitList) {
+        for (int i = 0; i < appNames.size(); i++) {
+            String appName = appNames.get(i);
+            int timeLimit = timeLimitList.get(i);
+            if (!TrackingSwitch.continuePopulating) {
+                return;
+            }
+            VBox appEntry = createProgramEntry(appName, timeLimit);
+            timeLimitPrograms.getChildren().add(appEntry);
         }
     }
 
@@ -304,13 +361,11 @@ public class MainController {
     }
 
 
-
-
-
     @FXML
     protected void onRemoveAllButtonClick() {
         rightNavbar.getChildren().clear();
         programList.getChildren().clear();
+        timeLimitPrograms.getChildren().clear();
         firstAppLabel.setText("");
         firstTimeLabel.setText("");
         secondAppLabel.setText("");
@@ -318,18 +373,16 @@ public class MainController {
         thirdAppLabel.setText("");
         thirdTimeLabel.setText("");
         removeAllProgramsFromDatabase();
+        timeTracker.clearShownAlerts();
     }
 
     private void removeAllProgramsFromDatabase() {
         dbConnection.removeAllPrograms();
-
     }
-
 
     public MainController() {
         this.graphDAO = new GraphDAO("program");
     }
-
 
     @FXML
     protected void onHomeButtonClick() throws IOException {
@@ -350,7 +403,6 @@ public class MainController {
         insightsContent.setVisible(true);
         timeLimitsContent.setVisible(false);
         addProgramContent.setVisible(false);
-
         graphsHandler = new Graph(defaultGraph, graphLocation, graphDAO, currentUser.getEmail());
     }
 
@@ -403,13 +455,16 @@ public class MainController {
         if (success) {
             programList.getChildren().clear();
             rightNavbar.getChildren().clear();
+            timeLimitPrograms.getChildren().clear();
             List<String> appNames = dbConnection.loadStoredAppNames(currentUser);
             List<Integer> timeSpentList = dbConnection.loadTimeSpentList(currentUser);
+            List<Integer> timeLimitList = dbConnection.loadTimeLimitForProgram(currentUser);
             populateUIWithAppNames(appNames, timeSpentList);
             List<String> topThreeAppNames = dbConnection.getFirstThreeProgramNames(currentUser);
             List<Integer> topThreeTimeSpentList = dbConnection.getTimeSpentForFirstThreePrograms(currentUser);
             updateTopApps(topThreeAppNames, topThreeTimeSpentList);
             populateRightNavbarWithAppNames(appNames, timeSpentList);
+            populatePrograms(appNames, timeLimitList);
 
 
             typeChoiceBox.getSelectionModel().clearSelection();

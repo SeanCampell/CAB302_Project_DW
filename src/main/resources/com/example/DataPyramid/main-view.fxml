@@ -78,7 +78,6 @@
                            <Label style="-fx-text-fill: grey;" text="Today" />
                            <Label fx:id="totalTimeLabel" style="-fx-font-size: 25px"
                                   HBox.hgrow="ALWAYS"/>
-                           <Label style="-fx-text-fill: grey;" text="Chart for today's usage (Insights content has chart for weekly usage)" />
                        </VBox>
                   <padding>
                      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -164,51 +163,25 @@
                    </VBox>
            </VBox>
 
-
            <!-- Time Limits Content -->
-           <VBox fx:id="timeLimitsContent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" visible="false">
-               <VBox spacing="10.0" VBox.vgrow="ALWAYS">
-                   <Label id="headlines" text="Screen Time Limit" underline="true" VBox.vgrow="SOMETIMES">
-                  <VBox.margin>
-                     <Insets bottom="10.0" top="10.0" />
-                  </VBox.margin>
+           <VBox fx:id="timeLimitsContent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" visible="false" spacing="10"
+                 style="-fx-background-color: transparent;">
+               <Label id="headlines" text="Time Limit for Programs">
+                   <VBox.margin>
+                       <Insets top="20.0" />
+                   </VBox.margin>
                </Label>
-                   <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10"
-                         style="-fx-background-color: white;-fx-background-radius: 5px; -fx-padding: 10px;" VBox.vgrow="ALWAYS">
-                       <Label text="{Some Info}" HBox.hgrow="ALWAYS" />
-   
-                       <!-- Add content here -->
-   
-                   </HBox>
-                   <Label id="headlines" text="App Time Limit" underline="true">
-                  <VBox.margin>
-                     <Insets bottom="5.0" top="10.0" />
-                  </VBox.margin>
-               </Label>
-                   <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10"
-                         style="-fx-background-color: white;-fx-background-radius: 5px; -fx-padding: 10px;" VBox.vgrow="ALWAYS">
-
-                    <!-- Add content here -->
-
-                </HBox>
-                   <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10"
-                         style="-fx-background-color: white;-fx-background-radius: 5px; -fx-padding: 10px;" VBox.vgrow="ALWAYS">
-
-                    <!-- Add content here -->
-
-                </HBox>
-                   <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10"
-                         style="-fx-background-color: white;-fx-background-radius: 5px; -fx-padding: 10px;" VBox.vgrow="ALWAYS">
-
-                    <!-- Add content here -->
-
-                </HBox>
-               </VBox>
-            <padding>
-               <Insets bottom="10.0" top="20.0" />
-            </padding>
+               <ScrollPane fitToWidth="true" fitToHeight="true" style="-fx-background-color: transparent; -fx-background-insets: 0;">
+                   <VBox spacing="5.0" VBox.vgrow="ALWAYS" prefHeight="450">
+                       <VBox fx:id="timeLimitPrograms" spacing="10.0" VBox.vgrow="ALWAYS">
+                           <padding>
+                               <Insets top="10.0" />
+                           </padding>
+                       </VBox>
+                   </VBox>
+               </ScrollPane>
            </VBox>
-   
+
            <!-- Add Program Content -->
            <VBox fx:id="addProgramContent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
                  spacing="10.0" visible="false">
@@ -236,10 +209,10 @@
                            <CheckBox fx:id="isTrack" styleClass="instruction" text="Track Now?" />
                        </VBox>
                        <Label fx:id="errorLabel" styleClass="error-label" />
-                       <HBox alignment="BOTTOM_LEFT">
+                       <VBox alignment="BOTTOM_LEFT">
                            <Button id="addAppButton" onAction="#onAddAppButtonClick" text="Add Application" />
                            <Button id="removeAllButton" onAction="#onRemoveAllButtonClick" text="Remove All Applications" />
-                       </HBox>
+                       </VBox>
                    </VBox>
                </HBox>
             <StackPane.margin>
