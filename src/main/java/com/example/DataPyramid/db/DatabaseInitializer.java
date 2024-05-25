@@ -320,6 +320,25 @@ public class DatabaseInitializer {
     }
 
 
+    public List<Integer> loadTimeLimitForProgram(User user) {
+        List<Integer> timeLimitList = new ArrayList<>();
+        try (Connection connection = DriverManager.getConnection(DB_URL)) {
+            String sql = "SELECT timeLimit FROM program WHERE userEmail = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, user.getEmail());
+                ResultSet resultSet = preparedStatement.executeQuery();
+                while (resultSet.next()) {
+                    int timeSpent = resultSet.getInt("timeLimit");
+                    timeLimitList.add(timeSpent);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return timeLimitList;
+    }
+
+
     public Map<String, Integer> loadProgramTotalTimes(User user) {
         Map<String, Integer> timeMap = new HashMap<>();
         try (Connection connection = DriverManager.getConnection(DB_URL)) {
@@ -376,7 +395,7 @@ public class DatabaseInitializer {
 
     public List<String> getFirstThreeProgramNames(User user) {
         List<String> programNames = new ArrayList<>();
-        String query = "SELECT name FROM program WHERE userEmail = ? LIMIT 3";
+        String query = "SELECT name FROM program WHERE userEmail = ? ORDER BY timeUse DESC LIMIT 3";
 
         try (Connection connection = DriverManager.getConnection(DB_URL);
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -396,7 +415,7 @@ public class DatabaseInitializer {
 
     public List<Integer> getTimeSpentForFirstThreePrograms(User user) {
         List<Integer> timeSpentList = new ArrayList<>();
-        String query = "SELECT timeUse FROM program WHERE userEmail = ? LIMIT 3";
+        String query = "SELECT timeUse FROM program WHERE userEmail = ? ORDER BY timeUse DESC LIMIT 3";
 
         try (Connection connection = DriverManager.getConnection(DB_URL);
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -430,6 +449,25 @@ public class DatabaseInitializer {
         }
         return 0;
     }
+
+
+    public int getTimeLimitForApp(String appName, User user) {
+        try (Connection connection = DriverManager.getConnection(DB_URL)) {
+            String sql = "SELECT timeLimit FROM program WHERE userEmail = ? AND name = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, user.getEmail());
+                preparedStatement.setString(2, appName);
+                ResultSet resultSet = preparedStatement.executeQuery();
+                if (resultSet.next()) {
+                    return resultSet.getInt("timeLimit");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
 
 
     public void stopTrackingApp(User user, String appName) {

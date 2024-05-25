@@ -69,8 +69,8 @@
                    <HBox spacing="10.0" VBox.vgrow="ALWAYS">
                        <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 20px; -fx-padding: 10px;" HBox.hgrow="ALWAYS">
                            <Label style="-fx-text-fill: grey;" text="Today" />
-                           <Label fx:id="totalTimeLabel" style="-fx-font-size: 25px" HBox.hgrow="ALWAYS"/>
-                           <Label style="-fx-text-fill: grey;" text="Chart for today's usage (Insights content has chart for weekly usage)" />
+                           <Label fx:id="totalTimeLabel" style="-fx-font-size: 25px"
+                                  HBox.hgrow="ALWAYS"/>
                        </VBox>
                   <padding>
                      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -154,52 +154,22 @@
            </VBox>
 
             <!-- Time Limits Content -->
-            <VBox fx:id="timeLimitsContent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" visible="false">
-                <VBox spacing="10.0" VBox.vgrow="ALWAYS">
-                    <Label styleClass="header-label" text="Screen Time Limit" underline="true" VBox.vgrow="SOMETIMES">
+            <VBox fx:id="timeLimitsContent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" visible="false"
+                  spacing="10.0" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent;">
+                    <Label styleClass="header-label" text="Program Time Limits" underline="true" VBox.vgrow="SOMETIMES">
                         <VBox.margin>
-                            <Insets bottom="10.0" top="10.0" />
+                            <Insets bottom="10.0" top="20.0" />
                         </VBox.margin>
                     </Label>
-                    <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308"
-                          maxWidth="1.7976931348623157E308" spacing="10"
-                          style="-fx-background-color: white;-fx-background-radius: 5px; -fx-padding: 10px;" VBox.vgrow="ALWAYS">
-                        <Label text="{Some Info}" HBox.hgrow="ALWAYS" />
-
-                        <!-- Add content here -->
-
-                    </HBox>
-                </VBox>
-         <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0" VBox.vgrow="ALWAYS">
-            <children>
-                       <Label styleClass="header-label" text="App Time Limit" underline="true">
-                           <VBox.margin>
-                               <Insets bottom="5.0" top="10.0" />
-                           </VBox.margin>
-                       </Label>
-                       <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10"
-                             style="-fx-background-color: white;-fx-background-radius: 5px; -fx-padding: 10px;" VBox.vgrow="ALWAYS">
-
-                        <!-- Add content here -->
-
-                    </HBox>
-                       <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10"
-                             style="-fx-background-color: white;-fx-background-radius: 5px; -fx-padding: 10px;" VBox.vgrow="ALWAYS">
-
-                        <!-- Add content here -->
-
-                    </HBox>
-                       <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10"
-                             style="-fx-background-color: white;-fx-background-radius: 5px; -fx-padding: 10px;" VBox.vgrow="ALWAYS">
-
-                        <!-- Add content here -->
-
-                    </HBox>
-            </children>
-         </VBox>
-                <padding>
-                    <Insets bottom="10.0" top="20.0" />
-                </padding>
+                    <ScrollPane fitToWidth="true" fitToHeight="true" style="-fx-background-color: transparent; -fx-background-insets: 0;">
+                        <VBox spacing="5.0" VBox.vgrow="ALWAYS" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                            <VBox fx:id="timeLimitPrograms" spacing="10.0" VBox.vgrow="ALWAYS">
+                                <padding>
+                                    <Insets top="10.0" />
+                                </padding>
+                            </VBox>
+                        </VBox>
+                    </ScrollPane>
             </VBox>
 
             <!-- Add Program Content -->
