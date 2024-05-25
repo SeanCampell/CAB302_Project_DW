@@ -30,6 +30,10 @@ public class HelloApplication extends Application {
 
         stage.widthProperty().addListener(stageSizeListener);
         stage.heightProperty().addListener(stageSizeListener);
+
+        stage.setOnCloseRequest(event -> {
+            javafx.application.Platform.exit();
+        });
     }
 
     //TODO: Program doesn't close when told to. Doesn't happen in main. Figure out why this is the case.

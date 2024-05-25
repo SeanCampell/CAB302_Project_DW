@@ -35,13 +35,24 @@ import static java.lang.Integer.parseInt;
 
 public class MainController {
 
-    // ----- NAVIGATION BAR
+    // ----- UI SCALING -----
+    private UIObserver observer;
+    private final String viewName = "Main View";
+    private boolean observerInit = false;
+
+    // ----- NAVIGATION BAR -----
     @FXML
     private ToggleButton homeButton;
     @FXML
     private Button logoutButton;
     @FXML
     private ToggleButton insightButton;
+
+    // ----- RHS BAR -----
+    @FXML
+    private VBox rightNavbar;
+    @FXML
+    private Label welcomeLabel;
 
     // ----- PAGE CONTENT ------
     @FXML
@@ -53,13 +64,19 @@ public class MainController {
     @FXML
     private VBox addProgramContent;
 
+    // ----- GRAPH IMPLEMENTATION ------
+    @FXML
+    private HBox graphLocation;
+    private final GraphDAO graphDAO;
+    private final String defaultGraph = "c";
+    private Graph graphsHandler;
+
     // ---- OTHER JAVAFX NODES ------
     @FXML
     private ToggleButton timelimitButton;
     @FXML
     private ToggleButton newAppButton;
-    @FXML
-    private Label welcomeLabel;
+
     @FXML
     private TextField appLimitField;
     @FXML
@@ -67,10 +84,7 @@ public class MainController {
     @FXML
     private Label errorLabel;
 
-    // ----- GRAPH TESTING ------
-    @FXML
-    private HBox graphLocation;
-    private final GraphDAO graphDAO;
+
 
     // ---- INTERNAL VARIABLES ------
     @FXML
@@ -90,9 +104,6 @@ public class MainController {
 
     @FXML
     private VBox programList;
-    @FXML
-    private VBox rightNavbar;
-
 
     @FXML
     private ListView<String> processListView;
@@ -102,21 +113,12 @@ public class MainController {
     private ToggleGroup toggleGroup;
     private User currentUser;
     private DatabaseInitializer dbConnection;
-    private final String defaultGraph = "c";
-    private Graph graphsHandler;
 
     private App[] topApps;
     private List<String> processes;
     private TimeTracking timeTracker;
     private int totalScreenTime;
-
-
-
-
-    private UIObserver observer;
-    private final String viewName = "Main View";
-    private boolean observerInit = false;
-
+    /** These processes are excluded from the Applist to reduce clutter for the user. */
     private static final String[] excludeProcesses = {"Widgets.exe", "RuntimeBroker.exe",
         "dllhost.exe", "SenaryAudioApp.exe", "Windows.Media.BackgroundPlayback.exe",
         "ctfmon.exe", "PhoneExperienceHost.exe", "SecurityHealthSystray.exe",
@@ -130,6 +132,7 @@ public class MainController {
         "LsaServerPartner.exe", "FaceBeautify.exe", "DAX3API.exe", "SearchHost.exe",
         "StartMenuExperienceHost.exe"};
 
+    /** Initalises the Main view. */
     public void initialize() {
         toggleGroup = new ToggleGroup();
         homeButton.setToggleGroup(toggleGroup);
@@ -151,39 +154,38 @@ public class MainController {
                 FXCollections.observableArrayList("Other", "Game", "Productive", "Internet", "Entertainment", "Social"));
     }
 
-
+    /**
+     * Sets the currentUser variable to the provided user and performs further initalisation.
+     * @param user The user to set as the current user.
+     */
     public void setCurrentUser(User user) {
-        if (!TrackingSwitch.continuePopulating) {
-            return;
-        }
-        this.currentUser = user;
-        updateWelcomeLabel();
-        initializeOutsideInitialize();
-    }
-
-    private void updateWelcomeLabel() {
-        if (currentUser != null) {
-            welcomeLabel.setText("Hello, " + currentUser.getFirstname());
+        if (TrackingSwitch.continuePopulating) {
+            this.currentUser = user;
+            if (currentUser != null) {
+                welcomeLabel.setText("Hello, " + currentUser.getFirstname());
+            }
+            initializeOutsideInitialize();
         }
     }
 
-
+    /**
+     * Performs futher intialisation steps. (Uncertain, the person writing these comments did not write the method)
+     */
     public void initializeOutsideInitialize() {
-        if (!TrackingSwitch.continuePopulating) {
-            return;
+        if (TrackingSwitch.continuePopulating) {
+            timeTracker = new TimeTracking(dbConnection, currentUser, "");
+            totalScreenTime = dbConnection.loadTotalScreenTime(currentUser);
+            displayTotalTime(totalTimeLabel, totalScreenTime);
+            loadTimeSpentList(currentUser);
+            List<String> topThreeAppNames = dbConnection.getFirstThreeProgramNames(currentUser);
+            List<Integer> topThreeTimeSpentList = dbConnection.getTimeSpentForFirstThreePrograms(currentUser);
+            updateTopApps(topThreeAppNames, topThreeTimeSpentList);
+            Timeline timeline = getTimeline();
+            timeline.play();
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                dbConnection.updateTotalScreenTime(currentUser, totalScreenTime);
+            }));
         }
-        timeTracker = new TimeTracking(dbConnection, currentUser, "");
-        totalScreenTime = dbConnection.loadTotalScreenTime(currentUser);
-        displayTotalTime(totalTimeLabel, totalScreenTime);
-        loadTimeSpentList(currentUser);
-        List<String> topThreeAppNames = dbConnection.getFirstThreeProgramNames(currentUser);
-        List<Integer> topThreeTimeSpentList = dbConnection.getTimeSpentForFirstThreePrograms(currentUser);
-        updateTopApps(topThreeAppNames, topThreeTimeSpentList);
-        Timeline timeline = getTimeline();
-        timeline.play();
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            dbConnection.updateTotalScreenTime(currentUser, totalScreenTime);
-        }));
     }
 
 
@@ -199,26 +201,21 @@ public class MainController {
         return timeline;
     }
 
-
     public void displayTotalTime(Label totalTimeLabel, int totalScreenTime) {
-        if (!TrackingSwitch.continuePopulating) {
-            return;
+        if (TrackingSwitch.continuePopulating) {
+            long hours = totalScreenTime / 3600;
+            long minutes = (totalScreenTime % 3600) / 60;
+            totalTimeLabel.setText(String.format("%dh %dmin", hours, minutes));
         }
-        long hours = totalScreenTime / 3600;
-        long minutes = (totalScreenTime % 3600) / 60;
-        totalTimeLabel.setText(String.format("%dh %dmin", hours, minutes));
     }
 
-
     private void loadTimeSpentList(User currentUser) {
-        if (!TrackingSwitch.continuePopulating) {
-            return;
+        if (TrackingSwitch.continuePopulating) {
+            List<String> appNames = dbConnection.loadStoredAppNames(currentUser);
+            List<Integer> timeSpentList = dbConnection.loadTimeSpentList(currentUser);
+            populateUIWithAppNames(appNames, timeSpentList);
+            populateRightNavbarWithAppNames(appNames, timeSpentList);
         }
-        List<String> appNames = dbConnection.loadStoredAppNames(currentUser);
-        List<Integer> timeSpentList = dbConnection.loadTimeSpentList(currentUser);
-        populateUIWithAppNames(appNames, timeSpentList);
-        populateRightNavbarWithAppNames(appNames, timeSpentList);
-
     }
 
 
@@ -270,15 +267,12 @@ public class MainController {
         for (int i = 0; i < appNames.size(); i++) {
             String appName = appNames.get(i);
             int timeSpentMinutes = timeSpentList.get(i);
-            if (!TrackingSwitch.continuePopulating) {
-                return;
+            if (TrackingSwitch.continuePopulating) {
+                HBox appEntry = createAppEntry(appName, timeSpentMinutes);
+                programList.getChildren().add(appEntry);
             }
-            HBox appEntry = createAppEntry(appName, timeSpentMinutes);
-            programList.getChildren().add(appEntry);
         }
     }
-
-
 
     private VBox createAppEntryforRightNavbar(String appName, int timeSpentMinutes) {
         VBox appContainer = new VBox();
@@ -294,7 +288,6 @@ public class MainController {
         appContainer.getChildren().addAll(appNameLabel, timeSpentLabel);
         return appContainer;
     }
-
 
     private void populateRightNavbarWithAppNames(List<String> appNames, List<Integer> timeSpentList) {
         for (int i = 0; i < appNames.size(); i++) {
@@ -322,10 +315,6 @@ public class MainController {
         dbConnection.stopTrackingApp(currentUser, appName);
     }
 
-
-
-
-
     @FXML
     protected void onRemoveAllButtonClick() {
         rightNavbar.getChildren().clear();
@@ -336,20 +325,19 @@ public class MainController {
         secondTimeLabel.setText("");
         thirdAppLabel.setText("");
         thirdTimeLabel.setText("");
-        removeAllProgramsFromDatabase();
-    }
-
-    private void removeAllProgramsFromDatabase() {
         dbConnection.removeAllPrograms();
-
     }
-
 
     public MainController() {
         this.graphDAO = new GraphDAO("program");
     }
 
+    // ----- HOME MENU -----
 
+    /**
+     * Updates the styles of the nav bar and displays the home menu content.
+     * @throws IOException
+     */
     @FXML
     protected void onHomeButtonClick() throws IOException {
         clearActiveButtonStyle();
@@ -361,6 +349,10 @@ public class MainController {
     }
 
     // ---- INSIGHTS MENU ----
+    /**
+     * Updates the styles of the nav bar and displays the Insights Menu content.
+     * @throws IOException
+     */
     @FXML
     protected void onInsightsButtonClick() throws IOException {
         clearActiveButtonStyle();
@@ -369,10 +361,8 @@ public class MainController {
         insightsContent.setVisible(true);
         timeLimitsContent.setVisible(false);
         addProgramContent.setVisible(false);
-
         graphsHandler = new Graph(defaultGraph, graphLocation, graphDAO, currentUser.getEmail());
     }
-
     @FXML
     protected void onBarChartButtonClick() throws IOException { graphsHandler.showBarChart(graphLocation, currentUser.getEmail()); }
     @FXML
@@ -383,6 +373,10 @@ public class MainController {
     protected void onColumnChartByTypeButtonClick() throws IOException { graphsHandler.showColumnChartByType(graphLocation, currentUser.getEmail()); }
 
     // ---- TIME LIMITS MENU ----
+    /**
+     * Updates the styles of the nav bar and displays the Time Limits Menu content.
+     * @throws IOException
+     */
     @FXML
     protected void onTimeLimitsButtonClick() throws IOException {
         clearActiveButtonStyle();
@@ -394,6 +388,19 @@ public class MainController {
     }
 
     // ---- ADD APP MENU ----
+    /**
+     * Updates the styles of the nav bar and displays the Add App Menu content.
+     * @throws IOException
+     */
+    @FXML
+    private void onNewAppButtonClick() {
+        clearActiveButtonStyle();
+        newAppButton.getStyleClass().add("active-nav-button");
+        homeContent.setVisible(false);
+        insightsContent.setVisible(false);
+        timeLimitsContent.setVisible(false);
+        addProgramContent.setVisible(true);
+    }
     @FXML
     protected void onAddAppButtonClick() {
         errorLabel.setText("");
@@ -443,6 +450,11 @@ public class MainController {
         }
     }
 
+    /**
+     * Displays a Flash Message for the screen.
+     * @param title The title for the flash message.
+     * @param message The message for the flash message.
+     */
     private void showFlashMessage(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
@@ -451,15 +463,7 @@ public class MainController {
         alert.showAndWait();
     }
 
-    @FXML
-    private void onNewAppButtonClick() {
-        clearActiveButtonStyle();
-        newAppButton.getStyleClass().add("active-nav-button");
-        homeContent.setVisible(false);
-        insightsContent.setVisible(false);
-        timeLimitsContent.setVisible(false);
-        addProgramContent.setVisible(true);
-    }
+
 
     // ---- MISC ----
     private void clearActiveButtonStyle() {
@@ -514,7 +518,10 @@ public class MainController {
         }
     }
 
-
+    /**
+     * Creates a String list of the currently running processes according to the command "tasklist.exe /fo csv".
+     * @return A list of Strings of the names of the currently running processes excluding some background services.
+     */
     public static List<String> listProcesses() {
         List<String> processes = new ArrayList<String>();
         List<String> exclude = new ArrayList<String>(Arrays.asList(excludeProcesses));
@@ -531,7 +538,6 @@ public class MainController {
                     // keep only the process name
                     sessionName = line.split(",");
                     line = line.substring(1);
-                    //System.out.println(sessionName[2]);
                     if (!processes.contains(line.substring(0, line.indexOf('"'))) && !sessionName[2].contains("Services")
                         && !exclude.contains(line.substring(0, line.indexOf('"')))){
                         processes.add(line.substring(0, line.indexOf('"')));
@@ -559,6 +565,7 @@ public class MainController {
         }
     }
 
+    /** Initalises the UIObserver for the scene when the user has their mouse anywhere inside the window. */
     @FXML
     protected void onVisible() {
         if(!observerInit) {

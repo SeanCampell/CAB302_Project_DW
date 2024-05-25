@@ -136,6 +136,7 @@ public class SignUpController {
         stage.setScene(scene);
     }
 
+    /** Initalises the UIObserver for the scene when the user has their mouse anywhere inside the window. */
     @FXML
     protected void onVisible() {
         if(!observerInit) {
