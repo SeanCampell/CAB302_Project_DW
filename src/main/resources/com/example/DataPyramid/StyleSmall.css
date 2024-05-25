@@ -124,6 +124,11 @@ Button:hover {
     -fx-padding: 10px;
 }
 
+#nav-bar {
+    -fx-background-color: #CAD8B3;
+}
+
+
 #program-list-item {
     -fx-background-color: #ffffff;
     -fx-border-color: #cccccc;
