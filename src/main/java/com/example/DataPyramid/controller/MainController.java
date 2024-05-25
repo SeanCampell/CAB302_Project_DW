@@ -81,6 +81,20 @@ public class MainController {
     @FXML
     private Label thirdTimeLabel;
 
+
+    @FXML
+    private Label firstAppLabel2;
+    @FXML
+    private Label secondAppLabel2;
+    @FXML
+    private Label thirdAppLabel2;
+    @FXML
+    private Label firstTimeLabel2;
+    @FXML
+    private Label secondTimeLabel2;
+    @FXML
+    private Label thirdTimeLabel2;
+
     @FXML
     private ListView<String> processListView;
     @FXML
@@ -170,7 +184,7 @@ public class MainController {
         insightsContent.setVisible(true);
         timeLimitsContent.setVisible(false);
         addProgramContent.setVisible(false);
-
+        updateTopApps2();
         graphsHandler = new Graph(defaultGraph, graphLocation, graphDAO, currentUser.getEmail());
     }
 
@@ -281,6 +295,24 @@ public class MainController {
             if (topApps[2] != null) {
                 thirdAppLabel.setText(topApps[2].getName());
                 thirdTimeLabel.setText(topApps[2].getTimeUse() + " Minutes");
+            }
+        }
+    }
+
+    private void updateTopApps2() {
+        topApps = dbConnection.mostUsedApps(currentUser.getEmail());
+        if(topApps != null){
+            if (topApps[0] != null) {
+                firstAppLabel2.setText(topApps[0].getName());
+                firstTimeLabel2.setText(topApps[0].getTimeUse() + " Minutes");
+            }
+            if (topApps[1] != null) {
+                secondAppLabel2.setText(topApps[1].getName());
+                secondTimeLabel2.setText(topApps[1].getTimeUse() + " Minutes");
+            }
+            if (topApps[2] != null) {
+                thirdAppLabel2.setText(topApps[2].getName());
+                thirdTimeLabel2.setText(topApps[2].getTimeUse() + " Minutes");
             }
         }
     }

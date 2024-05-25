@@ -151,24 +151,37 @@
                                 <Insets bottom="5.0" top="20.0" />
                             </VBox.margin>
                         </Label>
-                        <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10"
-                              style="-fx-background-color: white;-fx-background-radius: 5px; -fx-padding: 10px;" VBox.vgrow="ALWAYS">
-                            <Label text="{Some Info}" />
+                        <HBox spacing="10.0" VBox.vgrow="ALWAYS">
+                            <VBox prefHeight="120" prefWidth="153" spacing="10"
+                                  style="-fx-background-color: white;-fx-background-radius: 20px; -fx-padding: 10px;"
+                                  HBox.hgrow="ALWAYS">
 
-                            <!-- Add content here -->
+                                <!-- Add content here -->
+                                <Label fx:id="firstAppLabel2" />
+                                <Label fx:id="firstTimeLabel2" style="-fx-text-fill: grey;" />
 
-                        </HBox>
-                        <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10"
-                              style="-fx-background-color: white;-fx-background-radius: 5px; -fx-padding: 10px;" VBox.vgrow="ALWAYS">
+                            </VBox>
+                            <VBox prefHeight="120" prefWidth="153" spacing="10"
+                                  style="-fx-background-color: white;-fx-background-radius: 20px; -fx-padding: 10px;"
+                                  HBox.hgrow="ALWAYS">
 
-                            <!-- Add content here -->
+                                <!-- Add content here -->
+                                <Label fx:id="secondAppLabel2" />
+                                <Label fx:id="secondTimeLabel2" style="-fx-text-fill: grey;" />
 
-                        </HBox>
-                        <HBox maxWidth="1.7976931348623157E308" spacing="10"
-                              style="-fx-background-color: white;-fx-background-radius: 5px; -fx-padding: 10px;" VBox.vgrow="ALWAYS">
+                            </VBox>
+                            <VBox prefHeight="120" prefWidth="153" spacing="10"
+                                  style="-fx-background-color: white;-fx-background-radius: 20px; -fx-padding: 10px;"
+                                  HBox.hgrow="ALWAYS">
 
-                            <!-- Add content here -->
+                                <!-- Add content here -->
+                                <Label fx:id="thirdAppLabel2" />
+                                <Label fx:id="thirdTimeLabel2" style="-fx-text-fill: grey;" />
 
+                            </VBox>
+                            <VBox.margin>
+                                <Insets bottom="10.0" />
+                            </VBox.margin>
                         </HBox>
                     </VBox>
                     <padding>
