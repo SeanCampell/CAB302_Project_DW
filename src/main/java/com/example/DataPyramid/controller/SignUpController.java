@@ -83,8 +83,9 @@ public class SignUpController {
         String lastname = lastnameField.getText();
         String email = emailField.getText();
         String password = passwordField.getText();
+        int totalScreenTime = 0;
 
-        User newUser = new User(firstname, lastname, email, password);
+        User newUser = new User(firstname, lastname, email, password, totalScreenTime);
         boolean success = dbConnection.saveUser(newUser);
 
         if (success) {
