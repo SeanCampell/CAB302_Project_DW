@@ -125,7 +125,10 @@ public class App {
 
     public void setTracking(boolean tracking) { isTracking = tracking; }
 
-    // Add time that has been used on the application
+    /**
+     * Add time that has been used on the application.
+     * @param time The time to be added.
+     */
     public void addTime(int time) {
         timeUse += time;
 

@@ -47,11 +47,32 @@ Label { }
     -fx-font-weight: bold;
 }
 
+.header-2-label {
+    -fx-font-size: 1.25em;
+    -fx-font-weight: bold;
+}
+
+.popular-app-time-label {
+    -fx-font-fill: #192613;
+}
+
 #welcome {
     -fx-font-size: 3em;
     -fx-font-weight: bold;
     -fx-text-fill: #3A592B;
     -fx-padding: 0.25em;
+}
+
+#logo-label {
+    -fx-font-size: 1.5em;
+    -fx-font-weight: bold;
+    -fx-text-fill: #192613;
+}
+
+#main-timer-label {
+    -fx-font-size: 2em;
+    -fx-font-weight: bold;
+    -fx-font-fill: #3A592B;
 }
 
 /*
@@ -126,6 +147,12 @@ Button:hover {
 
 #nav-bar {
     -fx-background-color: #CAD8B3;
+}
+
+.popular-apps {
+    -fx-background-color: white;
+    -fx-background-radius: 20px;
+    -fx-padding: 10px;
 }
 
 

@@ -1,5 +1,6 @@
 package com.example.DataPyramid.apptrack;
 
+//TODO: See if this class is actually needed? Doesn't appear to be implemented anywhere - Rachael
 public class Process {
     private String name;
     private int pid;

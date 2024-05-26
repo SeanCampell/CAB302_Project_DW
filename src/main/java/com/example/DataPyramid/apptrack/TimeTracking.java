@@ -72,6 +72,11 @@ public class TimeTracking {
         }
     }
 
+    /**
+     * Sends an alert if a tracked program exceeds the specified time limit in the database.
+     * Ignores time limits of 0 as those represent an unlimited program.
+     * @param currentUser The user currently signed in to the program.
+     */
     private void sendAlertIfTimeExceedsLimit(User currentUser) {
         List<String> appNames = dbConnection.loadStoredAppNames(currentUser);
         for (String appName : appNames) {
