@@ -134,6 +134,7 @@ public class MainController {
     private TimeTracking timeTracker;
     private int totalScreenTime;
     private static final int REFRESH_INTERVAL_SECONDS = 60;
+
     /** These processes are excluded from the Applist to reduce clutter for the user. */
     private static final String[] excludeProcesses = {"Widgets.exe", "RuntimeBroker.exe",
         "dllhost.exe", "SenaryAudioApp.exe", "Windows.Media.BackgroundPlayback.exe",
@@ -204,8 +205,6 @@ public class MainController {
         }
     }
 
-
-
     public void startPeriodicRefresh(DatabaseInitializer dbConnection) {
         if (!TrackingSwitch.continuePopulating) {
             return;
@@ -247,13 +246,7 @@ public class MainController {
         return timeline;
     }
 
-    public void displayTotalTime(Label totalTimeLabel, int totalScreenTime) {
-        if (TrackingSwitch.continuePopulating) {
-            long hours = totalScreenTime / 3600;
-            long minutes = (totalScreenTime % 3600) / 60;
-            totalTimeLabel.setText(String.format("%dh %dmin", hours, minutes));
-        }
-    }
+
 
     private void loadTimeSpentList(User currentUser) {
         if (TrackingSwitch.continuePopulating) {
@@ -266,6 +259,16 @@ public class MainController {
         }
     }
 
+    private void populateUIWithAppNames(List<String> appNames, List<Integer> timeSpentList) {
+        for (int i = 0; i < appNames.size(); i++) {
+            String appName = appNames.get(i);
+            int timeSpentMinutes = timeSpentList.get(i);
+            if (TrackingSwitch.continuePopulating) {
+                HBox appEntry = createAppEntry(appName, timeSpentMinutes);
+                programList.getChildren().add(appEntry);
+            }
+        }
+    }
 
     private HBox createAppEntry(String appName, int timeSpentMinutes) {
         HBox appContainer = new HBox();
@@ -309,18 +312,6 @@ public class MainController {
         return appContainer;
     }
 
-
-    private void populateUIWithAppNames(List<String> appNames, List<Integer> timeSpentList) {
-        for (int i = 0; i < appNames.size(); i++) {
-            String appName = appNames.get(i);
-            int timeSpentMinutes = timeSpentList.get(i);
-            if (TrackingSwitch.continuePopulating) {
-                HBox appEntry = createAppEntry(appName, timeSpentMinutes);
-                programList.getChildren().add(appEntry);
-            }
-        }
-    }
-
     private VBox createAppEntryforRightNavbar(String appName, int timeSpentMinutes) {
         VBox appContainer = new VBox();
         appContainer.setSpacing(5);
@@ -340,11 +331,10 @@ public class MainController {
         for (int i = 0; i < appNames.size(); i++) {
             String appName = appNames.get(i);
             int timeSpentMinutes = timeSpentList.get(i);
-            if (!TrackingSwitch.continuePopulating) {
-                return;
+            if (TrackingSwitch.continuePopulating) {
+                VBox appEntry = createAppEntryforRightNavbar(appName, timeSpentMinutes);
+                rightNavbar.getChildren().add(appEntry);
             }
-            VBox appEntry = createAppEntryforRightNavbar(appName, timeSpentMinutes);
-            rightNavbar.getChildren().add(appEntry);
         }
     }
 
@@ -375,7 +365,6 @@ public class MainController {
             timeLimitPrograms.getChildren().add(appEntry);
         }
     }
-
 
     private boolean isAppTracked(String appName) {
         return dbConnection.isAppTracked(appName);
@@ -423,6 +412,19 @@ public class MainController {
         insightsContent.setVisible(false);
         timeLimitsContent.setVisible(false);
         addProgramContent.setVisible(false);
+    }
+
+    /**
+     * Updates the label on the home screen to display the total time the user has had the program open.
+     * @param totalTimeLabel The label to update.
+     * @param totalScreenTime An int representing the total time spent.
+     */
+    public void displayTotalTime(Label totalTimeLabel, int totalScreenTime) {
+        if (TrackingSwitch.continuePopulating) {
+            long hours = totalScreenTime / 3600;
+            long minutes = (totalScreenTime % 3600) / 60;
+            totalTimeLabel.setText(String.format("%dh %dmin", hours, minutes));
+        }
     }
 
     // ---- INSIGHTS MENU ----

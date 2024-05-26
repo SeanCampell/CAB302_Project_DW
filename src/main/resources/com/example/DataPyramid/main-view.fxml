@@ -177,28 +177,29 @@
                         <Insets bottom="10.0" top="10.0" />
                     </padding>
                 </VBox>
+           </VBox>
+
+            <!-- Time Limits Content -->
+            <VBox fx:id="timeLimitsContent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" visible="false"
+                  spacing="10.0" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent;">
                 <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                     <Label styleClass="header-label" text="Tracked Apps">
                         <VBox.margin>
                             <Insets top="20.0" />
                         </VBox.margin>
                     </Label>
-                <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308"
-                            maxWidth="1.7976931348623157E308" style="-fx-background-color: transparent; -fx-background-insets: 0;">
-                    <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0" VBox.vgrow="ALWAYS">
-                        <VBox fx:id="programList" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" VBox.vgrow="ALWAYS">
-                            <padding>
-                                <Insets top="10.0" />
-                            </padding>
+                    <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308"
+                                maxWidth="1.7976931348623157E308" style="-fx-background-color: transparent; -fx-background-insets: 0;">
+                        <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0" VBox.vgrow="ALWAYS">
+                            <VBox fx:id="programList" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" VBox.vgrow="ALWAYS">
+                                <padding>
+                                    <Insets top="10.0" />
+                                </padding>
+                            </VBox>
                         </VBox>
-                    </VBox>
-                </ScrollPane>
+                    </ScrollPane>
                 </VBox>
-           </VBox>
-
-            <!-- Time Limits Content -->
-            <VBox fx:id="timeLimitsContent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" visible="false"
-                  spacing="10.0" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent;">
+                <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                     <Label styleClass="header-label" text="Program Time Limits" underline="true" VBox.vgrow="SOMETIMES">
                         <VBox.margin>
                             <Insets bottom="10.0" top="20.0" />
@@ -213,6 +214,7 @@
                             </VBox>
                         </VBox>
                     </ScrollPane>
+                </VBox>
             </VBox>
 
             <!-- Add Program Content -->
