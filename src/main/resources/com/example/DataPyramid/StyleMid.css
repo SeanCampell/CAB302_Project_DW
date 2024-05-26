@@ -47,11 +47,52 @@ Label { }
     -fx-font-weight: bold;
 }
 
+.header-2-label {
+    -fx-font-size: 1.25em;
+    -fx-font-weight: bold;
+}
+
+.header-3-label {
+    -fx-font-size: 1.25em;
+    -fx-font-fill: #3A592B;
+}
+
+.popular-app-time-label {
+    -fx-font-fill: #192613;
+}
+
+.program-name-label {
+    -fx-font-weight: bold;
+    -fx-font-size: 1.25em;
+}
+
+.time-spent-label {
+    -fx-text-fill: #494949;
+}
+
 #welcome {
     -fx-font-size: 3em;
     -fx-font-weight: bold;
     -fx-text-fill: #3A592B;
     -fx-padding: 0.25em;
+}
+
+#logo-label {
+    -fx-font-size: 1.5em;
+    -fx-font-weight: bold;
+    -fx-text-fill: #192613;
+}
+
+#main-timer-label {
+    -fx-font-size: 2em;
+    -fx-font-weight: bold;
+    -fx-font-fill: #3A592B;
+}
+
+#rhs-welcome {
+    -fx-font-size: 1.5em;
+    -fx-font-weight: bold;
+    -fx-font-fill: #3A592B;
 }
 
 /*
@@ -60,11 +101,6 @@ Label { }
 .accountField {
     -fx-font-weight: bold;
 }
-/*
- *  TEXTAREA Styles and related classes or ids
- */
-
-text-area{}
 
 /*
  *  BUTTON Styles and related classes or ids
@@ -76,7 +112,7 @@ Button {
     -fx-font-weight: bold;
     -fx-padding: 0.75em 1.5em;
     -fx-border-width: 0px;
-    }
+}
 
 Button:hover {
     -fx-background-color: #CAD8B3;
@@ -102,6 +138,21 @@ Button:hover {
     -fx-text-fill: #192613;
 }
 
+.start-tracking-button {
+    -fx-background-color: transparent;
+    -fx-font-size: 0.75em;
+}
+
+.start-tracking-button:hover {
+    -fx-background-color: #F2F2F2;
+    -fx-font-size: 0.75em;
+    -fx-font-color: #3A592B;
+}
+
+.stop-tracking-button {
+    -fx-font-size: 0.75em;
+}
+
 #signupButton {
     -fx-background-color: #3A592B;
     -fx-text-fill: #F2F2F2;
@@ -118,6 +169,37 @@ Button:hover {
  *  OTHER Styles and related classes or ids
  */
 
+.generic-container {
+    -fx-background-color: white;
+    -fx-background-radius: 20px;
+    -fx-padding: 10px;
+}
+
+.transparent-container {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+}
+
+.program-list-container {
+    -fx-background-color: white;
+    -fx-border-color: #CAD8B3;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 10;
+    -fx-spacing: 10;
+}
+
+.inactive-program-list-container {
+    -fx-background-color: #CAD8B3;
+    -fx-border-color: #3A592B;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 10;
+    -fx-spacing: 10;
+}
+
 #graphLocation {
     -fx-background-color: white;
     -fx-background-radius: 20px;
@@ -128,27 +210,6 @@ Button:hover {
     -fx-background-color: #CAD8B3;
 }
 
-
-#program-list-item {
-    -fx-background-color: #ffffff;
-    -fx-border-color: #cccccc;
-    -fx-border-width: 1;
-    -fx-border-radius: 5;
-    -fx-background-radius: 5;
-    -fx-padding: 10;
-    -fx-spacing: 10;
-}
-
-#program-list-item:hover {
-    -fx-background-color: #f9f9f9;
-}
-
-.program-name {
-    -fx-font-weight: bold;
-    -fx-font-size: 14px;
-}
-
-.time-spent {
-    -fx-font-size: 12px;
-    -fx-text-fill: #666666;
+#rhs-bar {
+    -fx-background-color: white;
 }

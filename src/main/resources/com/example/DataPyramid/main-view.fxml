@@ -117,7 +117,7 @@
                 </HBox>
                 <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
                       spacing="10.0" VBox.vgrow="ALWAYS">
-                    <Label id="headlines" text="Most Used Apps Today">
+                    <Label styleClass="header-label" text="Most Used Apps Today">
                         <VBox.margin>
                             <Insets bottom="5.0" top="20.0" />
                         </VBox.margin>
@@ -171,7 +171,7 @@
                 </ScrollPane>
             </VBox>
             <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
-                <Label styleClass="header-label" text="Program Time Limits" underline="true" VBox.vgrow="SOMETIMES">
+                <Label styleClass="header-label" text="Program Time Limits" VBox.vgrow="SOMETIMES">
                     <VBox.margin>
                         <Insets bottom="10.0" top="20.0" />
                     </VBox.margin>
@@ -190,7 +190,7 @@
 
         <!-- Add Program Content -->
         <VBox fx:id="addProgramContent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" visible="false">
-            <Label styleClass="header-label" text="Add A New Program" underline="true" VBox.vgrow="SOMETIMES">
+            <Label styleClass="header-label" text="Add A New Program" VBox.vgrow="SOMETIMES">
                 <VBox.margin>
                     <Insets top="20.0" left="10.0" />
                 </VBox.margin>
@@ -248,7 +248,7 @@
             <ScrollPane fitToHeight="true" fitToWidth="true" styleClass="generic-container" VBox.vgrow="ALWAYS">
                 <VBox fx:id="rightNavbar" spacing="10.0" style="-fx-padding:0; -fx-background-color: white;">
                     <padding>
-                        <Insets top="10.0" />
+                        <Insets top="10.0"/>
                     </padding>
                 </VBox>
             </ScrollPane>

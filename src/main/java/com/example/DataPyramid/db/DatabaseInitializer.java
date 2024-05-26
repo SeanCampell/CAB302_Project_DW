@@ -85,7 +85,6 @@ public class DatabaseInitializer {
         }
     }
 
-
     public User getUserByEmail(String email) {
         try (Connection connection = DriverManager.getConnection(DB_URL)) {
             String sql = "SELECT * FROM user WHERE email = ?";
@@ -108,8 +107,6 @@ public class DatabaseInitializer {
         }
         return null; // User not found
     }
-
-
 
     public boolean saveApp(App app, User user, int timeUse) {
         try (Connection connection = DriverManager.getConnection(DB_URL)) {
@@ -195,7 +192,6 @@ public class DatabaseInitializer {
         }
         return appNames;
     }
-
 
     public void removeAllPrograms() { // Debugging
         try (Connection connection = DriverManager.getConnection(DB_URL)) {
@@ -504,7 +500,7 @@ public class DatabaseInitializer {
         boolean isTracked = false;
 
         try (Connection connection = DriverManager.getConnection(DB_URL);
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, appName);
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -515,7 +511,6 @@ public class DatabaseInitializer {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return isTracked;
     }
 

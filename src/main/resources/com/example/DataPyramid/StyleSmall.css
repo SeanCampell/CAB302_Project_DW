@@ -61,6 +61,15 @@ Label { }
     -fx-font-fill: #192613;
 }
 
+.program-name-label {
+    -fx-font-weight: bold;
+    -fx-font-size: 1.25em;
+}
+
+.time-spent-label {
+    -fx-text-fill: #494949;
+}
+
 #welcome {
     -fx-font-size: 3em;
     -fx-font-weight: bold;
@@ -103,7 +112,7 @@ Button {
     -fx-font-weight: bold;
     -fx-padding: 0.75em 1.5em;
     -fx-border-width: 0px;
-    }
+}
 
 Button:hover {
     -fx-background-color: #CAD8B3;
@@ -127,6 +136,21 @@ Button:hover {
 .back-button {
     -fx-font-size: 1.25em;
     -fx-text-fill: #192613;
+}
+
+.start-tracking-button {
+    -fx-background-color: transparent;
+    -fx-font-size: 0.75em;
+}
+
+.start-tracking-button:hover {
+    -fx-background-color: #F2F2F2;
+    -fx-font-size: 0.75em;
+    -fx-font-color: #3A592B;
+}
+
+.stop-tracking-button {
+    -fx-font-size: 0.75em;
 }
 
 #signupButton {
@@ -156,6 +180,26 @@ Button:hover {
     -fx-background-insets: 0;
 }
 
+.program-list-container {
+    -fx-background-color: white;
+    -fx-border-color: #CAD8B3;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 10;
+    -fx-spacing: 10;
+}
+
+.inactive-program-list-container {
+    -fx-background-color: #CAD8B3;
+    -fx-border-color: #3A592B;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 10;
+    -fx-spacing: 10;
+}
+
 #graphLocation {
     -fx-background-color: white;
     -fx-background-radius: 20px;
@@ -168,34 +212,6 @@ Button:hover {
 
 #rhs-bar {
     -fx-background-color: white;
-}
-
-/*
- *  UNSORTED Styles and related classes or ids
- *  TODO: Figure out what these are used for.
- */
-
-#program-list-item {
-    -fx-background-color: #ffffff;
-    -fx-border-color: #cccccc;
-    -fx-border-width: 1;
-    -fx-border-radius: 5;
-    -fx-background-radius: 5;
-    -fx-padding: 10;
-    -fx-spacing: 10;
-}
-
-#program-list-item:hover {
-    -fx-background-color: #f9f9f9;
-}
-
-.program-name {
-    -fx-font-weight: bold;
-    -fx-font-size: 1.25em;
-}
-
-.time-spent {
-    -fx-text-fill: #666666;
 }
 
 

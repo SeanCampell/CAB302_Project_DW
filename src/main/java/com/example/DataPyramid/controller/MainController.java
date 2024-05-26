@@ -186,7 +186,7 @@ public class MainController {
     }
 
     /**
-     * Initialization after current user is set. Performs futher intialisation steps.
+     * Performs futher intialisation steps after the current user has been set.
      */
     public void initializeOutsideInitialize() {
         if (TrackingSwitch.continuePopulating) {
@@ -206,16 +206,20 @@ public class MainController {
     }
 
     public void startPeriodicRefresh(DatabaseInitializer dbConnection) {
-        if (!TrackingSwitch.continuePopulating) {
-            return;
+        if (TrackingSwitch.continuePopulating) {
+            ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+            executor.scheduleAtFixedRate(() -> {
+                clearAndRefreshUI(dbConnection, currentUser);
+            }, 0, REFRESH_INTERVAL_SECONDS, TimeUnit.SECONDS);
         }
-        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-        executor.scheduleAtFixedRate(() -> {
-            clearAndRefreshUI(dbConnection, currentUser);
-        }, 0, REFRESH_INTERVAL_SECONDS, TimeUnit.SECONDS);
     }
 
-    public void clearAndRefreshUI(DatabaseInitializer dbConnection, User currentUser) {
+    /**
+     * Clears the UI of nodes that rely on tracked time and refreshes them.
+     * @param dbConnection The connection to the database.
+     * @param currentUser The user currently signed in.
+     */
+    private void clearAndRefreshUI(DatabaseInitializer dbConnection, User currentUser) {
         programList.getChildren().clear();
         rightNavbar.getChildren().clear();
         timeLimitPrograms.getChildren().clear();
@@ -233,7 +237,6 @@ public class MainController {
         timeTracker.sendAlertIfTimeExceedsLimit(currentUser);
     }
 
-
     private Timeline getTimeline() {
         Timeline timeline = new Timeline(
                 new KeyFrame(javafx.util.Duration.seconds(1), event -> {
@@ -245,8 +248,6 @@ public class MainController {
         timeline.setCycleCount(Timeline.INDEFINITE);
         return timeline;
     }
-
-
 
     private void loadTimeSpentList(User currentUser) {
         if (TrackingSwitch.continuePopulating) {
@@ -270,41 +271,48 @@ public class MainController {
         }
     }
 
+    /**
+     * Creates an entry for an app in the time limits menu.
+     * @param appName The name of the app to create an entry for.
+     * @param timeSpentMinutes The amount of time tracked in minutes.
+     * @return A HBox representing the entry for the app in the time limits menu.
+     */
     private HBox createAppEntry(String appName, int timeSpentMinutes) {
         HBox appContainer = new HBox();
-        appContainer.setId("program-list-item");
+        appContainer.getStyleClass().add("program-list-container");
         appContainer.setSpacing(5);
         appContainer.setAlignment(Pos.CENTER_LEFT);
 
         Label appNameLabel = new Label(appName);
-        appNameLabel.getStyleClass().add("program-name");
+        appNameLabel.getStyleClass().add("program-name-label");
 
         Label timeSpentLabel = new Label("Time Spent: " + timeSpentMinutes + " min");
-        timeSpentLabel.getStyleClass().add("time-spent");
+        timeSpentLabel.getStyleClass().add("time-spent-label");
 
         Button stopTrackingButton = new Button("Stop Tracking");
         Button startTrackingButton = new Button("Start Tracking");
 
-        startTrackingButton.setStyle("-fx-font-size: 10px;");
+        startTrackingButton.getStyleClass().add("start-tracking-button");
         startTrackingButton.setOnAction(startEvent -> {
             startTrackingApp(appName);
-            appContainer.setStyle("");
+            appContainer.getStyleClass().removeAll();
+            appContainer.getStyleClass().add("program-list-container");
             appContainer.getChildren().remove(startTrackingButton);
             appContainer.getChildren().add(stopTrackingButton);
         });
 
-        stopTrackingButton.setStyle("-fx-font-size: 10px;");
+        stopTrackingButton.getStyleClass().add("stop-tracking-button");
         stopTrackingButton.setOnAction(stopEvent -> {
             stopTrackingApp(appName);
-            if (!isAppTracked(appName)) {
-                appContainer.setStyle("-fx-background-color: #cccccc; -fx-text-fill: #666666;");
-            }
+            appContainer.getStyleClass().removeAll();
+            appContainer.getStyleClass().add("inactive-program-list-container");
             appContainer.getChildren().remove(stopTrackingButton);
             appContainer.getChildren().add(startTrackingButton);
         });
 
         if (!isAppTracked(appName)) {
-            appContainer.setStyle("-fx-background-color: #cccccc; -fx-text-fill: #666666;");
+            appContainer.getStyleClass().removeAll();
+            appContainer.getStyleClass().add("inactive-program-list-container");
             appContainer.getChildren().addAll(appNameLabel, timeSpentLabel, startTrackingButton);
         } else {
             appContainer.getChildren().addAll(appNameLabel, timeSpentLabel, stopTrackingButton);
@@ -318,10 +326,10 @@ public class MainController {
         appContainer.setAlignment(Pos.CENTER_LEFT);
 
         Label appNameLabel = new Label(appName);
-        appNameLabel.getStyleClass().add("program-name");
+        appNameLabel.getStyleClass().add("program-name-label");
 
         Label timeSpentLabel = new Label("Time: " + timeSpentMinutes + " min");
-        timeSpentLabel.getStyleClass().add("time-spent");
+        timeSpentLabel.getStyleClass().add("time-spent-label");
 
         appContainer.getChildren().addAll(appNameLabel, timeSpentLabel);
         return appContainer;
@@ -340,15 +348,15 @@ public class MainController {
 
     private VBox createProgramEntry(String appName, int timeLimit) {
         VBox programContainer = new VBox();
-        programContainer.setId("program-list-item");
+        programContainer.getStyleClass().add("program-list-container");
         programContainer.setSpacing(5);
         programContainer.setAlignment(Pos.CENTER_LEFT);
 
         Label appNameLabel = new Label(appName);
-        appNameLabel.getStyleClass().add("program-name");
+        appNameLabel.getStyleClass().add("program-name-label");
 
         Label timeLimitLabel = new Label("Time Limit: " + timeLimit + " min");
-        timeLimitLabel.getStyleClass().add("time-limit");
+        timeLimitLabel.getStyleClass().add("time-spent-label");
 
         programContainer.getChildren().addAll(appNameLabel, timeLimitLabel);
         return programContainer;
@@ -366,10 +374,14 @@ public class MainController {
         }
     }
 
+    /**
+     * Checks wether a specific app is tracked or not.
+     * @param appName The name of the app to check.
+     * @return True if the app is marked as tracked in the database, otherwise false.
+     */
     private boolean isAppTracked(String appName) {
         return dbConnection.isAppTracked(appName);
     }
-
 
     private void startTrackingApp(String appName) {
         dbConnection.startTrackingApp(currentUser, appName);
