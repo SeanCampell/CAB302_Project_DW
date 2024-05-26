@@ -52,6 +52,11 @@ Label { }
     -fx-font-weight: bold;
 }
 
+.header-3-label {
+    -fx-font-size: 1.25em;
+    -fx-font-fill: #3A592B;
+}
+
 .popular-app-time-label {
     -fx-font-fill: #192613;
 }
@@ -169,6 +174,7 @@ Button:hover {
  *  UNSORTED Styles and related classes or ids
  *  TODO: Figure out what these are used for.
  */
+
 #program-list-item {
     -fx-background-color: #ffffff;
     -fx-border-color: #cccccc;
@@ -185,11 +191,10 @@ Button:hover {
 
 .program-name {
     -fx-font-weight: bold;
-    -fx-font-size: 14px;
+    -fx-font-size: 1.25em;
 }
 
 .time-spent {
-    -fx-font-size: 12px;
     -fx-text-fill: #666666;
 }
 

@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="TOP_LEFT" spacing="10.0" xmlns:fx="http://javafx.com/fxml"
+<VBox spacing="10.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.DataPyramid.controller.LoginController"
       onMouseMoved="#onVisible" onMouseDragged="#onVisible">
     <padding>
@@ -25,42 +25,40 @@
             <Label styleClass="instruction" text="Email address" VBox.vgrow="SOMETIMES" />
             <TextField fx:id="emailField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
                        promptText="Email Address" styleClass="accountField" VBox.vgrow="SOMETIMES">
-            <padding>
-               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-            </padding>
+                <padding>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                </padding>
             </TextField>
 
             <Label styleClass="instruction" text="Password" VBox.vgrow="SOMETIMES" />
             <PasswordField fx:id="passwordField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
                            promptText="Password" styleClass="accountField" VBox.vgrow="SOMETIMES">
-            <padding>
-               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-            </padding>
+                <padding>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                </padding>
             </PasswordField>
 
             <Label fx:id="errorLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
                    styleClass="error-label" VBox.vgrow="SOMETIMES" />
 
-             <Button id="signupButton" fx:id="loginButton" maxHeight="1.7976931348623157E308"
-                     maxWidth="1.7976931348623157E308" onAction="#onLoginButtonClick" text="Log In"
-                     VBox.vgrow="SOMETIMES" />
+            <Button id="signupButton" fx:id="loginButton" maxHeight="1.7976931348623157E308"
+                    maxWidth="1.7976931348623157E308" onAction="#onLoginButtonClick" text="Log In"
+                    VBox.vgrow="SOMETIMES" />
             <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                 <Label text="Don't have an account? " />
                 <Label onMouseClicked="#onSignUpButtonClick" styleClass="label-link" text="Sign Up here" />
-            <VBox.margin>
-               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-            </VBox.margin>
+                <VBox.margin>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                </VBox.margin>
             </HBox>
         </VBox>
         <ImageView preserveRatio="true" HBox.hgrow="ALWAYS">
-            <image>
-                <Image url="https://picsum.photos/800" />
-            </image>
+            <Image url="https://picsum.photos/800" />
             <fitWidth>400.0</fitWidth>
             <fitHeight>400.0</fitHeight>
-         <HBox.margin>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-         </HBox.margin>
+            <HBox.margin>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </HBox.margin>
         </ImageView>
     </HBox>
 </VBox>

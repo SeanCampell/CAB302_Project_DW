@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="TOP_LEFT" spacing="10.0" xmlns:fx="http://javafx.com/fxml"
+<VBox spacing="10.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.DataPyramid.controller.SignUpController"
       onMouseMoved="#onVisible" onMouseDragged="#onVisible">
     <padding>
@@ -23,70 +23,74 @@
                     maxWidth="1.7976931348623157E308" onAction="#onBackButtonClick" styleClass="back-button"
                     text="🡠" VBox.vgrow="SOMETIMES" />
             <Label styleClass="header-label" text="Sign Up">
-            <VBox.margin>
-               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-            </VBox.margin></Label>
+                <VBox.margin>
+                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                </VBox.margin>
+            </Label>
             <Label styleClass="instruction" text="Enter your first name" VBox.vgrow="SOMETIMES" />
             <TextField fx:id="firstnameField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
                        promptText="First Name" VBox.vgrow="ALWAYS" styleClass="accountField">
-            <padding>
-               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-            </padding></TextField>
+                <padding>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                </padding>
+            </TextField>
             <Label styleClass="instruction" text="Enter your last name" VBox.vgrow="SOMETIMES" />
             <TextField fx:id="lastnameField" maxWidth="1.7976931348623157E308" promptText="Last Name"
                        VBox.vgrow="ALWAYS" styleClass="accountField">
-            <padding>
-               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-            </padding></TextField>
+                <padding>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                </padding>
+            </TextField>
             <Label styleClass="instruction" text="Email address" VBox.vgrow="SOMETIMES" />
             <TextField fx:id="emailField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
                        promptText="Email Address" VBox.vgrow="ALWAYS" styleClass="accountField">
-            <padding>
-               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-            </padding></TextField>
+                <padding>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                </padding>
+            </TextField>
             <Label styleClass="instruction" text="Create password" VBox.vgrow="SOMETIMES" />
             <PasswordField fx:id="passwordField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
                            promptText="Create Password" VBox.vgrow="ALWAYS" styleClass="accountField">
-            <padding>
-               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-            </padding></PasswordField>
+                <padding>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                </padding>
+            </PasswordField>
             <Label styleClass="instruction" text="Confirm password" VBox.vgrow="SOMETIMES" />
             <PasswordField fx:id="confirmPasswordField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
                            promptText="Confirm Password" VBox.vgrow="SOMETIMES" styleClass="accountField">
-            <padding>
-               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-            </padding></PasswordField>
+                <padding>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                </padding>
+            </PasswordField>
             <VBox VBox.vgrow="ALWAYS">
                 <Label text="By creating an account, you agree to the " wrapText="true" />
                 <Label onMouseClicked="#onTermsButtonClick" styleClass="label-link" text="Terms &amp; Conditions." />
-            <VBox.margin>
-               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-            </VBox.margin>
+                <VBox.margin>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                </VBox.margin>
             </VBox>
             <Label fx:id="errorLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
                    styleClass="error-label" VBox.vgrow="ALWAYS" />
-             <Button id="signupButton" fx:id="signUpButton" onAction="#onSignUpButtonClick" text="Sign Up" VBox.vgrow="ALWAYS">
-            <VBox.margin>
-               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-            </VBox.margin>
-         </Button>
+            <Button id="signupButton" fx:id="signUpButton" onAction="#onSignUpButtonClick" text="Sign Up" VBox.vgrow="ALWAYS">
+                <VBox.margin>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                </VBox.margin>
+            </Button>
             <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                 <Label text="Already have an account? " />
                 <Label onMouseClicked="#onLoginButtonClick" styleClass="label-link" text="Log In" />
-            <VBox.margin>
-               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-            </VBox.margin>
+                <VBox.margin>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                </VBox.margin>
             </HBox>
         </VBox>
         <ImageView preserveRatio="true" HBox.hgrow="ALWAYS">
-            <image>
-                <Image url="https://picsum.photos/800" />
-            </image>
+            <Image url="https://picsum.photos/800" />
             <fitWidth>400.0</fitWidth>
             <fitHeight>400.0</fitHeight>
-         <HBox.margin>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-         </HBox.margin>
+            <HBox.margin>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </HBox.margin>
         </ImageView>
     </HBox>
 </VBox>

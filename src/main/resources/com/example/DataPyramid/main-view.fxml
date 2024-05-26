@@ -103,18 +103,17 @@
         <VBox fx:id="insightsContent" visible="false">
             <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                 <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0">
-                    <Button fx:id="columnChartButton" onAction="#onColumnChartButtonClick" text="Column Chart" HBox.hgrow="SOMETIMES" />
-                    <Button fx:id="pieChartButton" onAction="#onPieChartButtonClick" text="Pie Chart" HBox.hgrow="SOMETIMES" />
-                    <Button fx:id="barChartButton" onAction="#onBarChartButtonClick" text="Bar Chart" HBox.hgrow="SOMETIMES" />
-                    <Button fx:id="columnChartbyTypeButton" onAction="#onColumnChartByTypeButtonClick"
-                            text="Category Chart" HBox.hgrow="SOMETIMES" />
+                    <Button onAction="#onColumnChartButtonClick" text="Column Chart" HBox.hgrow="SOMETIMES" />
+                    <Button onAction="#onPieChartButtonClick" text="Pie Chart" HBox.hgrow="SOMETIMES" />
+                    <Button onAction="#onBarChartButtonClick" text="Bar Chart" HBox.hgrow="SOMETIMES" />
+                    <Button onAction="#onColumnChartByTypeButtonClick" text="Category Chart" HBox.hgrow="SOMETIMES" />
                     <VBox.margin>
                         <Insets bottom="10.0" top="10.0" />
                     </VBox.margin>
                 </HBox>
                 <HBox id="graphLocation" fx:id="graphLocation" alignment="CENTER" maxHeight="1.7976931348623157E308"
                           maxWidth="1.7976931348623157E308" spacing="10" VBox.vgrow="ALWAYS">
-                    <Label styleClass="error-label" text="If you can see this, an error has occured." />
+                    <Label styleClass="error-label" text="If you can see this, an error has occurred." />
                 </HBox>
                 <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
                       spacing="10.0" VBox.vgrow="ALWAYS">
@@ -237,7 +236,7 @@
 
     <!-- RHS Panel -->
     <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0"
-          id="rhs-bar" HBox.hgrow="ALWAYS">
+          id="rhs-bar" HBox.hgrow="ALWAYS" minWidth="120.0">
         <Label fx:id="welcomeLabel" id="rhs-welcome" text="Hello, {firstname}!" VBox.vgrow="ALWAYS">
             <VBox.margin>
                 <Insets bottom="10.0" top="30.0" />

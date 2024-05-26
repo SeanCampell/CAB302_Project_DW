@@ -5,11 +5,10 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 
-<FlowPane fx:id="rootPane" alignment="CENTER" columnHalignment="CENTER" focusTraversable="true"
+<FlowPane alignment="CENTER" columnHalignment="CENTER" focusTraversable="true"
           maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseMoved="#onVisible" onMouseDragged="#onVisible"
           orientation="VERTICAL" xmlns:fx="http://javafx.com/fxml"
           fx:controller="com.example.DataPyramid.controller.HelloController">
@@ -18,10 +17,18 @@
     </padding>
     <VBox alignment="CENTER">
         <Label id="welcome" text="WELCOME" />
-        <Label text="to Your Wellbeing Tracker" />
-         <Line endX="200" endY="0" startX="0" startY="0" stroke="grey" strokeWidth="1" />
-        <Label text="Track, Monitor, and Improve your Wellbeing." textAlignment="CENTER" wrapText="true" />
-        <Region prefHeight="20" />
+        <Label styleClass="header-2-label" text="to Your Wellbeing Tracker" />
+        <Line endX="300" stroke="#3A592B" strokeWidth="2">
+            <VBox.margin>
+                <Insets top="10.0" bottom="10.0"/>
+            </VBox.margin>
+        </Line>
+        <Label styleClass="header-3-label" text="Track, Monitor, and Improve your Wellbeing." textAlignment="CENTER"
+               wrapText="true">
+            <VBox.margin>
+                <Insets bottom="20.0" />
+            </VBox.margin>
+        </Label>
         <HBox alignment="CENTER" spacing="10.0">
             <Button fx:id="signUpButton" onAction="#onSignupButtonClick" text="Sign Up" />
             <Button fx:id="loginButton" onAction="#onLoginButtonClick" text="Log In" />
