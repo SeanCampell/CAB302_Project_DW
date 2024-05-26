@@ -78,7 +78,7 @@ public class TimeTracking {
             int timeUse = dbConnection.getTimeSpentForApp(appName, currentUser);
             int timeLimit = dbConnection.getTimeLimitForApp(appName, currentUser);
 
-            if (timeUse >= timeLimit && !shownAlerts.contains(appName)) {
+            if (timeUse >= timeLimit && !shownAlerts.contains(appName) && (timeLimit != 0)) {
                 String message = String.format("Time limit reached for app '%s'.", appName);
                 showAlert("Time Limit Reached", message, Alert.AlertType.WARNING);
                 shownAlerts.add(appName);
