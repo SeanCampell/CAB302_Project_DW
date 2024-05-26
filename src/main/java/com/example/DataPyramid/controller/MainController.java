@@ -230,6 +230,7 @@ public class MainController {
         updateTopApps(topThreeAppNames, topThreeTimeSpentList);
         populateRightNavbarWithAppNames(appNames, timeSpentList);
         populatePrograms(appNames, timeLimitList);
+        timeTracker.sendAlertIfTimeExceedsLimit(currentUser);
     }
 
 
