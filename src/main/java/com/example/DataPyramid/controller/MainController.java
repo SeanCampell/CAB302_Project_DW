@@ -186,7 +186,7 @@ public class MainController {
     }
 
     /**
-     * Performs futher intialisation steps. (Uncertain, the person writing these comments did not write the method)
+     * Initialization after current user is set. Performs futher intialisation steps.
      */
     public void initializeOutsideInitialize() {
         if (TrackingSwitch.continuePopulating) {
@@ -211,7 +211,6 @@ public class MainController {
         }
         ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
         executor.scheduleAtFixedRate(() -> {
-            System.out.println("Refreshing data...");
             clearAndRefreshUI(dbConnection, currentUser);
         }, 0, REFRESH_INTERVAL_SECONDS, TimeUnit.SECONDS);
     }
@@ -412,6 +411,10 @@ public class MainController {
         insightsContent.setVisible(false);
         timeLimitsContent.setVisible(false);
         addProgramContent.setVisible(false);
+        List<String> topThreeAppNames = dbConnection.getFirstThreeProgramNames(currentUser);
+        List<Integer> topThreeTimeSpentList = dbConnection.getTimeSpentForFirstThreePrograms(currentUser);
+        updateTopApps(topThreeAppNames, topThreeTimeSpentList);
+        clearAndRefreshUI(dbConnection, currentUser);
     }
 
     /**
@@ -441,6 +444,8 @@ public class MainController {
         timeLimitsContent.setVisible(false);
         addProgramContent.setVisible(false);
         updateTopApps2();
+        clearAndRefreshUI(dbConnection, currentUser);
+
         graphsHandler = new Graph(defaultGraph, graphLocation, graphDAO, currentUser.getEmail());
     }
     @FXML
@@ -465,6 +470,8 @@ public class MainController {
         insightsContent.setVisible(false);
         timeLimitsContent.setVisible(true);
         addProgramContent.setVisible(false);
+        clearAndRefreshUI(dbConnection, currentUser);
+
     }
 
     // ---- ADD APP MENU ----
@@ -509,18 +516,7 @@ public class MainController {
 
 
         if (success) {
-            programList.getChildren().clear();
-            rightNavbar.getChildren().clear();
-            timeLimitPrograms.getChildren().clear();
-            List<String> appNames = dbConnection.loadStoredAppNames(currentUser);
-            List<Integer> timeSpentList = dbConnection.loadTimeSpentList(currentUser);
-            List<Integer> timeLimitList = dbConnection.loadTimeLimitForProgram(currentUser);
-            populateUIWithAppNames(appNames, timeSpentList);
-            List<String> topThreeAppNames = dbConnection.getFirstThreeProgramNames(currentUser);
-            List<Integer> topThreeTimeSpentList = dbConnection.getTimeSpentForFirstThreePrograms(currentUser);
-            updateTopApps(topThreeAppNames, topThreeTimeSpentList);
-            populateRightNavbarWithAppNames(appNames, timeSpentList);
-            populatePrograms(appNames, timeLimitList);
+            clearAndRefreshUI(dbConnection, currentUser);
 
 
             typeChoiceBox.getSelectionModel().clearSelection();
