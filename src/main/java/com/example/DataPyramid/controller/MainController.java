@@ -411,9 +411,6 @@ public class MainController {
         insightsContent.setVisible(false);
         timeLimitsContent.setVisible(false);
         addProgramContent.setVisible(false);
-        List<String> topThreeAppNames = dbConnection.getFirstThreeProgramNames(currentUser);
-        List<Integer> topThreeTimeSpentList = dbConnection.getTimeSpentForFirstThreePrograms(currentUser);
-        updateTopApps(topThreeAppNames, topThreeTimeSpentList);
         clearAndRefreshUI(dbConnection, currentUser);
     }
 
