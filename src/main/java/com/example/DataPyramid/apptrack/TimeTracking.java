@@ -72,7 +72,7 @@ public class TimeTracking {
         }
     }
 
-    private void sendAlertIfTimeExceedsLimit(User currentUser) {
+    public void sendAlertIfTimeExceedsLimit(User currentUser) {
         List<String> appNames = dbConnection.loadStoredAppNames(currentUser);
         for (String appName : appNames) {
             int timeUse = dbConnection.getTimeSpentForApp(appName, currentUser);
