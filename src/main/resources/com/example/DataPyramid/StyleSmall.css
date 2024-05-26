@@ -75,17 +75,18 @@ Label { }
     -fx-font-fill: #3A592B;
 }
 
+#rhs-welcome {
+    -fx-font-size: 1.5em;
+    -fx-font-weight: bold;
+    -fx-font-fill: #3A592B;
+}
+
 /*
  *  TEXTFIELD Styles and related classes or ids
  */
 .accountField {
     -fx-font-weight: bold;
 }
-/*
- *  TEXTAREA Styles and related classes or ids
- */
-
-text-area{}
 
 /*
  *  BUTTON Styles and related classes or ids
@@ -139,6 +140,17 @@ Button:hover {
  *  OTHER Styles and related classes or ids
  */
 
+.generic-container {
+    -fx-background-color: white;
+    -fx-background-radius: 20px;
+    -fx-padding: 10px;
+}
+
+.transparent-container {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+}
+
 #graphLocation {
     -fx-background-color: white;
     -fx-background-radius: 20px;
@@ -149,13 +161,14 @@ Button:hover {
     -fx-background-color: #CAD8B3;
 }
 
-.popular-apps {
+#rhs-bar {
     -fx-background-color: white;
-    -fx-background-radius: 20px;
-    -fx-padding: 10px;
 }
 
-
+/*
+ *  UNSORTED Styles and related classes or ids
+ *  TODO: Figure out what these are used for.
+ */
 #program-list-item {
     -fx-background-color: #ffffff;
     -fx-border-color: #cccccc;
