@@ -491,6 +491,7 @@ public class MainController {
      */
     @FXML
     private void onNewAppButtonClick() {
+        syncProcesses();
         clearActiveButtonStyle();
         newAppButton.getStyleClass().add("active-nav-button");
         homeContent.setVisible(false);
