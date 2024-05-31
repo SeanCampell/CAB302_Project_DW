@@ -12,15 +12,15 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Controller for signup-view.fxml.
+ */
 public class SignUpController {
+    // ----- FXML NODES -----
     @FXML
     private Button backButton;
     @FXML
-    private Button termsButton;
-    @FXML
     private Button signUpButton;
-    @FXML
-    private Button loginButton;
     @FXML
     private TextField firstnameField;
     @FXML
@@ -34,13 +34,20 @@ public class SignUpController {
     @FXML
     private Label errorLabel;
 
-    private DatabaseInitializer dbConnection;
+    // ----- INTERFACE SCALING -----
     private UIObserver observer;
     private final String viewName = "Signup View";
     private boolean observerInit = false;
 
+    // ----- OTHER VARIABLES -----
+    private DatabaseInitializer dbConnection;
+
     public SignUpController() { dbConnection = new DatabaseInitializer(); }
 
+    /**
+     * Sends the user to terms-view.fxml.
+     * @throws IOException
+     */
     @FXML
     protected void onTermsButtonClick() throws IOException {
         Stage stage = (Stage) backButton.getScene().getWindow();
@@ -51,6 +58,11 @@ public class SignUpController {
         HelloApplication.uiSubject.removeObserver(observer);
         stage.setScene(scene);
     }
+
+    /**
+     * Returns the user to hello-view.fxml.
+     * @throws IOException
+     */
     @FXML
     protected void onBackButtonClick() throws IOException {
         Stage stage = (Stage) backButton.getScene().getWindow();
@@ -62,6 +74,10 @@ public class SignUpController {
         stage.setScene(scene);
     }
 
+    /**
+     * Attempts to create a new user with the provided information and sets them to the current user before sending the
+     * user to main-view.fxml.
+     */
     @FXML
     protected void onSignUpButtonClick() {
         errorLabel.setText("");
@@ -125,6 +141,10 @@ public class SignUpController {
         alert.showAndWait();
     }
 
+    /**
+     * Sends the user to login-view.fxml.
+     * @throws IOException
+     */
     @FXML
     protected void onLoginButtonClick() throws IOException {
         Stage stage = (Stage) backButton.getScene().getWindow();
@@ -136,7 +156,7 @@ public class SignUpController {
         stage.setScene(scene);
     }
 
-    /** Initalises the UIObserver for the scene when the user has their mouse anywhere inside the window. */
+    /** Initialises the UIObserver for the scene when the user has their mouse anywhere inside the window. */
     @FXML
     protected void onVisible() {
         if(!observerInit) {

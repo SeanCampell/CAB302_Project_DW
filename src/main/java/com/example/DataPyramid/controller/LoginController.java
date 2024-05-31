@@ -16,7 +16,11 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import java.io.IOException;
 
+/**
+ * Controller for login-view.fxml.
+ */
 public class LoginController {
+    // ----- FXML NODES -----
     @FXML
     private Button backButton;
     @FXML
@@ -28,14 +32,20 @@ public class LoginController {
     @FXML
     private Label errorLabel;
 
-    private DatabaseInitializer dbConnection;
-
+    // ----- INTERFACE SCALING -----
     private UIObserver observer;
     private boolean observerInit = false;
     private final String viewName = "Login View";
 
+    // ----- OTHER VARIABLES -----
+    private DatabaseInitializer dbConnection;
+
     public LoginController() { dbConnection = new DatabaseInitializer(); }
 
+    /**
+     * Attempts to log the user into their account and sets them as the current user for main-view.fxml.
+     * @throws IOException
+     */
     @FXML
     protected void onLoginButtonClick() throws IOException {
         errorLabel.setText(""); 
@@ -67,6 +77,10 @@ public class LoginController {
         }
     }
 
+    /**
+     * Returns the user to hello-view.fxml.
+     * @throws IOException
+     */
     @FXML
     protected void onBackButtonClick() throws IOException {
         Stage stage = (Stage) backButton.getScene().getWindow();
@@ -78,6 +92,10 @@ public class LoginController {
         stage.setScene(scene);
     }
 
+    /**
+     * Sends the user to signup-view.fxml.
+     * @throws IOException
+     */
     @FXML
     protected void onSignUpButtonClick() throws IOException {
         Stage stage = (Stage) backButton.getScene().getWindow();
@@ -89,7 +107,7 @@ public class LoginController {
         stage.setScene(scene);
     }
 
-    /** Initalises the UIObserver for the scene when the user has their mouse anywhere inside the window. */
+    /** Initialises the UIObserver for the scene when the user has their mouse anywhere inside the window. */
     @FXML
     protected void onVisible() {
         if(!observerInit) {
