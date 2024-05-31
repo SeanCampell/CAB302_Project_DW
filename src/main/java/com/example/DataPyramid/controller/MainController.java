@@ -71,22 +71,7 @@ public class MainController {
     private final String defaultGraph = "c";
     private Graph graphsHandler;
 
-    // ---- OTHER JAVAFX NODES ------
-    @FXML
-    private ToggleButton timelimitButton;
-    @FXML
-    private ToggleButton newAppButton;
-
-    @FXML
-    private TextField appLimitField;
-    @FXML
-    private CheckBox isTrack;
-    @FXML
-    private Label errorLabel;
-
-
-
-    // ---- INTERNAL VARIABLES ------
+    // ----- HOME PAGE NODES -----
     @FXML
     private Label firstAppLabel;
     @FXML
@@ -102,7 +87,7 @@ public class MainController {
     @FXML
     private Label totalTimeLabel;
 
-
+    // ----- INSIGHT PAGE NODES
     @FXML
     private Label firstAppLabel2;
     @FXML
@@ -116,6 +101,17 @@ public class MainController {
     @FXML
     private Label thirdTimeLabel2;
 
+    // ---- OTHER JAVAFX NODES ------
+    @FXML
+    private ToggleButton timelimitButton;
+    @FXML
+    private ToggleButton newAppButton;
+    @FXML
+    private TextField appLimitField;
+    @FXML
+    private CheckBox isTrack;
+    @FXML
+    private Label errorLabel;
     @FXML
     private VBox programList;
     @FXML
@@ -125,10 +121,10 @@ public class MainController {
     @FXML
     private ChoiceBox<String> typeChoiceBox = new ChoiceBox<>();
 
+    // ---- INTERNAL VARIABLES ------
     private ToggleGroup toggleGroup;
     private User currentUser;
     private DatabaseInitializer dbConnection;
-
     private App[] topApps;
     private List<String> processes;
     private TimeTracking timeTracker;
@@ -294,27 +290,30 @@ public class MainController {
 
         startTrackingButton.getStyleClass().add("start-tracking-button");
         startTrackingButton.setOnAction(startEvent -> {
-            startTrackingApp(appName);
-            appContainer.getStyleClass().removeAll();
+            System.out.println("Start pressed");
+            appContainer.getStyleClass().removeAll("inactive-program-list-container");
             appContainer.getStyleClass().add("program-list-container");
+            startTrackingApp(appName);
             appContainer.getChildren().remove(startTrackingButton);
             appContainer.getChildren().add(stopTrackingButton);
         });
 
         stopTrackingButton.getStyleClass().add("stop-tracking-button");
         stopTrackingButton.setOnAction(stopEvent -> {
-            stopTrackingApp(appName);
-            appContainer.getStyleClass().removeAll();
+            appContainer.getStyleClass().removeAll("program-list-container");
             appContainer.getStyleClass().add("inactive-program-list-container");
+            stopTrackingApp(appName);
             appContainer.getChildren().remove(stopTrackingButton);
             appContainer.getChildren().add(startTrackingButton);
         });
 
         if (!isAppTracked(appName)) {
-            appContainer.getStyleClass().removeAll();
+            appContainer.getStyleClass().removeAll("program-list-container");
             appContainer.getStyleClass().add("inactive-program-list-container");
             appContainer.getChildren().addAll(appNameLabel, timeSpentLabel, startTrackingButton);
         } else {
+            appContainer.getStyleClass().removeAll("inactive-program-list-container");
+            appContainer.getStyleClass().add("program-list-container");
             appContainer.getChildren().addAll(appNameLabel, timeSpentLabel, stopTrackingButton);
         }
         return appContainer;
@@ -379,9 +378,7 @@ public class MainController {
      * @param appName The name of the app to check.
      * @return True if the app is marked as tracked in the database, otherwise false.
      */
-    private boolean isAppTracked(String appName) {
-        return dbConnection.isAppTracked(appName);
-    }
+    private boolean isAppTracked(String appName) { return dbConnection.isAppTracked(appName); }
 
     private void startTrackingApp(String appName) {
         dbConnection.startTrackingApp(currentUser, appName);
@@ -406,9 +403,7 @@ public class MainController {
         timeTracker.clearShownAlerts();
     }
 
-    public MainController() {
-        this.graphDAO = new GraphDAO("program");
-    }
+    public MainController() { this.graphDAO = new GraphDAO("program"); }
 
     // ----- HOME MENU -----
 
