@@ -3,6 +3,9 @@ package com.example.DataPyramid.apptrack;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 
+/**
+ * Class that creates an instance of an 'App' or application and keeps track of details important for tracking user usage.
+ */
 public class App {
     // Initial Variables
     private final String name;
@@ -16,12 +19,16 @@ public class App {
     private int saturdayUse;
     private int sundayUse;
     private int timeLimit;
-
     private int timeNotif;
-
     private boolean isTracking;
 
-    // Constructor
+    /**
+     * Constructs a new instance of an App object.
+     * @param name The name of the App.
+     * @param type The App's category, selected by the user when added to the tracking database.
+     * @param timeLimit Integer representing the time limit in minutes, or 0 if unlimited.
+     * @param isTracking True if the App's screen time is currently being tracked.
+     */
     public App(String name, AppType type, int timeLimit, boolean isTracking) {
         this.name = name;
         this.type = type;
@@ -150,7 +157,10 @@ public class App {
         }
     }
 
-    // Check if time use has exceeded time limit
+    /**
+     * Check if time use has exceeded time limit for the App.
+     * @return True if the time use has exceeded the time limit and the time limit is greater than 0. Otherwise false.
+     */
     public boolean isOverLimit() {
         if (timeLimit > 0) {
             return timeUse > timeLimit;
@@ -158,18 +168,28 @@ public class App {
         return false;
     }
 
-    // Check if time use has exceeded time warning
+    /**
+     * Check if time use has exceeded time warning. Time warnings are not currently implemented and thus this
+     * has similar functionality to isOverLimit().
+     * @return True if timeLimit - timeUse is less than the timeNotif. Otherwise false.
+     */
     public boolean isOverWarning() {
         return timeLimit - timeUse < timeNotif;
     }
 
-    // Return total time use of last seven days
+    /**
+     * Returns the total time use of an App over the last seven days.
+     * @return Int representing the total time an App was used over the last seven days in minutes.
+     */
     public int sevenDaysUse() {
         return mondayUse+tuesdayUse+wednesdayUse+
                 thursdayUse+fridayUse+saturdayUse+sundayUse;
     }
 
-    // Return total time use for today
+    /**
+     * Gets the total time use for an App today in minutes.
+     * @return Int representing the total time an App was used today in minutes.
+     */
     public int todayUse() {
         DayOfWeek dayOfWeek = LocalDate.now().getDayOfWeek();
         if (dayOfWeek.getValue() == 1) {

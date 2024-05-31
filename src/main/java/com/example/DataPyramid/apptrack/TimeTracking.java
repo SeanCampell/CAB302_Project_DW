@@ -21,6 +21,13 @@ public class TimeTracking {
     private User currentUser;
     private final Set<String> shownAlerts;
 
+    /**
+     * Constructs a new instance of the TimeTracking class.
+     * @param dbConnection Connection to the database.
+     * @param user The User currently logged into the application.
+     * @param appName The name of the application to track. Should be blank on initial initalisation.
+     * @param mainController A reference to the mainController of the program, for UI purposes.
+     */
     public TimeTracking(DatabaseInitializer dbConnection, User user, String appName, MainController mainController) {
         this.dbConnection = dbConnection;
         this.mainController = mainController;
@@ -38,6 +45,10 @@ public class TimeTracking {
         startActiveAppMonitoring(currentUser);
     }
 
+    /**
+     * Starts tracking a specific application.
+     * @param appName The name of the app to start tracking active usage of.
+     */
     public void startTracking(String appName) {
         if (TrackingSwitch.continuePopulating) {
             programStartTimes.put(appName, Instant.now());
@@ -50,6 +61,11 @@ public class TimeTracking {
         return timeSpentSeconds != null ? timeSpentSeconds / 60 : 0;
     }
 
+    /**
+     * Called whenever a tracked app is no longer the active process on a user's machine. Updates the usage databases.
+     * @param appName The name of the application.
+     * @param user The user currently logged into the program.
+     */
     public void endTracking(String appName, User user) {
         if (TrackingSwitch.continuePopulating) {
             Instant startTime = programStartTimes.get(appName);

@@ -1,5 +1,8 @@
 package com.example.DataPyramid.apptrack;
 
+/**
+ * Enum that contains all valid App types for the App class.
+ */
 public enum AppType {
 
     Game('g'),

@@ -10,9 +10,16 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Class to monitor the currently active window on a user's system, for tracking purposes.
+ */
 public class ActiveWindowDetector {
     private static final User32 user32 = User32.INSTANCE;
 
+    /**
+     * Gets the Title of the window that is currently active on a user's system.
+     * @return A string containing the title of the active window.
+     */
     public static String getActiveWindowTitle() {
         char[] buffer = new char[1024];
         HWND hwnd = user32.GetForegroundWindow();
@@ -20,6 +27,10 @@ public class ActiveWindowDetector {
         return Native.toString(buffer);
     }
 
+    /**
+     * Gets the name of the process that the user is currently in.
+     * @return A string containing the name of the active process.
+     */
     public static String getActiveProcessName() {
         HWND hwnd = user32.GetForegroundWindow();
         IntByReference pid = new IntByReference();
