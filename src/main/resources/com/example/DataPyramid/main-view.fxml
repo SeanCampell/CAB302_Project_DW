@@ -16,20 +16,19 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 
-<HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-      onMouseDragged="#onVisible" onMouseMoved="#onVisible" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
+<HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseDragged="#onVisible"
+      onMouseMoved="#onVisible" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.DataPyramid.controller.MainController">
 
         <!-- Navbar -->
-    <VBox id="nav-bar" alignment="CENTER" maxHeight="1.7976931348623157E308"
-          maxWidth="1.7976931348623157E308" minWidth="120.0">
+    <VBox id="nav-bar" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="120.0">
         <opaqueInsets>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
         </opaqueInsets>
         <ImageView fitHeight="40" fitWidth="40">
-            <Image url="@images/R.png"/>
+            <Image url="@images/R.png" />
         </ImageView>
-        <Label id="logo-label" text="Balance Buddy">
+        <Label id="logo-label" text="Balance Buddy" wrapText="true" alignment="CENTER">
             <VBox.margin>
                 <Insets bottom="20.0" />
             </VBox.margin>
@@ -60,15 +59,15 @@
         <!-- Home -->
         <HBox fx:id="homeContent">
             <VBox HBox.hgrow="ALWAYS">
-                <Label styleClass="header-label" text="Overview" VBox.vgrow="SOMETIMES">
+                <Label styleClass="header-label" text="Overview" VBox.vgrow="SOMETIMES" alignment="CENTER">
                     <VBox.margin>
                         <Insets bottom="10.0" top="20.0" />
                     </VBox.margin>
                 </Label>
                 <HBox spacing="10.0" VBox.vgrow="ALWAYS">
-                    <VBox spacing="10" styleClass="generic-container" HBox.hgrow="ALWAYS">
+                    <VBox spacing="10" styleClass="generic-container" HBox.hgrow="ALWAYS" alignment="CENTER">
                         <Label styleClass="header-2-label" text="Total Time Spent Today:" />
-                        <Label fx:id="totalTimeLabel" id="main-timer-label" HBox.hgrow="ALWAYS"/>
+                        <Label id="main-timer-label" fx:id="totalTimeLabel" HBox.hgrow="ALWAYS" />
                     </VBox>
                     <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -81,15 +80,15 @@
                 </Label>
                 <HBox spacing="10.0" VBox.vgrow="ALWAYS">
                     <VBox spacing="10" styleClass="generic-container" HBox.hgrow="ALWAYS">
-                        <Label fx:id="firstAppLabel" styleClass="header-2-label"/>
+                        <Label fx:id="firstAppLabel" styleClass="header-2-label" />
                         <Label fx:id="firstTimeLabel" styleClass="popular-app-time-label" />
                     </VBox>
                     <VBox spacing="10" styleClass="generic-container" HBox.hgrow="ALWAYS">
-                        <Label fx:id="secondAppLabel" styleClass="header-2-label"/>
+                        <Label fx:id="secondAppLabel" styleClass="header-2-label" />
                         <Label fx:id="secondTimeLabel" styleClass="popular-app-time-label" />
                     </VBox>
                     <VBox spacing="10" styleClass="generic-container" HBox.hgrow="ALWAYS">
-                        <Label fx:id="thirdAppLabel" styleClass="header-2-label"/>
+                        <Label fx:id="thirdAppLabel" styleClass="header-2-label" />
                         <Label fx:id="thirdTimeLabel" styleClass="popular-app-time-label" />
                     </VBox>
                     <VBox.margin>
@@ -112,11 +111,10 @@
                     </VBox.margin>
                 </HBox>
                 <HBox id="graphLocation" fx:id="graphLocation" alignment="CENTER" maxHeight="1.7976931348623157E308"
-                          maxWidth="1.7976931348623157E308" spacing="10" VBox.vgrow="ALWAYS">
+                      maxWidth="1.7976931348623157E308" spacing="10" VBox.vgrow="ALWAYS">
                     <Label styleClass="error-label" text="If you can see this, an error has occurred." />
                 </HBox>
-                <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                      spacing="10.0" VBox.vgrow="ALWAYS">
+                <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" VBox.vgrow="ALWAYS">
                     <Label styleClass="header-label" text="Most Used Apps Today">
                         <VBox.margin>
                             <Insets bottom="5.0" top="20.0" />
@@ -125,17 +123,17 @@
                     <HBox spacing="10.0" VBox.vgrow="ALWAYS">
 
                         <VBox spacing="10" styleClass="generic-container" HBox.hgrow="ALWAYS">
-                            <Label fx:id="firstAppLabel2" styleClass="header-2-label"/>
+                            <Label fx:id="firstAppLabel2" styleClass="header-2-label" />
                             <Label fx:id="firstTimeLabel2" style="-fx-text-fill: grey;" />
                         </VBox>
 
                         <VBox spacing="10" styleClass="generic-container" HBox.hgrow="ALWAYS">
-                            <Label fx:id="secondAppLabel2" styleClass="header-2-label"/>
+                            <Label fx:id="secondAppLabel2" styleClass="header-2-label" />
                             <Label fx:id="secondTimeLabel2" styleClass="popular-app-time-label" />
                         </VBox>
 
                         <VBox spacing="10" styleClass="generic-container" HBox.hgrow="ALWAYS">
-                            <Label fx:id="thirdAppLabel2" styleClass="header-2-label"/>
+                            <Label fx:id="thirdAppLabel2" styleClass="header-2-label" />
                             <Label fx:id="thirdTimeLabel2" styleClass="popular-app-time-label" />
                         </VBox>
 
@@ -151,8 +149,8 @@
         </VBox>
 
         <!-- Time Limits Content -->
-        <VBox fx:id="timeLimitsContent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" visible="false"
-              spacing="10.0" VBox.vgrow="ALWAYS" styleClass="transparent-container">
+        <VBox fx:id="timeLimitsContent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+              spacing="10.0" styleClass="transparent-container" visible="false" VBox.vgrow="ALWAYS">
             <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                 <Label styleClass="header-label" text="Tracked Apps">
                     <VBox.margin>
@@ -162,7 +160,8 @@
                 <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308"
                             maxWidth="1.7976931348623157E308" styleClass="transparent-container">
                     <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0" VBox.vgrow="ALWAYS">
-                        <VBox fx:id="programList" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" VBox.vgrow="ALWAYS">
+                        <VBox fx:id="programList" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                              spacing="10.0" VBox.vgrow="ALWAYS">
                             <padding>
                                 <Insets top="10.0" />
                             </padding>
@@ -176,8 +175,8 @@
                         <Insets bottom="10.0" top="20.0" />
                     </VBox.margin>
                 </Label>
-                <ScrollPane fitToWidth="true" fitToHeight="true" style="-fx-background-color: transparent; -fx-background-insets: 0;">
-                    <VBox spacing="5.0" VBox.vgrow="ALWAYS" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                <ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-background-color: transparent; -fx-background-insets: 0;">
+                    <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0" VBox.vgrow="ALWAYS">
                         <VBox fx:id="timeLimitPrograms" spacing="10.0" VBox.vgrow="ALWAYS">
                             <padding>
                                 <Insets top="10.0" />
@@ -189,10 +188,11 @@
         </VBox>
 
         <!-- Add Program Content -->
-        <VBox fx:id="addProgramContent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" visible="false">
+        <VBox fx:id="addProgramContent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+              spacing="10.0" visible="false">
             <Label styleClass="header-label" text="Add A New Program" VBox.vgrow="SOMETIMES">
                 <VBox.margin>
-                    <Insets top="20.0" left="10.0" />
+                    <Insets left="10.0" top="20.0" />
                 </VBox.margin>
             </Label>
             <HBox spacing="20.0" VBox.vgrow="ALWAYS">
@@ -206,25 +206,27 @@
                     <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                         <Label text="Program Type:">
                             <VBox.margin>
-                                <Insets top="15.0"/>
+                                <Insets top="15.0" />
                             </VBox.margin>
                         </Label>
                         <ChoiceBox fx:id="typeChoiceBox" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                             <VBox.margin>
-                                <Insets bottom="15.0"/>
+                                <Insets bottom="15.0" />
                             </VBox.margin>
                         </ChoiceBox>
-                        <Label text="Time Limit in minutes (0 if unlimited):"/>
+                        <Label text="Time Limit in minutes (0 if unlimited):" wrapText="true"/>
                         <TextField fx:id="appLimitField" text="0">
                             <VBox.margin>
-                                <Insets bottom="15.0"/>
+                                <Insets bottom="15.0" />
                             </VBox.margin>
                         </TextField>
-                        <CheckBox fx:id="isTrack" text="Track Now?" />
+                        <CheckBox fx:id="isTrack" text="Track Now?" wrapText="true"/>
                     </VBox>
-                    <Label fx:id="errorLabel" styleClass="error-label"/>
-                    <Button id="addAppButton" maxWidth="1.7976931348623157E308" onAction="#onAddAppButtonClick" text="Add Application" />
-                    <Button id="removeAllButton" maxWidth="1.7976931348623157E308" onAction="#onRemoveAllButtonClick" text="Remove All Applications" />
+                    <Label fx:id="errorLabel" styleClass="error-label" wrapText="true"/>
+                    <Button id="addAppButton" maxWidth="1.7976931348623157E308" onAction="#onAddAppButtonClick"
+                            text="Add Application" wrapText="true"/>
+                    <Button id="removeAllButton" maxWidth="1.7976931348623157E308" onAction="#onRemoveAllButtonClick"
+                            text="Remove All Applications" wrapText="true"/>
                 </VBox>
             </HBox>
             <StackPane.margin>
@@ -235,20 +237,20 @@
     </StackPane>
 
     <!-- RHS Panel -->
-    <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0"
-          id="rhs-bar" HBox.hgrow="ALWAYS" minWidth="120.0">
-        <Label fx:id="welcomeLabel" id="rhs-welcome" text="Hello, {firstname}!" VBox.vgrow="ALWAYS">
+    <VBox id="rhs-bar" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+          minWidth="120.0" spacing="10.0" HBox.hgrow="ALWAYS">
+        <Label id="rhs-welcome" fx:id="welcomeLabel" text="Hello, {firstname}!" wrapText="true" VBox.vgrow="ALWAYS" alignment="CENTER">
             <VBox.margin>
                 <Insets bottom="10.0" top="30.0" />
             </VBox.margin>
         </Label>
         <Line endX="100" stroke="grey" strokeWidth="0.5" VBox.vgrow="ALWAYS" />
         <VBox alignment="TOP_CENTER" spacing="10.0" styleClass="generic-container" VBox.vgrow="ALWAYS">
-            <Label styleClass="header-2-label" text="Current Apps" />
+            <Label styleClass="header-2-label" text="Apps Registered" wrapText="true" alignment="CENTER"/>
             <ScrollPane fitToHeight="true" fitToWidth="true" styleClass="generic-container" VBox.vgrow="ALWAYS">
                 <VBox fx:id="rightNavbar" spacing="10.0" style="-fx-padding:0; -fx-background-color: white;">
                     <padding>
-                        <Insets top="10.0"/>
+                        <Insets top="10.0" />
                     </padding>
                 </VBox>
             </ScrollPane>
