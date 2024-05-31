@@ -64,8 +64,8 @@
                         <Insets bottom="10.0" top="20.0" />
                     </VBox.margin>
                 </Label>
-                <HBox spacing="10.0" VBox.vgrow="ALWAYS">
-                    <VBox spacing="10" styleClass="generic-container" HBox.hgrow="ALWAYS" alignment="CENTER">
+                <HBox spacing="10.0" styleClass="generic-container" VBox.vgrow="ALWAYS" alignment="CENTER">
+                    <VBox spacing="10"  HBox.hgrow="ALWAYS" alignment="CENTER">
                         <Label styleClass="header-2-label" text="Total Time Spent Today:" />
                         <Label id="main-timer-label" fx:id="totalTimeLabel" HBox.hgrow="ALWAYS" />
                     </VBox>
